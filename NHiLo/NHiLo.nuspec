@@ -1,0 +1,17 @@
+﻿<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>NHilo</id>
+    <title>NHilo</title>
+    <version>1.0.0.0</version>
+    <authors>Fabio Gouw</authors>
+    <owners>Fabio Gouw</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Stand-alone implementation of Hilo algorithm for .NET.</description>
+    <dependencies>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\NHiLo\bin\Release\*.dll" target="lib\net"/>
+  </files>
+</package>
