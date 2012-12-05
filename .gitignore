@@ -22,3 +22,4 @@ obj/
 _ReSharper*/
 TestResults/
 *.suo
+*.nupkg

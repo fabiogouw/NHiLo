@@ -33,7 +33,8 @@ namespace NHiLo.HiLo.Repository
 
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
-            cmd.CommandText = "INSERT IGNORE INTO `NHILO` SET ENTITY = 'x', NEXT_HI = 1;";
+            cmd.CommandText = "INSERT IGNORE INTO `NHILO` SET ENTITY = @pEntity, NEXT_HI = 1;";
+            cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
             cmd.ExecuteNonQuery();
         }
     }

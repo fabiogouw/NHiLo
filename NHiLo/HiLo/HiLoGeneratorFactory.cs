@@ -33,6 +33,11 @@ namespace NHiLo.HiLo
             _repositoryFactory = repositoryFactory ?? new HiLoRepositoryFactory();
         }
 
+        /// <summary>
+        /// Gets the object which generates new unique keys for a giben entity name.
+        /// </summary>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
         public IKeyGenerator<long> GetKeyGenerator(string entityName)
         {
             lock (_lock)

@@ -21,7 +21,8 @@ namespace NHiLo.HiLo.Repository
             { "System.Data.SqlClient", (entityName, config) => new SqlServerHiLoRepository(entityName, config) },
             { "MySql.Data.MySqlClient", (entityName, config) => new MySqlHiLoRepository(entityName, config) },
             { "System.Data.SqlServerCe.3.5", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-            { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) }
+            { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
+            { "System.Data.OracleClient", (entityName, config) => new OracleHiLoRepository(entityName, config) }
         };
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
