@@ -26,6 +26,10 @@ namespace NHiLo.HiLo
             _maxLo = maxLo;
         }
 
+        /// <summary>
+        /// Get as unique value to be used as a primary key.
+        /// </summary>
+        /// <returns>Unique long value.</returns>
         public long GetKey()
         {
             lock (_lock)
