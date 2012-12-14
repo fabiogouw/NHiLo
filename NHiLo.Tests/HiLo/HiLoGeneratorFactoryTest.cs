@@ -98,11 +98,11 @@ namespace NHiLo.Tests.HiLo
                 int chamadasEntityDummy = 0;
                 var mockConfig = new Mock<IHiLoConfiguration>();
                 mockConfig.SetupGet(p => p.DefaultMaxLo).Returns(100);
-                mockConfig.Setup(m => m.GetEntityConfig(It.Is<string>(p => p == "dummy"))).Returns(null as IEntityConfiguration).Callback(() => chamadasEntityDummy++);
+                mockConfig.Setup(m => m.GetEntityConfig(It.Is<string>(p => p == "dummy4"))).Returns(null as IEntityConfiguration).Callback(() => chamadasEntityDummy++);
                 var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
                 var factory = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
                 // Act
-                var generator = factory.GetKeyGenerator("dummy");
+                var generator = factory.GetKeyGenerator("dummy4");
                 // Assert
                 Assert.AreEqual(1, chamadasEntityDummy);    // HACK: there's a problem with Moq where I can't verify if p => p["dummy"] was called
                 mockConfig.VerifyGet(p => p.DefaultMaxLo, Times.Once());

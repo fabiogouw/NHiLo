@@ -12,9 +12,9 @@ namespace NHiLo.HiLo.Config
     public class EntityConfigElement : ConfigurationElement, IEntityConfiguration
     {
         [ConfigurationProperty("name", IsRequired = true)]
-        public virtual bool Name
+        public virtual string Name
         {
-            get { return (bool)this["name"]; }
+            get { return (string)this["name"]; }
         }
 
         [ConfigurationProperty("maxLo", IsRequired = false, DefaultValue = 100)]

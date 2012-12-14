@@ -8,7 +8,7 @@ namespace NHiLo.Tests.Stubs.Config
 {
     public class EntityConfigurationStub : IEntityConfiguration
     {
-        public bool Name { get; set; }
+        public string Name { get; set; }
 
         public int MaxLo { get; set; }
     }

@@ -4,7 +4,7 @@ namespace NHiLo.HiLo.Config
 {
     public interface IEntityConfiguration
     {
-        bool Name { get; }
+        string Name { get; }
         int MaxLo { get; }
     }
 }

@@ -8,10 +8,6 @@ namespace NHiLo.Common
 {
     public class KeyGeneratorConfigElement : ConfigurationElement
     {
-        [ConfigurationProperty("name", IsRequired = true)]
-        public string Name
-        {
-            get { return (string)this["name"]; }
-        }
+
     }
 }

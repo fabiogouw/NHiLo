@@ -154,6 +154,7 @@
     <None Include="NHiLo.nuspec" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ChangeLog.txt" />
     <Content Include="License.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

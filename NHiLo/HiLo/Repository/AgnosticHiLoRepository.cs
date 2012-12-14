@@ -46,10 +46,15 @@ namespace NHiLo.HiLo.Repository
 
         protected abstract void InitializeRepositoryForEntity(IDbCommand cmd);
 
+        protected virtual string EntityParameterName
+        {
+            get { return "@pEntity"; }
+        }
+
         protected virtual IDataParameter CreateEntityParameter(IDbCommand cmd, string value)
         {
             var param = cmd.CreateParameter();
-            param.ParameterName = "@pEntity";
+            param.ParameterName = EntityParameterName;
             param.DbType = DbType.String;
             param.Direction = ParameterDirection.Input;
             param.Value = value;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NHiLo.Common
+namespace NHiLo // this should be available at the root namespace
 {
     public static class KeyGeneratorExtensions
     {

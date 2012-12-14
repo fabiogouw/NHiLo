@@ -19,7 +19,7 @@ namespace NHiLo.Tests.Integration.Hilo
                 // Arrange
                 var factory = new HiLoGeneratorFactory();
                 // Act
-                var generator = factory.GetKeyGenerator("dummy4");
+                var generator = factory.GetKeyGenerator("dummy5");
                 var key1 = generator.GetKey();
                 var key2 = generator.GetKey();
                 // Assert

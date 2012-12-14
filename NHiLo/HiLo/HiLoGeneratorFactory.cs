@@ -7,8 +7,9 @@ using NHiLo.HiLo.Config;
 using System.Configuration;
 using NHiLo.HiLo.Repository;
 using NHiLo.Common.Config;
+using NHiLo.HiLo;
 
-namespace NHiLo.HiLo
+namespace NHiLo // this should be available at the root namespace
 {
     /// <summary>
     /// Factory that creates <see cref="IKeyGeneratorFactory<long>"/> for client usage.
