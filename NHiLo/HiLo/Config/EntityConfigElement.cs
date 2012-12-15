@@ -20,7 +20,7 @@ namespace NHiLo.HiLo.Config
         [ConfigurationProperty("maxLo", IsRequired = false, DefaultValue = 100)]
         public virtual int MaxLo
         {
-            get { return (int)this["mxLo"]; }
+            get { return (int)this["maxLo"]; }
         }
     }
 }
