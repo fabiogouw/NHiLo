@@ -13,28 +13,39 @@ namespace NHiLo.HiLo.Repository
     /// </summary>
     public class SqlServerHiLoRepository : AgnosticHiLoRepository
     {
+        private string _sqlStatementToSelectAndUpdateNextHiValue;
+        private string _sqlStatementToCreateRepository;
+        private string _sqlStatementToInitializeEntity;
+
         public SqlServerHiLoRepository(string entityName, IHiLoConfiguration config)
             : base(entityName, config)
         {
+            InitializeSqlStatements(config);
+        }
 
+        private void InitializeSqlStatements(IHiLoConfiguration config)
+        {
+            _sqlStatementToSelectAndUpdateNextHiValue = PrepareSqlStatement("SELECT {1} FROM {0} WHERE {2} = {3};UPDATE {0} SET {1} = {1} + 1 WHERE {2} = {3};", config);
+            _sqlStatementToCreateRepository = PrepareSqlStatement(Resources.SqlServerCreateStructure, config);
+            _sqlStatementToInitializeEntity = PrepareSqlStatement(Resources.SqlServerInitializeEntity, config);
         }
 
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
-            cmd.CommandText = "SELECT NEXT_HI FROM NHILO WHERE ENTITY = @pEntity;UPDATE NHILO SET NEXT_HI = NEXT_HI + 1 WHERE ENTITY = @pEntity;";
+            cmd.CommandText = _sqlStatementToSelectAndUpdateNextHiValue;
             cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
             return (long)cmd.ExecuteScalar();
         }
 
         protected override void CreateRepositoryStructure(IDbCommand cmd)
         {
-            cmd.CommandText = Resources.SqlServerCreateStructure;
+            cmd.CommandText = _sqlStatementToCreateRepository;
             cmd.ExecuteNonQuery();
         }
 
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
-            cmd.CommandText = Resources.SqlServerInitializeEntity;
+            cmd.CommandText = _sqlStatementToInitializeEntity;
             cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
             cmd.ExecuteNonQuery();
         }

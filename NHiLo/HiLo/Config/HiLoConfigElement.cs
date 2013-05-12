@@ -41,5 +41,23 @@ namespace NHiLo.HiLo.Config
         {
             get { return this["entities"] as EntityConfigElementCollection; }
         }
+
+        [ConfigurationProperty("tableName", IsRequired = false, DefaultValue = "NHILO")]
+        public string TableName
+        {
+            get { return (string)this["tableName"]; }
+        }
+
+        [ConfigurationProperty("nextHiColumnName", IsRequired = false, DefaultValue = "NEXT_HI")]
+        public string NextHiColumnName
+        {
+            get { return (string)this["nextHiColumnName"]; }
+        }
+
+        [ConfigurationProperty("entityColumnName", IsRequired = false, DefaultValue = "ENTITY")]
+        public string EntityColumnName
+        {
+            get { return (string)this["entityColumnName"]; }
+        }
     }
 }

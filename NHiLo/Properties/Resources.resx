@@ -118,14 +118,14 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SqlServerCreateStructure" xml:space="preserve">
-    <value>IF NOT EXISTS(SELECT 1 FROM SYS.OBJECTS WHERE NAME = 'NHILO' AND TYPE = 'U')
+    <value>IF NOT EXISTS(SELECT 1 FROM SYS.OBJECTS WHERE NAME = '{0}' AND TYPE = 'U')
 BEGIN
-    CREATE TABLE [dbo].[NHILO](
-    [ENTITY] [nvarchar](100) NOT NULL,
-    [NEXT_HI] [bigint] NOT NULL,
-        CONSTRAINT [PK_NHILO] PRIMARY KEY CLUSTERED 
+    CREATE TABLE [dbo].[{0}](
+    [{2}] [nvarchar](100) NOT NULL,
+    [{1}] [bigint] NOT NULL,
+        CONSTRAINT [PK_{0}] PRIMARY KEY CLUSTERED 
         (
-            [ENTITY] ASC
+            [{2}] ASC
         )
     );
     SELECT 1;
@@ -135,9 +135,9 @@ ELSE
   </data>
   <data name="SqlServerInitializeEntity" xml:space="preserve">
     <value>SET NOCOUNT ON;
-IF NOT EXISTS(SELECT 1 FROM NHILO WHERE ENTITY = @pEntity)
+IF NOT EXISTS(SELECT 1 FROM {0} WHERE {2} = {3})
 BEGIN
-    INSERT INTO NHILO VALUES (@pEntity, 1);
+    INSERT INTO {0} VALUES ({3}, 1);
 END</value>
   </data>
 </root>

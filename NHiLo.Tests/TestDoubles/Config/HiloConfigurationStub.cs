@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NHiLo.HiLo.Config;
 
-namespace NHiLo.Tests.Stubs.Config
+namespace NHiLo.Tests.TestDoubles.Config
 {
     public class HiloConfigurationStub : IHiLoConfiguration
     {
@@ -24,5 +24,11 @@ namespace NHiLo.Tests.Stubs.Config
         }
 
         public Func<string, IEntityConfiguration> GetEntityConfigFunction { get; set; }
+
+        public string TableName{ get; set; }
+
+        public string NextHiColumnName{ get; set; }
+
+        public string EntityColumnName{ get; set; }
     }
 }

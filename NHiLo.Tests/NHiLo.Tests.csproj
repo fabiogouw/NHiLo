@@ -91,12 +91,20 @@
   <ItemGroup>
     <Compile Include="HiLo\Config\HiLoConfigurationBuilderTest.cs" />
     <Compile Include="HiLo\HiLoGeneratorFactoryTest.cs" />
+    <Compile Include="HiLo\Repository\AgnosticHiLoRepositoryTest.cs" />
     <Compile Include="Integration\Hilo\HiLoGeneratorFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HiLo\HiLoGeneratorTest.cs" />
-    <Compile Include="Stubs\Config\EntityConfigurationStub.cs" />
-    <Compile Include="Stubs\Config\HiloConfigurationStub.cs" />
-    <Compile Include="Stubs\Config\KeyGeneratorConfigurationStub.cs" />
+    <Compile Include="TestDoubles\Config\EntityConfigurationStub.cs" />
+    <Compile Include="TestDoubles\Config\HiloConfigurationStub.cs" />
+    <Compile Include="TestDoubles\Config\KeyGeneratorConfigurationStub.cs" />
+    <Compile Include="TestDoubles\DbCommandMock.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TestDoubles\DbConnectionMock.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TestDoubles\DbTransactionMock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NHiLo\NHiLo.csproj">

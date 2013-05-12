@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NHiLo.HiLo.Config;
 
-namespace NHiLo.Tests.Stubs.Config
+namespace NHiLo.Tests.TestDoubles.Config
 {
     public class EntityConfigurationStub : IEntityConfiguration
     {

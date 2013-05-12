@@ -9,31 +9,44 @@ namespace NHiLo.HiLo.Repository
 {
     public class MySqlHiLoRepository : AgnosticHiLoRepository
     {
+        private string _sqlStatementToGetLatestNextHiValue;
+        private string _sqlStatementToUpdateNextHiValue;
+        private string _sqlStatementToCreateRepository;
+        private string _sqlStatementToInitializeEntity;
+
         public MySqlHiLoRepository(string entityName, IHiLoConfiguration config)
             : base(entityName, config)
         {
+            InitializeSqlStatements(config);
+        }
 
+        private void InitializeSqlStatements(IHiLoConfiguration config)
+        {
+            _sqlStatementToGetLatestNextHiValue = PrepareSqlStatement("SELECT {1} FROM {0} WHERE {2} = {3}", config);
+            _sqlStatementToUpdateNextHiValue = PrepareSqlStatement("UPDATE {0} SET {1} = {1} + 1 WHERE {2} = {3}", config);
+            _sqlStatementToCreateRepository = PrepareSqlStatement("CREATE TABLE IF NOT EXISTS `{0}` ( `{2}` varchar(100) NOT NULL, `{1}` BIGINT NOT NULL, PRIMARY KEY (`{2}`));", config);
+            _sqlStatementToInitializeEntity = PrepareSqlStatement("INSERT IGNORE INTO `{0}` SET {2} = {3}, {1} = 1;", config);
         }
 
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
-            cmd.CommandText = "SELECT NEXT_HI FROM NHILO WHERE ENTITY = @pEntity";
+            cmd.CommandText = _sqlStatementToGetLatestNextHiValue;
             cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
             long nextHi = (long)cmd.ExecuteScalar();
-            cmd.CommandText = "UPDATE NHILO SET NEXT_HI = NEXT_HI + 1 WHERE ENTITY = @pEntity";
+            cmd.CommandText = _sqlStatementToUpdateNextHiValue;
             cmd.ExecuteNonQuery();
             return nextHi;
         }
 
         protected override void CreateRepositoryStructure(IDbCommand cmd)
         {
-            cmd.CommandText = "CREATE TABLE IF NOT EXISTS `NHILO` ( `ENTITY` varchar(100) NOT NULL, `NEXT_HI` BIGINT NOT NULL, PRIMARY KEY  (`ENTITY`));";
+            cmd.CommandText = _sqlStatementToCreateRepository;
             cmd.ExecuteNonQuery();
         }
 
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
-            cmd.CommandText = "INSERT IGNORE INTO `NHILO` SET ENTITY = @pEntity, NEXT_HI = 1;";
+            cmd.CommandText = _sqlStatementToInitializeEntity;
             cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
             cmd.ExecuteNonQuery();
         }

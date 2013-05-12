@@ -16,11 +16,13 @@ namespace NHiLo.HiLo.Repository
     {
         protected string _entityName;
         private IHiLoConfiguration _config;
+        internal Func<string, DbProviderFactory> DbFactoryCreator { private get; set; } // for testability
 
         public AgnosticHiLoRepository(string entityName, IHiLoConfiguration config)
         {
             _entityName = entityName;
             _config = config;
+            DbFactoryCreator = (providerName) => DbProviderFactories.GetFactory(providerName);
         }
 
         public void PrepareRepository()
@@ -51,6 +53,21 @@ namespace NHiLo.HiLo.Repository
             get { return "@pEntity"; }
         }
 
+        /// <summary>
+        /// Prepare the SQL statement provided these information:
+        /// {0} - table name
+        /// {1} - nexthi column name
+        /// {2} - entity column name
+        /// {3} - parameter name
+        /// </summary>
+        /// <param name="rawStatement">The SQL statement which will be filled with custom information.</param>
+        /// <param name="config">Object that holds the database information.</param>
+        /// <returns></returns>
+        protected string PrepareSqlStatement(string rawStatement, IHiLoConfiguration config)
+        {
+            return string.Format(rawStatement, config.TableName, config.NextHiColumnName, config.EntityColumnName, EntityParameterName);
+        }
+
         protected virtual IDataParameter CreateEntityParameter(IDbCommand cmd, string value)
         {
             var param = cmd.CreateParameter();
@@ -68,7 +85,7 @@ namespace NHiLo.HiLo.Repository
             DbConnection conn = null;
             if (!string.IsNullOrEmpty(connectionString))
             {
-                var factory = DbProviderFactories.GetFactory(providerName);
+                var factory = DbFactoryCreator(providerName);
                 conn = factory.CreateConnection();
                 conn.ConnectionString = connectionString;
             }

@@ -5,7 +5,7 @@ using System.Configuration;
 using Moq;
 using NHiLo.Common.Config;
 using NHiLo.Common;
-using NHiLo.Tests.Stubs.Config;
+using NHiLo.Tests.TestDoubles.Config;
 
 namespace NHiLo.Tests.HiLo.Config
 {

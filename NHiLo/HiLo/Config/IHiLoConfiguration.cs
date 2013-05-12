@@ -13,5 +13,8 @@ namespace NHiLo.HiLo.Config
         bool CreateHiLoStructureIfNotExists { get; }
         int DefaultMaxLo { get; }
         IEntityConfiguration GetEntityConfig(string entityName);
+        string TableName{ get; }
+        string NextHiColumnName{ get; }
+        string EntityColumnName{ get; }
     }
 }

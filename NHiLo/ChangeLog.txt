@@ -1,9 +1,12 @@
 ﻿NHilo changelog
 
 * 1.0.0-beta - 2012-09-27
-	- Initial version (SQL Server, SQL Server CE and MySql)
+	- Initial version (SQL Server, SQL Server CE and MySql).
 
 * 1.0.0 - 2012-12-15
-	- Adding support for Oracle
-	- Changing some classes namespaces so all a developer needs is in Nhilo namespace
-	- Fixing bugs in configuration schema
+	- Adding support for Oracle.
+	- Changing some classes namespaces so all a developer needs is in Nhilo namespace.
+	- Fixing bugs in configuration schema.
+
+* 1.1.0 - 2013-03-01
+	- Adding configuration to specify NHilo's table and columns names.

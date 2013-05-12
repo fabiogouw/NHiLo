@@ -5,7 +5,7 @@ using System.Text;
 using NHiLo.Common;
 using NHiLo.HiLo.Config;
 
-namespace NHiLo.Tests.Stubs.Config
+namespace NHiLo.Tests.TestDoubles.Config
 {
     public class KeyGeneratorConfigurationStub : IKeyGeneratorConfiguration
     {
