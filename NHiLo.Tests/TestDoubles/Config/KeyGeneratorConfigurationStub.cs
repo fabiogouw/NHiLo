@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NHiLo.Common;
+﻿using NHiLo.Common;
 using NHiLo.HiLo.Config;
+using System;
 
 namespace NHiLo.Tests.TestDoubles.Config
 {

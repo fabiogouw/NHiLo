@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NHiLo.Common
+namespace NHiLo // this should be available at the root namespace
 {
     /// <summary>
     /// Represents the contract used to create objects that generate keys.
@@ -9,6 +9,11 @@ namespace NHiLo.Common
     /// <typeparam name="T">The type of the key (long, string, etc).</typeparam>
     public interface IKeyGeneratorFactory<T>
     {
+        /// <summary>
+        /// Returns the object that produces new key values.
+        /// </summary>
+        /// <param name="entityName">The name of the entity you'll get the key value for.</param>
+        /// <returns></returns>
         IKeyGenerator<T> GetKeyGenerator(string entityName);
     }
 }

@@ -18,6 +18,11 @@ namespace NHiLo.HiLo
         private readonly int _maxLo;
         private int _currentLo = int.MaxValue;  // starts with the maximum value to ensure the repository's first call
 
+        /// <summary>
+        /// Constructor of the class.
+        /// </summary>
+        /// <param name="repository">An implementation of the repository used to keep the high values.</param>
+        /// <param name="maxLo">The value used as the low part of the key.</param>
         public HiLoGenerator(IHiLoRepository repository, int maxLo)
         {
             Contract.Requires<ArgumentException>(repository != null, "An valid instance of IHiLoRepository must be provided.");

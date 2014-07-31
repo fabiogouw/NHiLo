@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.Example.Repository;
 using Ninject.Modules;
-using NHiLo.HiLo;
-using NHiLo.Common;
-using NHiLo.Example.Repository;
 
 namespace NHiLo.Example.IoC
 {

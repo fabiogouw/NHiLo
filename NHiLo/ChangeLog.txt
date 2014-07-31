@@ -10,3 +10,6 @@
 
 * 1.1.0 - 2013-03-01
 	- Adding configuration to specify NHilo's table and columns names.
+
+* 1.2.0 - 2014-07-29
+	- Changing the namespace of the main classes.

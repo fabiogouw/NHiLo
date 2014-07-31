@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NHiLo.Common;
-using NHiLo.HiLo.Config;
-using System.Configuration;
-using NHiLo.HiLo.Repository;
-using NHiLo.Common.Config;
+﻿using NHiLo.Common.Config;
 using NHiLo.HiLo;
+using NHiLo.HiLo.Config;
+using NHiLo.HiLo.Repository;
+using System.Collections.Generic;
 
 namespace NHiLo // this should be available at the root namespace
 {
     /// <summary>
-    /// Factory that creates <see cref="IKeyGeneratorFactory<long>"/> for client usage.
+    /// Factory that creates <see cref="IKeyGeneratorFactory"/> for client usage.
     /// </summary>
     public class HiLoGeneratorFactory : IKeyGeneratorFactory<long>
     {

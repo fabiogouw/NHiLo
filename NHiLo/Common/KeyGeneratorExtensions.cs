@@ -11,7 +11,7 @@ namespace NHiLo // this should be available at the root namespace
         /// <summary>
         /// Returns the unique value as a int value.
         /// </summary>
-        /// <param name="generator"></param>
+        /// <param name="generator">An object that produces new key values.</param>
         /// <returns>Unique int value.</returns>
         public static int GetKeyAsInt(this IKeyGenerator<long> generator)
         {
