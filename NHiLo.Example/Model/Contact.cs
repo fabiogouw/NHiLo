@@ -7,7 +7,7 @@ namespace NHiLo.Example.Model
 {
     public class Contact
     {
-        public long Id { get; set; }
+        public string Id { get; set; }
         public Person Person { get; set; }
         public string TelephoneNumber { get; set; }
     }

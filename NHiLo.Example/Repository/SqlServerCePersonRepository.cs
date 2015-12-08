@@ -11,10 +11,10 @@ namespace NHiLo.Example.Repository
     public class SqlServerCePersonRepository : IPersonRepository
     {
         private IKeyGenerator<long> _personKeyGenerator;
-        private IKeyGenerator<long> _contactKeyGenerator;
+        private IKeyGenerator<string> _contactKeyGenerator;
 
         public SqlServerCePersonRepository([Named("person")]IKeyGenerator<long> personKeyGenerator,
-            [Named("contact")]IKeyGenerator<long> contactKeyGenerator)
+            [Named("contact")]IKeyGenerator<string> contactKeyGenerator)
         {
             _personKeyGenerator = personKeyGenerator;
             _contactKeyGenerator = contactKeyGenerator;
@@ -77,7 +77,8 @@ namespace NHiLo.Example.Repository
                 person.Id = _personKeyGenerator.GetKey();
             foreach (var contact in person.Contacts)
             {
-                if (contact.Id <= 0)
+                // here the id is a guid, so we call the guid generator
+                if (string.IsNullOrEmpty(contact.Id))
                     contact.Id = _contactKeyGenerator.GetKey();
             }
             return person;

@@ -7,9 +7,10 @@ namespace NHiLo.Example.IoC
     {
         public override void Load()
         {
-            var factory = new HiLoGeneratorFactory();
-            Bind<IKeyGenerator<long>>().ToMethod((ctx) => factory.GetKeyGenerator("person")).Named("person");
-            Bind<IKeyGenerator<long>>().ToMethod((ctx) => factory.GetKeyGenerator("contact")).Named("contact");
+            var factoryLong = new HiLoGeneratorFactory();
+            Bind<IKeyGenerator<long>>().ToMethod((ctx) => factoryLong.GetKeyGenerator("person")).Named("person");
+            var factoryGuid = new GuidGeneratorFactory();
+            Bind<IKeyGenerator<string>>().ToMethod((ctx) => factoryGuid.GetKeyGenerator("contact")).Named("contact");
             Bind<IPersonRepository>().To<SqlServerCePersonRepository>();
         }
     }

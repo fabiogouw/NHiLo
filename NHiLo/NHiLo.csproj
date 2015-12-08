@@ -114,6 +114,8 @@
     <Compile Include="Common\ErrorCodes.cs" />
     <Compile Include="Common\Config\IKeyGeneratorConfiguration.cs" />
     <Compile Include="Common\NHiloException.cs" />
+    <Compile Include="Guid\GuidGenerator.cs" />
+    <Compile Include="Guid\GuidGeneratorFactory.cs" />
     <Compile Include="HiLo\Config\EntityConfigElement.cs" />
     <Compile Include="HiLo\Config\EntityConfigElementCollection.cs" />
     <Compile Include="Common\Config\KeyGeneratorConfigElement.cs" />
