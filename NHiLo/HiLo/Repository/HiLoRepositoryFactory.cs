@@ -16,14 +16,19 @@ namespace NHiLo.HiLo.Repository
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
-        private Dictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = new Dictionary<string, CreateIHiLoRepositoryFunction>()
+        private readonly Dictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions;
+
+        public HiLoRepositoryFactory()
         {
-            { "System.Data.SqlClient", (entityName, config) => new SqlServerHiLoRepository(entityName, config) },
-            { "MySql.Data.MySqlClient", (entityName, config) => new MySqlHiLoRepository(entityName, config) },
-            { "System.Data.SqlServerCe.3.5", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-            { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-            { "System.Data.OracleClient", (entityName, config) => new OracleHiLoRepository(entityName, config) }
-        };
+            _factoryFunctions = new Dictionary<string, CreateIHiLoRepositoryFunction>()
+            {
+                { "System.Data.SqlClient", (entityName, config) => GetSqlServerRepository(entityName, config) },
+                { "MySql.Data.MySqlClient", (entityName, config) => new MySqlHiLoRepository(entityName, config) },
+                { "System.Data.SqlServerCe.3.5", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
+                { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
+                { "System.Data.OracleClient", (entityName, config) => new OracleHiLoRepository(entityName, config) }
+            };
+        }
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
         {
@@ -34,6 +39,15 @@ namespace NHiLo.HiLo.Repository
             repository = _factoryFunctions[provider](entityName, config);
             repository.PrepareRepository();
             return repository;
+        }
+
+        private IHiLoRepository GetSqlServerRepository(string entityName, IHiLoConfiguration config)
+        {
+            if (config.StorageType == Common.Config.HiLoStorageType.Sequence)
+            {
+                return new SqlServerSequenceHiLoRepository(entityName, config);
+            }
+            return new SqlServerHiLoRepository(entityName, config);
         }
     }
 }

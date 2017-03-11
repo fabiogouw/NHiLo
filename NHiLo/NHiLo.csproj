@@ -55,6 +55,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -97,6 +98,7 @@
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
     <DocumentationFile>bin\Release\NHiLo.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -111,6 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Config\ConfigurationManagerWrapper.cs" />
+    <Compile Include="Common\Config\HiLoStorageType.cs" />
+    <Compile Include="Common\EnumExtensions.cs" />
     <Compile Include="Common\ErrorCodes.cs" />
     <Compile Include="Common\Config\IKeyGeneratorConfiguration.cs" />
     <Compile Include="Common\NHiloException.cs" />
@@ -138,6 +142,7 @@
     <Compile Include="HiLo\Repository\SqlServerCeHiLoRepository.cs" />
     <Compile Include="HiLo\Repository\HiLoRepositoryFactory.cs" />
     <Compile Include="HiLo\Repository\IHiLoRepositoryFactory.cs" />
+    <Compile Include="HiLo\Repository\SqlServerSequenceHiLoRepository.cs" />
     <Compile Include="HiLo\Repository\SqlServerHiLoRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

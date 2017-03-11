@@ -13,3 +13,9 @@
 
 * 1.2.0 - 2014-07-29
 	- Changing the namespace of the main classes.
+
+* 1.3.0 - 2015-12-08
+	- Adding GuidGeneratorFactory class.
+
+* 1.4.0
+	- Adding support to SQL Server's sequences.

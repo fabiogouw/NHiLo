@@ -124,6 +124,49 @@ namespace NHiLo.Tests.HiLo
                 mockEntity1.VerifyGet(p => p.MaxLo, Times.Once());
                 mockConfig.VerifyGet(p => p.DefaultMaxLo, Times.Never());
             }
+
+            [TestMethod]
+            public void ShouldRaiseExceptionIfEntityNameStartsWithANumber()
+            {
+                ShouldRaiseExceptionIfEntityNameIsInvalid("123name");
+            }
+
+            [TestMethod]
+            public void ShouldRaiseExceptionIfEntityNameContainsSpaces()
+            {
+                ShouldRaiseExceptionIfEntityNameIsInvalid("n ame");
+            }
+
+            [TestMethod]
+            public void ShouldRaiseExceptionIfEntityNameContainsSingleQuotes()
+            {
+                ShouldRaiseExceptionIfEntityNameIsInvalid("name'");
+            }
+
+            [TestMethod]
+            public void ShouldRaiseExceptionIfEntityNameHasMoreThan100Chars()
+            {
+                ShouldRaiseExceptionIfEntityNameIsInvalid("namesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnames1");
+            }
+
+            private void ShouldRaiseExceptionIfEntityNameIsInvalid(string entityName)
+            {
+                // Arrange
+                var mockConfig = new Mock<IHiLoConfiguration>();
+                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
+                var factory = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                // Act
+                try
+                {
+                    factory.GetKeyGenerator(entityName);
+                    Assert.Fail();
+                }
+                catch (NHiloException ex)
+                {
+                    // Assert
+                    Assert.AreEqual(ErrorCodes.InvalidEntityName, ex.ErrorCode);
+                }
+            }
         }
 
         #region Utils

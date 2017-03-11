@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NHiLo.Common;
 using System.Configuration;
+using NHiLo.Common.Config;
 
 namespace NHiLo.HiLo.Config
 {
@@ -58,6 +59,12 @@ namespace NHiLo.HiLo.Config
         public string EntityColumnName
         {
             get { return (string)this["entityColumnName"]; }
+        }
+
+        [ConfigurationProperty("storageType", IsRequired = false, DefaultValue = "Table")]
+        public HiLoStorageType StorageType
+        {
+            get { return (HiLoStorageType)Enum.Parse(typeof(HiLoStorageType), (string)this["storageType"]); }
         }
     }
 }

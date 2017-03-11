@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHiLo.Common.Config;
+using System;
 
 namespace NHiLo.HiLo.Config
 {
@@ -16,5 +17,6 @@ namespace NHiLo.HiLo.Config
         string TableName{ get; }
         string NextHiColumnName{ get; }
         string EntityColumnName{ get; }
+        HiLoStorageType StorageType { get; }
     }
 }
