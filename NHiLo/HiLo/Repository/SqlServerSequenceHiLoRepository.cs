@@ -13,16 +13,21 @@ namespace NHiLo.HiLo.Repository
     /// </summary>
     public class SqlServerSequenceHiLoRepository : AgnosticHiLoRepository
     {
-        private readonly string _sqlStatementToSelectAndUpdateNextHiValue = @"SELECT NEXT VALUE FOR [dbo].[HiLo{0}];";
+        private readonly string _sqlStatementToSelectAndUpdateNextHiValue = @"SELECT NEXT VALUE FOR [dbo].[{0}{1}];";
+        private readonly string _objectPrefix = "SQ_HiLo_";
 
         public SqlServerSequenceHiLoRepository(string entityName, IHiLoConfiguration config)
             : base(entityName, config)
         {
+            if (!string.IsNullOrEmpty(config.ObjectPrefix))
+            {
+                _objectPrefix = config.ObjectPrefix;
+            }
         }
 
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
-            cmd.CommandText = string.Format(_sqlStatementToSelectAndUpdateNextHiValue, "_entityName");
+            cmd.CommandText = string.Format(_sqlStatementToSelectAndUpdateNextHiValue, _objectPrefix, _entityName);
             return (long)cmd.ExecuteScalar();
         }
 
@@ -33,15 +38,14 @@ namespace NHiLo.HiLo.Repository
 
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
-            cmd.CommandText = @"
-            IF NOT EXISTS(SELECT 1 FROM sys.sequences WHERE name = '{0}')
+            cmd.CommandText = string.Format(@"
+            IF NOT EXISTS(SELECT 1 FROM sys.sequences WHERE name = '{0}{1}')
             BEGIN
-	            CREATE SEQUENCE [dbo].[HiLo{0}] START WITH 1 INCREMENT BY 1;
+	            CREATE SEQUENCE [dbo].[{0}{1}] START WITH 1 INCREMENT BY 1;
 	            SELECT 1;
             END
             ELSE
-	            SELECT 0;";
-            cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
+	            SELECT 0;", _objectPrefix, _entityName);
             cmd.ExecuteNonQuery();
         }
     }

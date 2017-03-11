@@ -18,5 +18,6 @@ namespace NHiLo.HiLo.Config
         string NextHiColumnName{ get; }
         string EntityColumnName{ get; }
         HiLoStorageType StorageType { get; }
+        string ObjectPrefix { get; }
     }
 }

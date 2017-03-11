@@ -3,7 +3,7 @@ using NHiLo.Guid;
 
 namespace NHiLo.Tests.Guid
 {
-    public class GuidGeneratorTest
+    public class Ascii85GuidGeneratorTest
     {
         [TestClass]
         public class GetKey : BaseTestGuidGenerator.GetKey
@@ -12,7 +12,7 @@ namespace NHiLo.Tests.Guid
             public void ShouldGetANonNullGuid()
             {
                 // Arrange
-                var generator = new GuidGenerator();
+                var generator = new Ascii85GuidGenerator();
                 // Act & Assert
                 ShouldGetANonNullGuid(generator);
             }
@@ -21,10 +21,22 @@ namespace NHiLo.Tests.Guid
             public void ShouldGetDifferentKeys()
             {
                 // Arrange
-                var generator = new GuidGenerator();
+                var generator = new Ascii85GuidGenerator();
                 // Act & Assert
                 ShouldGetDifferentKeys(generator);
             }
+
+            [TestMethod]
+            public void ShouldGet20LengthGuid()
+            {
+                // Arrange
+                var generator = new Ascii85GuidGenerator();
+                // Act
+                var key = generator.GetKey();
+                // Assert
+                Assert.AreEqual(20, key.Length);
+            }
+
         }
     }
 }

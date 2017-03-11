@@ -16,13 +16,10 @@ namespace NHiLo.Guid
     /// </remarks>
     public class GuidGenerator : IKeyGenerator<string>
     {
-        [DllImport("rpcrt4.dll", SetLastError = true)]
-        private static extern int UuidCreateSequential(out System.Guid guid);
-
         public string GetKey()
         {
             System.Guid guid;
-            UuidCreateSequential(out guid);
+            NativeMethods.UuidCreateSequential(out guid);
             var s = guid.ToByteArray();
             var t = new byte[16];
             t[3] = s[0];

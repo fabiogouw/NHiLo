@@ -64,7 +64,13 @@ namespace NHiLo.HiLo.Config
         [ConfigurationProperty("storageType", IsRequired = false, DefaultValue = "Table")]
         public HiLoStorageType StorageType
         {
-            get { return (HiLoStorageType)Enum.Parse(typeof(HiLoStorageType), (string)this["storageType"]); }
+            get { return (HiLoStorageType)this["storageType"]; }
+        }
+
+        [ConfigurationProperty("objectPrefix", IsRequired = false, DefaultValue = "")]
+        public string ObjectPrefix
+        {
+            get { return (string)this["objectPrefix"]; }
         }
     }
 }

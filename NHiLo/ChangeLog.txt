@@ -19,3 +19,4 @@
 
 * 1.4.0
 	- Adding support to SQL Server's sequences.
+	- Adding support to generate 20 byte string guids (ASCII85).

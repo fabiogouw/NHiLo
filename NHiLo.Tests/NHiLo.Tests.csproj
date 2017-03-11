@@ -89,6 +89,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Guid\BaseTestGuidGenerator.cs" />
+    <Compile Include="Guid\Ascii85GuidGeneratorTest.cs" />
     <Compile Include="Guid\GuidGeneratorTest.cs" />
     <Compile Include="HiLo\Config\HiLoConfigurationBuilderTest.cs" />
     <Compile Include="HiLo\HiLoGeneratorFactoryTest.cs" />

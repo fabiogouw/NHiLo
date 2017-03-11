@@ -33,5 +33,7 @@ namespace NHiLo.Tests.TestDoubles.Config
         public string EntityColumnName { get; set; }
 
         public HiLoStorageType StorageType { get; set; }
+
+        public string ObjectPrefix { get; set; }
     }
 }
