@@ -135,8 +135,6 @@ ipch/
 
 *.opensdf
 
-*.sdf
-
 *.cachefile
 
 *.VC.db
