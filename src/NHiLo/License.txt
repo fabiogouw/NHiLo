@@ -1,4 +1,4 @@
-﻿NHiLo - Fabio Gouw - http://nhilo.codeplex.com/
+﻿NHiLo - Fabio Gouw - https://github.com/fabiogouw/NHilo
 
 Microsoft Public License (Ms-PL)
 

@@ -97,29 +97,22 @@ namespace NHiLo.HiLo.Repository
             using (var conn = CreateConnection())
             {
                 conn.Open();
-                try
+                using (var trans = conn.BeginTransaction(IsolationLevel.Serializable))
                 {
-                    using (var trans = conn.BeginTransaction(IsolationLevel.Serializable))
+                    try
                     {
-                        try
+                        using (var cmd = conn.CreateCommand())
                         {
-                            using (var cmd = conn.CreateCommand())
-                            {
-                                cmd.Transaction = trans;
-                                commandAction.Invoke(cmd);
-                                trans.Commit();
-                            }
-                        }
-                        catch
-                        {
-                            trans.Rollback();
-                            throw;
+                            cmd.Transaction = trans;
+                            commandAction.Invoke(cmd);
+                            trans.Commit();
                         }
                     }
-                }
-                finally
-                {
-                    conn.Close();
+                    catch
+                    {
+                        trans.Rollback();
+                        throw;
+                    }
                 }
             }
         }

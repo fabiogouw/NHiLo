@@ -18,6 +18,11 @@ namespace NHiLo
         /// Entity name has invalid characters (not only letters and numbers).
         /// </summary>
         [Description("An entity name must only contains letters and numbers, starting with a letter.")]
-        InvalidEntityName = 1001
+        InvalidEntityName = 1001,
+        /// <summary>
+        /// Entity name has invalid characters (not only letters and numbers).
+        /// </summary>
+        [Description("A sequence name must only contains letters and numbers, starting with a letter.")]
+        InvalidSequencePrefixName = 1002
     }
 }

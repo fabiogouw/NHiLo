@@ -30,6 +30,7 @@ namespace NHiLo.HiLo.Repository
             _sqlStatementToInitializeEntity = PrepareSqlStatement(Resources.SqlServerInitializeEntity, config);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Parameter is validated by the caller.")]
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToSelectAndUpdateNextHiValue;
@@ -37,12 +38,14 @@ namespace NHiLo.HiLo.Repository
             return (long)cmd.ExecuteScalar();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Parameter is validated by the caller.")]
         protected override void CreateRepositoryStructure(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToCreateRepository;
             cmd.ExecuteNonQuery();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Parameter is validated by the caller.")]
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToInitializeEntity;
