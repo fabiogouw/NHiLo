@@ -2,20 +2,20 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using NHiLo.HiLo;
 using NHiLo.HiLo.Repository;
 using Moq;
 using NHiLo.HiLo.Config;
+using Xunit.Sdk;
 
 namespace NHiLo.Tests.HiLo
 {
     public class HiLoGeneratorFactoryTest
     {
-        [TestClass]
         public class GetKeyGenerator
         {
-            [TestMethod]
+            [Fact]
             public void ShouldReturnAnInstanceOfHiLoGenerator()
             {
                 // Arrange
@@ -26,10 +26,10 @@ namespace NHiLo.Tests.HiLo
                 // Act
                 var generator = factory.GetKeyGenerator("dummy");
                 // Assert
-                Assert.IsInstanceOfType(generator, typeof(HiLoGenerator));
+                Assert.IsAssignableFrom(typeof(HiLoGenerator), generator);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldReturnTheSameInstanceForTheSameEntity()
             {
                 // Arrange
@@ -41,10 +41,10 @@ namespace NHiLo.Tests.HiLo
                 var generator1 = factory.GetKeyGenerator("dummy");
                 var generator2 = factory.GetKeyGenerator("dummy");
                 // Assert
-                Assert.AreSame(generator1, generator2);
+                Assert.Same(generator1, generator2);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldReturnTheSameInstanceForTheSameEntityAndForDifferentFactories()
             {
                 // Arrange
@@ -57,10 +57,10 @@ namespace NHiLo.Tests.HiLo
                 var generator1 = factory1.GetKeyGenerator("dummy");
                 var generator2 = factory2.GetKeyGenerator("dummy");
                 // Assert
-                Assert.AreSame(generator1, generator2);
+                Assert.Same(generator1, generator2);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldReturnDifferentInstancesForDifferentEntities()
             {
                 // Arrange
@@ -72,10 +72,10 @@ namespace NHiLo.Tests.HiLo
                 var generator1 = factory.GetKeyGenerator("dummy1");
                 var generator2 = factory.GetKeyGenerator("dummy2");
                 // Assert
-                Assert.AreNotSame(generator1, generator2);
+                Assert.NotSame(generator1, generator2);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldReturnDifferentInstancesForDifferentEntitiesAndForDifferentFactories()
             {
                 // Arrange
@@ -88,10 +88,10 @@ namespace NHiLo.Tests.HiLo
                 var generator1 = factory1.GetKeyGenerator("dummy1");
                 var generator2 = factory2.GetKeyGenerator("dummy2");
                 // Assert
-                Assert.AreNotSame(generator1, generator2);
+                Assert.NotSame(generator1, generator2);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldCreateGeneratorGettingTheDefaultMaxLoFromConfig()
             {
                 // Arrange
@@ -104,11 +104,11 @@ namespace NHiLo.Tests.HiLo
                 // Act
                 var generator = factory.GetKeyGenerator("dummy4");
                 // Assert
-                Assert.AreEqual(1, chamadasEntityDummy);    // HACK: there's a problem with Moq where I can't verify if p => p["dummy"] was called
+                Assert.Equal(1, chamadasEntityDummy);    // HACK: there's a problem with Moq where I can't verify if p => p["dummy"] was called
                 mockConfig.VerifyGet(p => p.DefaultMaxLo, Times.Once());
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldCreateGeneratorGettingTheMaxLoFromSpecificEntityInConfig()
             {
                 // Arrange
@@ -125,25 +125,25 @@ namespace NHiLo.Tests.HiLo
                 mockConfig.VerifyGet(p => p.DefaultMaxLo, Times.Never());
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldRaiseExceptionIfEntityNameStartsWithANumber()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("123name");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldRaiseExceptionIfEntityNameContainsSpaces()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("n ame");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldRaiseExceptionIfEntityNameContainsSingleQuotes()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("name'");
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldRaiseExceptionIfEntityNameHasMoreThan100Chars()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("namesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnames1");
@@ -159,12 +159,12 @@ namespace NHiLo.Tests.HiLo
                 try
                 {
                     factory.GetKeyGenerator(entityName);
-                    Assert.Fail();
+                    throw new XunitException();
                 }
                 catch (NHiloException ex)
                 {
                     // Assert
-                    Assert.AreEqual(ErrorCodes.InvalidEntityName, ex.ErrorCode);
+                    Assert.Equal(ErrorCodes.InvalidEntityName, ex.ErrorCode);
                 }
             }
         }

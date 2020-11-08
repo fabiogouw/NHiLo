@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using NHiLo.HiLo.Repository;
 using NHiLo.HiLo.Config;
 using System.Data.Common;
@@ -39,7 +39,6 @@ namespace NHiLo.Tests.HiLo.Repository
             }
         }
 
-        [TestClass]
         public class PrepareRepository
         {
             private Mock<IHiLoConfiguration> SetupConfiguration(Mock<IHiLoConfiguration> mock, bool createHiLoStructureIfNotExists)
@@ -62,7 +61,7 @@ namespace NHiLo.Tests.HiLo.Repository
                 return target;
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldInvokeTheInitializeRepositoryMethodWithoutCreatingRepositoryStructure()
             {
                 // Arrange
@@ -74,11 +73,11 @@ namespace NHiLo.Tests.HiLo.Repository
                 // Act
                 target.PrepareRepository();
                 // Assert
-                Assert.AreEqual(1, target.CallsToInitializeRepositoryForEntity);
-                Assert.AreEqual(0, target.CallsToCreateRepositoryStructure);
+                Assert.Equal(1, target.CallsToInitializeRepositoryForEntity);
+                Assert.Equal(0, target.CallsToCreateRepositoryStructure);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldInvokeTheInitializeRepositoryMethodCreatingRepositoryStructure()
             {
                 // Arrange
@@ -90,8 +89,8 @@ namespace NHiLo.Tests.HiLo.Repository
                 // Act
                 target.PrepareRepository();
                 // Assert
-                Assert.AreEqual(1, target.CallsToInitializeRepositoryForEntity);
-                Assert.AreEqual(1, target.CallsToCreateRepositoryStructure);
+                Assert.Equal(1, target.CallsToInitializeRepositoryForEntity);
+                Assert.Equal(1, target.CallsToCreateRepositoryStructure);
             }
 
         }

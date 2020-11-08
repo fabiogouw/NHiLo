@@ -8,8 +8,8 @@ namespace NHiLo.Common.Config
 {
     public interface IConfigurationManager
     {
-        NameValueCollection AppSettings { get; }
-        ConnectionStringSettingsCollection ConnectionStrings { get; }
+        //NameValueCollection AppSettings { get; }
+        //ConnectionStringSettingsCollection ConnectionStrings { get; }
         T GetSection<T>(string sectionName);
     }
 }

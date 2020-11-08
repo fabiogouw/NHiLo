@@ -4,24 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
 using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace NHiLo.Common.Config
 {
     public class ConfigurationManagerWrapper : IConfigurationManager
     {
-        public NameValueCollection AppSettings
-        {
-            get { return ConfigurationManager.AppSettings; }
-        }
 
-        public ConnectionStringSettingsCollection ConnectionStrings
+        private IConfigurationRoot _configuration;
+
+        public ConfigurationManagerWrapper(IConfigurationRoot configuration)
         {
-            get { return ConfigurationManager.ConnectionStrings; }
+            _configuration = configuration;
         }
 
         public T GetSection<T>(string sectionName)
         {
-            return (T)ConfigurationManager.GetSection(sectionName);
+            return (T)_configuration.GetSection(sectionName);
         }
     }
 }

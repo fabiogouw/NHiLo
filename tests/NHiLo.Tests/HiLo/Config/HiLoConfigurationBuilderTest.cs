@@ -1,20 +1,20 @@
 ﻿using NHiLo.HiLo.Config;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System;
 using System.Configuration;
 using Moq;
 using NHiLo.Common.Config;
 using NHiLo.Common;
 using NHiLo.Tests.TestDoubles.Config;
+using Xunit.Sdk;
 
 namespace NHiLo.Tests.HiLo.Config
 {
     public class HiLoConfigurationBuilderTest
     {
-        [TestClass]
         public class Build
         {
-            [TestMethod()]
+            [Fact]
             public void ShouldThrowAnExceptionWhenTheresNoConnectionStringAvailableAtConfiguration()
             {
                 // Arrange
@@ -24,16 +24,16 @@ namespace NHiLo.Tests.HiLo.Config
                 {
                     // Act
                     var actual = target.Build();
-                    Assert.Fail();
+                    throw new XunitException();
                 }
                 catch (NHiloException ex)
                 {
                     // Assert
-                    Assert.AreEqual(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);
+                    Assert.Equal(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);
                 }
             }
 
-            [TestMethod()]
+            [Fact]
             public void ShouldReturnTheLastConnectionStringInConfigFileAsTheConnectionForNHiLosUseWhenTheConnectionWasntSpecified()
             {
                 // Arrange
@@ -43,11 +43,11 @@ namespace NHiLo.Tests.HiLo.Config
                 // Act
                 var actual = target.Build();
                 // Assert
-                Assert.AreEqual("fake connection string", actual.ConnectionString);
-                Assert.AreEqual("fake provider", actual.ProviderName);
+                Assert.Equal("fake connection string", actual.ConnectionString);
+                Assert.Equal("fake provider", actual.ProviderName);
             }
 
-            [TestMethod()]
+            [Fact]
             public void ShouldReturnTheConnectionStringInConfigFileSpecifiedByKeyGeneratorConfigurationSection()
             {
                 // Arrange
@@ -60,11 +60,11 @@ namespace NHiLo.Tests.HiLo.Config
                 // Act
                 var actual = target.Build();
                 // Assert
-                Assert.AreEqual("first connection string", actual.ConnectionString);
-                Assert.AreEqual("first provider", actual.ProviderName);
+                Assert.Equal("first connection string", actual.ConnectionString);
+                Assert.Equal("first provider", actual.ProviderName);
             }
 
-            [TestMethod()]
+            [Fact]
             public void ShouldThrowAnExceptionWhenTheConnectionStringAvailableAtConfigurationDoesNotMatchWithTheOnesInConfigFile()
             {
                 // Arrange
@@ -78,12 +78,12 @@ namespace NHiLo.Tests.HiLo.Config
                 {
                     // Act
                     var actual = target.Build();
-                    Assert.Fail();
+                    throw new XunitException();
                 }
                 catch (NHiloException ex)
                 {
                     // Assert
-                    Assert.AreEqual(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);
+                    Assert.Equal(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);
                 }
             }
         }

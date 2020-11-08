@@ -20,3 +20,6 @@
 * 1.4.0 - 2017-04-03
 	- Adding support to SQL Server's sequences.
 	- Adding support to generate 20 byte string guids (ASCII85).
+
+* 2.0.0
+	- Upgrading to .NET Standard

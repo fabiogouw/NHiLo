@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Fabio Gouw")]
 [assembly: AssemblyProduct("NHiLo")]
-[assembly: AssemblyCopyright("Copyright © Fabio Gouw 2017")]
+[assembly: AssemblyCopyright("Copyright © Fabio Gouw 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,5 +33,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.4.0.0")]
-[assembly: AssemblyInformationalVersion("1.4.0")]
+[assembly: AssemblyInformationalVersion("2.0.0")]
 [assembly: InternalsVisibleTo("NHiLo.Tests")]

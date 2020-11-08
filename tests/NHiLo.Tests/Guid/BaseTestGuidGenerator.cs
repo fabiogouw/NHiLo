@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using NHiLo.Guid;
 
 namespace NHiLo.Tests.Guid
@@ -12,7 +12,7 @@ namespace NHiLo.Tests.Guid
                 // Act
                 string key = generator.GetKey();
                 // Assert
-                Assert.AreNotEqual(System.Guid.Empty.ToString(), key);
+                Assert.NotEqual(System.Guid.Empty.ToString(), key);
             }
 
             protected void ShouldGetDifferentKeys(IKeyGenerator<string> generator)
@@ -21,7 +21,7 @@ namespace NHiLo.Tests.Guid
                 string key1 = generator.GetKey();
                 string key2 = generator.GetKey();
                 // Assert
-                Assert.AreNotEqual(key1, key2);
+                Assert.NotEqual(key1, key2);
             }
         }
     }

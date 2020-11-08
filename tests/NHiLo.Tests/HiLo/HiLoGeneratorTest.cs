@@ -1,17 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using Moq;
 using NHiLo.HiLo;
 using System;
 using System.Collections.Generic;
+using Xunit.Sdk;
 
 namespace NHiLo.Tests.HiLo
 {
     public class HiLoGeneratorTest
     {
-        [TestClass]
         public class ctor
         {
-            [TestMethod]
+            [Fact]
             public void ShouldFailCreatingInstanceWithNullAsRepository()
             {
                 // Arrange
@@ -21,14 +21,14 @@ namespace NHiLo.Tests.HiLo
                     // Act
                     var generator = new HiLoGenerator(repository, 0);
                     // Assert
-                    Assert.Fail();
+                    throw new XunitException();
                 }
                 catch (ArgumentException)
                 {
                 }
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldFailCreatingInstanceWith0AsMaxLo()
             {
                 // Arrange
@@ -38,7 +38,7 @@ namespace NHiLo.Tests.HiLo
                     // Act
                     var generator = new HiLoGenerator(mock.Object, 0);
                     // Assert
-                    Assert.Fail();
+                    throw new XunitException();
                 }
                 catch (ArgumentException)
                 {
@@ -46,10 +46,9 @@ namespace NHiLo.Tests.HiLo
             }
         }
 
-        [TestClass]
         public class GetKey
         {
-            [TestMethod]
+            [Fact]
             public void ShouldGetTheHiValueFromRepository()
             {
                 // Arrange
@@ -62,7 +61,7 @@ namespace NHiLo.Tests.HiLo
                 mock.Verify(m => m.GetNextHi(), Times.Once());
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGetTheHiValueFromRepositoryOnceFor10KeyGenerationsWith10AsMaxLo()
             {
                 // Arrange
@@ -76,7 +75,7 @@ namespace NHiLo.Tests.HiLo
                 mock.Verify(m => m.GetNextHi(), Times.Once());
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGetTheHiValueFromRepositoryTwiceFor11KeyGenerationsWith10AsMaxLo()
             {
                 // Arrange
@@ -90,7 +89,7 @@ namespace NHiLo.Tests.HiLo
                 mock.Verify(m => m.GetNextHi(), Times.Exactly(2));
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGetTheFirstKeyFromTheHiValue()
             {
                 // Arrange
@@ -100,10 +99,10 @@ namespace NHiLo.Tests.HiLo
                 // Act
                 long key = generator.GetKey();
                 // Assert
-                Assert.AreEqual(10, key);
+                Assert.Equal(10, key);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGetTheSecondKeyFromTheHiValue()
             {
                 // Arrange
@@ -114,10 +113,10 @@ namespace NHiLo.Tests.HiLo
                 generator.GetKey();
                 long key = generator.GetKey();
                 // Assert
-                Assert.AreEqual(11, key);
+                Assert.Equal(11, key);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGetThe11thKeyFromTheHiValue()
             {
                 // Arrange
@@ -130,10 +129,10 @@ namespace NHiLo.Tests.HiLo
                     generator.GetKey();
                 long key = generator.GetKey();
                 // Assert
-                Assert.AreEqual(20, key);
+                Assert.Equal(20, key);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGetDifferentKeysForEachCall()
             {
                 // Arrange
@@ -147,7 +146,7 @@ namespace NHiLo.Tests.HiLo
                 {
                     long key = generator.GetKey();
                     // Assert
-                    Assert.IsFalse(keys.Contains(key));
+                    Assert.False(keys.Contains(key));
                     keys.Add(key);
                 }
             }

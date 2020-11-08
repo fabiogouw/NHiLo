@@ -1,15 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using NHiLo.Guid;
 
 namespace NHiLo.Tests.Guid
 {
     public class GuidGeneratorTest
     {
-        [TestClass]
         public class GetKey : BaseTestGuidGenerator.GetKey
         {
-            [TestMethod]
-            public void ShouldGetANonNullGuid()
+            [Fact]
+            public void ShouldGetANonNullGuidv4()
             {
                 // Arrange
                 var generator = new GuidGenerator();
@@ -17,8 +16,8 @@ namespace NHiLo.Tests.Guid
                 ShouldGetANonNullGuid(generator);
             }
 
-            [TestMethod]
-            public void ShouldGetDifferentKeys()
+            [Fact]
+            public void ShouldGetDifferentKeysv4()
             {
                 // Arrange
                 var generator = new GuidGenerator();

@@ -1,15 +1,14 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
 using NHiLo.Guid;
 
 namespace NHiLo.Tests.Guid
 {
     public class Ascii85GuidGeneratorTest
     {
-        [TestClass]
         public class GetKey : BaseTestGuidGenerator.GetKey
         {
-            [TestMethod]
-            public void ShouldGetANonNullGuid()
+            [Fact]
+            public void ShouldGetANonNullAscii85Guid()
             {
                 // Arrange
                 var generator = new Ascii85GuidGenerator();
@@ -17,8 +16,8 @@ namespace NHiLo.Tests.Guid
                 ShouldGetANonNullGuid(generator);
             }
 
-            [TestMethod]
-            public void ShouldGetDifferentKeys()
+            [Fact]
+            public void ShouldGetDifferentAscii85Keys()
             {
                 // Arrange
                 var generator = new Ascii85GuidGenerator();
@@ -26,7 +25,7 @@ namespace NHiLo.Tests.Guid
                 ShouldGetDifferentKeys(generator);
             }
 
-            [TestMethod]
+            [Fact]
             public void ShouldGet20LengthGuid()
             {
                 // Arrange
@@ -34,7 +33,7 @@ namespace NHiLo.Tests.Guid
                 // Act
                 var key = generator.GetKey();
                 // Assert
-                Assert.AreEqual(20, key.Length);
+                Assert.Equal(20, key.Length);
             }
 
         }
