@@ -10,10 +10,16 @@ namespace NHiLo.HiLo.Config
 {
     public class HiLoConfigElement : KeyGeneratorConfigElement, IHiLoConfiguration
     {
+        public HiLoConfigElement()
+        {
+            // TODO: inicializar aqui corretamente
+            //Entities = new List<EntityConfigElement>();
+        }
+
         [ConfigurationProperty("connectionStringId", IsRequired = false, DefaultValue="")]
         public string ConnectionStringId
         {
-            get { return (string)this["connectionStringId"]; }
+            get; internal set;
         }
 
         public string ConnectionString { get; set; }
@@ -23,54 +29,54 @@ namespace NHiLo.HiLo.Config
         [ConfigurationProperty("createHiLoStructureIfNotExists", IsRequired = false, DefaultValue = true)]
         public bool CreateHiLoStructureIfNotExists
         {
-            get { return (bool)this["createHiLoStructureIfNotExists"]; }
+            get; internal set;
         }
 
         [ConfigurationProperty("defaultMaxLo", IsRequired = false, DefaultValue = 100)]
         public int DefaultMaxLo
         {
-            get { return (int)this["defaultMaxLo"]; }
+            get; internal set;
         }
 
         public IEntityConfiguration GetEntityConfig(string entityName)
         {
-            return Entities[entityName];
+            return Entities.SingleOrDefault(v => v.Name == entityName);
         }
 
         [ConfigurationProperty("entities", IsRequired = false)]
-        private EntityConfigElementCollection Entities
+        public List<IEntityConfiguration> Entities
         {
-            get { return this["entities"] as EntityConfigElementCollection; }
+            get; internal set;
         }
 
         [ConfigurationProperty("tableName", IsRequired = false, DefaultValue = "NHILO")]
         public string TableName
         {
-            get { return (string)this["tableName"]; }
+            get; internal set;
         }
 
         [ConfigurationProperty("nextHiColumnName", IsRequired = false, DefaultValue = "NEXT_HI")]
         public string NextHiColumnName
         {
-            get { return (string)this["nextHiColumnName"]; }
+            get; internal set;
         }
 
         [ConfigurationProperty("entityColumnName", IsRequired = false, DefaultValue = "ENTITY")]
         public string EntityColumnName
         {
-            get { return (string)this["entityColumnName"]; }
+            get; internal set;
         }
 
         [ConfigurationProperty("storageType", IsRequired = false, DefaultValue = "Table")]
         public HiLoStorageType StorageType
         {
-            get { return (HiLoStorageType)this["storageType"]; }
+            get; internal set;
         }
 
         [ConfigurationProperty("objectPrefix", IsRequired = false, DefaultValue = "")]
         public string ObjectPrefix
         {
-            get { return (string)this["objectPrefix"]; }
+            get; internal set;
         }
     }
 }

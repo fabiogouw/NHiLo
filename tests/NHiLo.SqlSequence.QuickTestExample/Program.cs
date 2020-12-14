@@ -13,11 +13,13 @@ namespace NHiLo.SqlSequence.QuickTestExample
     {
         static void Main(string[] args)
         {
+            /*
             var factory = new HiLoGeneratorFactory();
             var generator = factory.GetKeyGenerator("myEntity");
             Console.WriteLine(generator.GetKey());
             Console.WriteLine(generator.GetKey());
             Console.WriteLine(generator.GetKey());
+            */
         }
     }
 }

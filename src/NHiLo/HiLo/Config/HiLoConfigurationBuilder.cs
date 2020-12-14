@@ -29,14 +29,12 @@ namespace NHiLo.HiLo.Config
 
         private IHiLoConfiguration GetHiLoConfigurationSection()
         {
-            var keyGeneratorConfig = _configuration.GetSection<IKeyGeneratorConfiguration>("nhilo");
-            var hiloConfig = keyGeneratorConfig != null ? keyGeneratorConfig.HiloKeyGenerator : new HiLoConfigElement();
-            return hiloConfig;
+            return _configuration.GetKeyGeneratorConfigurationSection() ?? new HiLoConfigElement();
         }
 
         private ConnectionStringsSection GetConnectionStringsConfigurationSection()
         {
-            var connectionStringsConfig = _configuration.GetSection<ConnectionStringsSection>("connectionStrings");
+            var connectionStringsConfig = _configuration.GetConnectionStringsSection();
             CheckConsistenceOfConnectionStringsSection(connectionStringsConfig);
             return connectionStringsConfig;
         }

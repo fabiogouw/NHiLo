@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30709.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0743066B-0FEC-48D2-9A77-804A51ECC55F}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E2195FEA-984
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{10A18B4F-0D57-48AF-927B-F7D2DBDA7512}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo", "src\NHiLo\NHiLo.csproj", "{3FB860C7-CC27-4865-ACD4-0C8E2903AE9E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo", "src\NHiLo\NHiLo.csproj", "{3FB860C7-CC27-4865-ACD4-0C8E2903AE9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Example", "tests\NHiLo.Example\NHiLo.Example.csproj", "{3C9F4024-9FE2-4332-B293-2122136F2902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Example", "tests\NHiLo.Example\NHiLo.Example.csproj", "{3C9F4024-9FE2-4332-B293-2122136F2902}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.SqlSequence.QuickTestExample", "tests\NHiLo.SqlSequence.QuickTestExample\NHiLo.SqlSequence.QuickTestExample.csproj", "{1EB09A27-971E-46EB-9A8D-A929D94B15BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.SqlSequence.QuickTestExample", "tests\NHiLo.SqlSequence.QuickTestExample\NHiLo.SqlSequence.QuickTestExample.csproj", "{1EB09A27-971E-46EB-9A8D-A929D94B15BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Tests", "tests\NHiLo.Tests\NHiLo.Tests.csproj", "{54C5832B-4A8D-4294-9E84-FD6AD9D8CE29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests", "tests\NHiLo.Tests\NHiLo.Tests.csproj", "{54C5832B-4A8D-4294-9E84-FD6AD9D8CE29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,9 +45,9 @@ Global
 		{3FB860C7-CC27-4865-ACD4-0C8E2903AE9E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3FB860C7-CC27-4865-ACD4-0C8E2903AE9E}.Release|x86.ActiveCfg = Release|Any CPU
 		{3FB860C7-CC27-4865-ACD4-0C8E2903AE9E}.Release|x86.Build.0 = Release|Any CPU
-		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|x86.ActiveCfg = Debug|x86
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|x86.Build.0 = Debug|x86
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Release|Any CPU.ActiveCfg = Release|x86
@@ -88,6 +88,9 @@ Global
 		{3C9F4024-9FE2-4332-B293-2122136F2902} = {10A18B4F-0D57-48AF-927B-F7D2DBDA7512}
 		{1EB09A27-971E-46EB-9A8D-A929D94B15BB} = {10A18B4F-0D57-48AF-927B-F7D2DBDA7512}
 		{54C5832B-4A8D-4294-9E84-FD6AD9D8CE29} = {10A18B4F-0D57-48AF-927B-F7D2DBDA7512}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D1477E3-5EF6-4181-A483-9A6ABAC4A7DB}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = NHiLo.vsmdi

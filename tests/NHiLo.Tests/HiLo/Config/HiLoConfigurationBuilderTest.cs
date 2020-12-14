@@ -46,7 +46,7 @@ namespace NHiLo.Tests.HiLo.Config
                 Assert.Equal("fake connection string", actual.ConnectionString);
                 Assert.Equal("fake provider", actual.ProviderName);
             }
-
+            /*
             [Fact]
             public void ShouldReturnTheConnectionStringInConfigFileSpecifiedByKeyGeneratorConfigurationSection()
             {
@@ -86,6 +86,7 @@ namespace NHiLo.Tests.HiLo.Config
                     Assert.Equal(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);
                 }
             }
+            */
         }
 
         #region Utils
@@ -95,7 +96,7 @@ namespace NHiLo.Tests.HiLo.Config
             var connectionStringSection = new ConnectionStringsSection();
             connectionStringSection.ConnectionStrings.Add(new ConnectionStringSettings() { Name = "first", ConnectionString = "first connection string", ProviderName = "first provider" });
             connectionStringSection.ConnectionStrings.Add(new ConnectionStringSettings() { Name = "fake", ConnectionString = "fake connection string", ProviderName = "fake provider" });
-            mock.Setup<ConnectionStringsSection>(m => m.GetSection<ConnectionStringsSection>(It.Is<string>(p => p == "connectionStrings"))).Returns(connectionStringSection);
+            //mock.Setup<ConnectionStringsSection>(m => m.GetSection<ConnectionStringsSection>(It.Is<string>(p => p == "connectionStrings"))).Returns(connectionStringSection);
             return mock;
         }
 

@@ -20,27 +20,15 @@ namespace NHiLo // this should be available at the root namespace
         private readonly static Dictionary<string, IKeyGenerator<long>> _keyGenerators = new Dictionary<string, IKeyGenerator<long>>();
         private readonly IHiLoRepositoryFactory _repositoryFactory;
         private readonly IHiLoConfiguration _config;
-        private Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$");
+        private static readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$");
 
-        public HiLoGeneratorFactory() : 
-            this(null, null, null)
-        {
-            // This is the default constructor for client use. It'll pass null values so the protector constructor can provide the default implementation
-        }
-
-        public HiLoGeneratorFactory(IConfigurationRoot configuration) :
-            this(null, null, configuration)
+        public HiLoGeneratorFactory(IConfiguration configuration) :
+            this(null, configuration)
         {
 
         }
 
-        internal HiLoGeneratorFactory(IHiLoRepositoryFactory repositoryFactory, IHiLoConfiguration config) :
-            this(repositoryFactory, config, null)
-        {
-
-        }
-
-        private HiLoGeneratorFactory(IHiLoRepositoryFactory repositoryFactory, IHiLoConfiguration config, IConfigurationRoot configuration)
+        private HiLoGeneratorFactory(IHiLoRepositoryFactory repositoryFactory, IConfiguration configuration)
         {
             if(configuration == null)
             {
@@ -50,10 +38,7 @@ namespace NHiLo // this should be available at the root namespace
                     .AddEnvironmentVariables();
                 configuration = builder.Build();
             }
-            if (config == null)
-            {
-                _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
-            }
+            _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
             _repositoryFactory = repositoryFactory ?? new HiLoRepositoryFactory();
         }
 

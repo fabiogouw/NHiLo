@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections.Specialized;
 using System.Configuration;
+using NHiLo.HiLo.Config;
 
 namespace NHiLo.Common.Config
 {
@@ -10,6 +11,8 @@ namespace NHiLo.Common.Config
     {
         //NameValueCollection AppSettings { get; }
         //ConnectionStringSettingsCollection ConnectionStrings { get; }
-        T GetSection<T>(string sectionName);
+        //T GetSection<T>(string sectionName);
+        IHiLoConfiguration GetKeyGeneratorConfigurationSection();
+        ConnectionStringsSection GetConnectionStringsSection();
     }
 }

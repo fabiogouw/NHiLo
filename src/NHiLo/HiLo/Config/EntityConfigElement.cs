@@ -9,18 +9,18 @@ namespace NHiLo.HiLo.Config
     /// <summary>
     /// Represents the configuration for each entity (aka. table) and its max lo value.
     /// </summary>
-    public class EntityConfigElement : ConfigurationElement, IEntityConfiguration
+    public class EntityConfigElement : IEntityConfiguration
     {
         [ConfigurationProperty("name", IsRequired = true)]
         public virtual string Name
         {
-            get { return (string)this["name"]; }
+            get; internal set;
         }
 
         [ConfigurationProperty("maxLo", IsRequired = false, DefaultValue = 100)]
         public virtual int MaxLo
         {
-            get { return (int)this["maxLo"]; }
+            get; internal set;
         }
     }
 }
