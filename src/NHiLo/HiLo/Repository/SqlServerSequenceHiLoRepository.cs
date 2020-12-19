@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NHiLo.Properties;
 using System.Data;
 using NHiLo.HiLo.Config;
 using System.Text.RegularExpressions;
