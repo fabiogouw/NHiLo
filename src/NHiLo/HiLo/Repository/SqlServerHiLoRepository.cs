@@ -18,7 +18,7 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToInitializeEntity;
 
         public SqlServerHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config)
+            : base(entityName, config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             InitializeSqlStatements(config);
         }

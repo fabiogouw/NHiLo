@@ -50,7 +50,7 @@ Global
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|x86.ActiveCfg = Debug|x86
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Debug|x86.Build.0 = Debug|x86
-		{3C9F4024-9FE2-4332-B293-2122136F2902}.Release|Any CPU.ActiveCfg = Release|x86
+		{3C9F4024-9FE2-4332-B293-2122136F2902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Release|Mixed Platforms.Build.0 = Release|x86
 		{3C9F4024-9FE2-4332-B293-2122136F2902}.Release|x86.ActiveCfg = Release|x86

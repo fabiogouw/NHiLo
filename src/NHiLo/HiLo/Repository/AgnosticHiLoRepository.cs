@@ -18,11 +18,12 @@ namespace NHiLo.HiLo.Repository
         private IHiLoConfiguration _config;
         internal Func<string, DbProviderFactory> DbFactoryCreator { private get; set; } // for testability
 
-        public AgnosticHiLoRepository(string entityName, IHiLoConfiguration config)
+        public AgnosticHiLoRepository(string entityName, IHiLoConfiguration config, DbProviderFactory provider)
         {
             _entityName = entityName;
             _config = config;
-            DbFactoryCreator = (providerName) => DbProviderFactories.GetFactory(providerName);
+            //DbFactoryCreator = (providerName) => DbProviderFactories.GetFactory(providerName);
+            DbFactoryCreator = (providerName) => provider;
         }
 
         public void PrepareRepository()

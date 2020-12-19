@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NHiLo")]
-[assembly: AssemblyDescription("NHiLo core assembly")]
+[assembly: AssemblyDescription("Implementation of the HiLo algorithm for .NET. Available for SQL Server, SQL Server CE, Oracle and MySql.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Fabio Gouw")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NHiLo")]
 [assembly: AssemblyCopyright("Copyright © Fabio Gouw 2020")]
 [assembly: AssemblyTrademark("")]

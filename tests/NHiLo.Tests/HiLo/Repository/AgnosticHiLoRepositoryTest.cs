@@ -14,7 +14,7 @@ namespace NHiLo.Tests.HiLo.Repository
         private class TestableHiLoRepository : AgnosticHiLoRepository
         {
             public TestableHiLoRepository(string entityName, IHiLoConfiguration config)
-                : base(entityName, config)
+                : base(entityName, config, null)    // TODO: verificar este mock
             {
             }
 

@@ -96,7 +96,7 @@ namespace NHiLo.Tests.HiLo.Config
             var connectionStringSection = new ConnectionStringsSection();
             connectionStringSection.ConnectionStrings.Add(new ConnectionStringSettings() { Name = "first", ConnectionString = "first connection string", ProviderName = "first provider" });
             connectionStringSection.ConnectionStrings.Add(new ConnectionStringSettings() { Name = "fake", ConnectionString = "fake connection string", ProviderName = "fake provider" });
-            //mock.Setup<ConnectionStringsSection>(m => m.GetSection<ConnectionStringsSection>(It.Is<string>(p => p == "connectionStrings"))).Returns(connectionStringSection);
+            mock.Setup<ConnectionStringsSection>(m => m.GetConnectionStringsSection()).Returns(connectionStringSection);
             return mock;
         }
 

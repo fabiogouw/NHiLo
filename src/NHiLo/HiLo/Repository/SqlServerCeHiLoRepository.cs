@@ -21,7 +21,7 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToInsertNewEntityToNHilosTable;
 
         public SqlServerCeHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config)
+            : base(entityName, config, System.Data.SQLite.SQLiteFactory.Instance)
         {
             InitializeSqlStatements(config);
         }

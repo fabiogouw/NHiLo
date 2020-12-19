@@ -25,81 +25,70 @@ namespace NHiLo.Tests.HiLo
                 // Assert
                 Assert.IsAssignableFrom<HiLoGenerator>(generator);
             }
-            /*
+            
             [Fact]
             public void ShouldReturnTheSameInstanceForTheSameEntity()
             {
                 // Arrange
                 var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
-                mockConfig.SetupGet(p => p.ConnectionStringId).Returns("");
-                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
-                var factory = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                var factory = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 var generator1 = factory.GetKeyGenerator("dummy");
                 var generator2 = factory.GetKeyGenerator("dummy");
                 // Assert
                 Assert.Same(generator1, generator2);
             }
-
+            
             [Fact]
             public void ShouldReturnTheSameInstanceForTheSameEntityAndForDifferentFactories()
             {
                 // Arrange
                 var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
-                mockConfig.SetupGet(p => p.ConnectionStringId).Returns("");
-                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
-                var factory1 = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
-                var factory2 = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                var factory1 = new HiLoGeneratorFactory(mockConfig);
+                var factory2 = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 var generator1 = factory1.GetKeyGenerator("dummy");
                 var generator2 = factory2.GetKeyGenerator("dummy");
                 // Assert
                 Assert.Same(generator1, generator2);
             }
-
+            
             [Fact]
             public void ShouldReturnDifferentInstancesForDifferentEntities()
             {
                 // Arrange
                 var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
-                mockConfig.SetupGet(p => p.ConnectionStringId).Returns("");
-                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
-                var factory = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                var factory = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 var generator1 = factory.GetKeyGenerator("dummy1");
                 var generator2 = factory.GetKeyGenerator("dummy2");
                 // Assert
                 Assert.NotSame(generator1, generator2);
             }
-
+            
             [Fact]
             public void ShouldReturnDifferentInstancesForDifferentEntitiesAndForDifferentFactories()
             {
                 // Arrange
                 var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
-                mockConfig.SetupGet(p => p.ConnectionStringId).Returns("");
-                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
-                var factory1 = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
-                var factory2 = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                var factory1 = new HiLoGeneratorFactory(mockConfig);
+                var factory2 = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 var generator1 = factory1.GetKeyGenerator("dummy1");
                 var generator2 = factory2.GetKeyGenerator("dummy2");
                 // Assert
                 Assert.NotSame(generator1, generator2);
             }
-
+            /*
             [Fact]
             public void ShouldCreateGeneratorGettingTheDefaultMaxLoFromConfig()
             {
                 // Arrange
-                int chamadasEntityDummy = 0;
-                var mockConfig = new Mock<IHiLoConfiguration>();
-                mockConfig.SetupGet(p => p.DefaultMaxLo).Returns(100);
-                mockConfig.Setup(m => m.GetEntityConfig(It.Is<string>(p => p == "dummy4"))).Returns(null as IEntityConfiguration).Callback(() => chamadasEntityDummy++);
-                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
-                var factory = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
+                var factory = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 var generator = factory.GetKeyGenerator("dummy4");
+                generator.ge
                 // Assert
                 Assert.Equal(1, chamadasEntityDummy);    // HACK: there's a problem with Moq where I can't verify if p => p["dummy"] was called
                 mockConfig.VerifyGet(p => p.DefaultMaxLo, Times.Once());
@@ -121,7 +110,7 @@ namespace NHiLo.Tests.HiLo
                 mockEntity1.VerifyGet(p => p.MaxLo, Times.Once());
                 mockConfig.VerifyGet(p => p.DefaultMaxLo, Times.Never());
             }
-
+            */
             [Fact]
             public void ShouldRaiseExceptionIfEntityNameStartsWithANumber()
             {
@@ -149,9 +138,8 @@ namespace NHiLo.Tests.HiLo
             private void ShouldRaiseExceptionIfEntityNameIsInvalid(string entityName)
             {
                 // Arrange
-                var mockConfig = new Mock<IHiLoConfiguration>();
-                var mockRepFac = new Mock<IHiLoRepositoryFactory>() { DefaultValue = DefaultValue.Mock };
-                var factory = new HiLoGeneratorFactory(mockRepFac.Object, mockConfig.Object);
+                var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
+                var factory = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 try
                 {
@@ -164,15 +152,12 @@ namespace NHiLo.Tests.HiLo
                     Assert.Equal(ErrorCodes.InvalidEntityName, ex.ErrorCode);
                 }
             }
-            */
         }
 
         #region Utils
 
         public static IConfiguration CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20()
         {
-            var mockConfig = new Mock<IConfiguration>();
-
             var appSettings = @"{
                 ""NHilo"":{
                     ""DefaultMaxLo"" : ""100""
@@ -184,21 +169,9 @@ namespace NHiLo.Tests.HiLo
                     }
                 }
             }";
-
             var builder = new ConfigurationBuilder();
-
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
-
             return builder.Build();
-
-            //mockConfig.SetupGet(x => x[It.Is<string>(v => v == "NHilo:DefaultMaxLo")]).Returns("100");
-            //mockConfig.SetupGet(x => x[It.IsAny<string>()]).Returns(string.Empty);
-            //mockConfig.Setup(m => m.GetSection(It.IsAny<string>())).Returns(new ConfigurationSection()
-            //mockConfig.Setup(m => m.GetSection(It.IsAny<string>())).Returns(string.Empty);
-            //var mockEntity1 = new Mock<IEntityConfiguration>();
-            //mockEntity1.SetupGet(p => p.MaxLo).Returns(20);
-            //mockConfig.Setup(m => m.GetEntityConfig(It.IsAny<string>())).Returns(mockEntity1.Object);
-            //return mockConfig;
         }
 
         #endregion

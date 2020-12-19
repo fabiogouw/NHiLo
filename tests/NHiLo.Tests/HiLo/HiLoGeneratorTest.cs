@@ -146,7 +146,7 @@ namespace NHiLo.Tests.HiLo
                 {
                     long key = generator.GetKey();
                     // Assert
-                    Assert.False(keys.Contains(key));
+                    Assert.DoesNotContain(key, keys);
                     keys.Add(key);
                 }
             }

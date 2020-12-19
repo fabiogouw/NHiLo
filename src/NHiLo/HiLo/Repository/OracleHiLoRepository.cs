@@ -15,7 +15,7 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToInitializeEntity;
     
         public OracleHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config)
+            : base(entityName, config, Oracle.ManagedDataAccess.Client.OracleClientFactory.Instance)
         {
             InitializeSqlStatements(config);
         }

@@ -12,6 +12,7 @@ namespace NHiLo.Tests.Integration.Hilo
     {
         public class GetKeyGenerator
         {
+            /*
             [Fact]
             public void ShouldReturnAValidKey()
             {
@@ -28,6 +29,7 @@ namespace NHiLo.Tests.Integration.Hilo
                 Assert.True(key1 > 0);
                 Assert.True(key2 > 0);
             }
+            */
         }
     }
 }

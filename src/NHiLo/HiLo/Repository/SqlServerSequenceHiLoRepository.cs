@@ -20,7 +20,7 @@ namespace NHiLo.HiLo.Repository
         private Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$");
 
         public SqlServerSequenceHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config)
+            : base(entityName, config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             if (!string.IsNullOrEmpty(config.ObjectPrefix))
             {
