@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHilo", "NHilo\NHilo.csproj", "{49EDF44C-547F-45EC-8C1C-796AD9046FAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Tests", "NHiLo.Tests\NHiLo.Tests.csproj", "{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests", "NHiLo.Tests\NHiLo.Tests.csproj", "{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Tests.Integration", "NHiLo.Tests.Integration\NHiLo.Tests.Integration.csproj", "{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
