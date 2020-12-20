@@ -5,11 +5,14 @@ using System.Text;
 
 namespace NHiLo.HiLo.Repository
 {
+    /// <summary>
+    /// An in-memory implementation for testing purpuse.
+    /// </summary>
     public class InMemoryHiloRepository : IHiLoRepository
     {
-        private static IDictionary<string, long> _repository = new Dictionary<string, long>();
+        private static readonly IDictionary<string, long> _repository = new Dictionary<string, long>();
 
-        private string _entityName;
+        private readonly string _entityName;
         public InMemoryHiloRepository(string entityName, IHiLoConfiguration config)
         {
             _entityName = entityName;

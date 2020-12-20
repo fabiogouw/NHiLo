@@ -1,18 +1,16 @@
 using DotNet.Testcontainers.Containers.Builders;
 using DotNet.Testcontainers.Containers.Modules;
 using DotNet.Testcontainers.Containers.WaitStrategies;
-using System;
-using System.Net;
 using Xunit;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Text;
-using MySql.Data.MySqlClient;
 using Xunit.Abstractions;
 using Oracle.ManagedDataAccess.Client;
 
 namespace NHiLo.Tests.Integration.Repository.Oracle
 {
+    [Collection("Database Integration")]
     public class OracleIntegrationTest
     {
         private readonly ITestOutputHelper _output;
@@ -55,7 +53,7 @@ namespace NHiLo.Tests.Integration.Repository.Oracle
                 builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
                 var factory = new HiLoGeneratorFactory(builder.Build());
 
-                var generator = factory.GetKeyGenerator("myEntity");
+                var generator = factory.GetKeyGenerator("myOracleEntity");
                 long key = generator.GetKey();
                 _output.WriteLine($"Key generated: '{key}'");
                 Assert.True(key > 0, "Expected key to be greater than 0.");
@@ -65,7 +63,7 @@ namespace NHiLo.Tests.Integration.Repository.Oracle
                     connection.Open();
                     await using (var cmd = connection.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT * FROM NHILO WHERE ENTITY = 'myEntity'";
+                        cmd.CommandText = "SELECT * FROM NHILO WHERE ENTITY = 'myOracleEntity'";
                         using (var reader = cmd.ExecuteReader())
                         {
                             reader.Read();

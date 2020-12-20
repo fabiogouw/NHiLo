@@ -22,7 +22,7 @@ namespace NHiLo.HiLo.Repository
         {
             _factoryFunctions = new Dictionary<string, CreateIHiLoRepositoryFunction>()
             {
-                { "System.Data.SqlClient", (entityName, config) => GetSqlServerRepository(entityName, config) },
+                { "Microsoft.Data.SqlClient", (entityName, config) => GetSqlServerRepository(entityName, config) },
                 { "MySql.Data.MySqlClient", (entityName, config) => new MySqlHiLoRepository(entityName, config) },
                 { "System.Data.SqlServerCe.3.5", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
                 { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
@@ -36,7 +36,7 @@ namespace NHiLo.HiLo.Repository
             IHiLoRepository repository = null;
             string provider = config.ProviderName;
             if (!_factoryFunctions.ContainsKey(provider))
-                throw new ArgumentException("Repository not implemented (yet).", provider);
+                throw new ArgumentException($"Provider '{ provider }' for repository not implemented.");
             repository = _factoryFunctions[provider](entityName, config);
             repository.PrepareRepository();
             return repository;

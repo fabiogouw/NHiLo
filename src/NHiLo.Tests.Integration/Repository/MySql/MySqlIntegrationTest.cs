@@ -12,6 +12,7 @@ using Xunit.Abstractions;
 
 namespace NHiLo.Tests.Integration.Repository.MySql
 {
+    [Collection("Database Integration")]
     public class MySqlIntegrationTest
     {
         private readonly ITestOutputHelper _output;
@@ -33,7 +34,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
               .WithEnvironment("MYSQL_USER", "myUser")
               .WithEnvironment("MYSQL_PASSWORD", "myPassword")
               .WithPortBinding(3306)
-              .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(3306));
+              .WithWaitStrategy(Wait.ForUnixContainer().UntilCommandIsCompleted($"mysql --host='localhost' --port='3306' --user='myUser' --password='myPassword' --protocol=TCP --execute 'SHOW DATABASES;'"));
 
             await using (var testcontainer = testcontainersBuilder.Build())
             {
@@ -54,7 +55,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                 builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
                 var factory = new HiLoGeneratorFactory(builder.Build());
 
-                var generator = factory.GetKeyGenerator("myEntity");
+                var generator = factory.GetKeyGenerator("myMySqlEntity");
                 long key = generator.GetKey();
                 _output.WriteLine($"Key generated: '{key}'");
                 Assert.True(key > 0, "Expected key to be greater than 0.");
@@ -65,7 +66,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                     await using (var cmd = new MySqlCommand())
                     {
                         cmd.Connection = connection;
-                        cmd.CommandText = "SELECT * FROM NHILO WHERE ENTITY = 'myEntity'";
+                        cmd.CommandText = "SELECT * FROM NHILO WHERE ENTITY = 'myMySqlEntity'";
                         using (var reader = cmd.ExecuteReader())
                         {
                             reader.Read();

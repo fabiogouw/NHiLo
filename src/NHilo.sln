@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHilo", "NHilo\NHilo.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests", "NHiLo.Tests\NHiLo.Tests.csproj", "{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Tests.Integration", "NHiLo.Tests.Integration\NHiLo.Tests.Integration.csproj", "{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests.Integration", "NHiLo.Tests.Integration\NHiLo.Tests.Integration.csproj", "{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1D19C28F-CF17-4DAB-866A-CD3B30DEA1E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8} = {1D19C28F-CF17-4DAB-866A-CD3B30DEA1E7}
+		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF} = {1D19C28F-CF17-4DAB-866A-CD3B30DEA1E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B4529A7-B710-429D-AB7F-11F4D1D5BDEA}

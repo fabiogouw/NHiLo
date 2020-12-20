@@ -11,7 +11,7 @@ namespace NHiLo.HiLo
     /// </summary>
     public class HiLoGenerator : IKeyGenerator<long>
     {
-        private static object _lock = new object(); // for handling multiple calls at the same time
+        private static readonly object _lock = new object(); // for handling multiple calls at the same time
         private readonly IHiLoRepository _repository;
         private long _currentHi;
         private readonly int _maxLo;
