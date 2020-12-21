@@ -28,3 +28,4 @@
 	- Changing the SQL Server provider from System.Data.SqlClient to Microsoft.Data.SqlClient
 	- Adding integration tests (Docker images / Test Containers framework)
 	- Adding the possibility to register custom Hilo repositories
+	- Dropping support for SQL Server CE, since Microsoft will no longer support it after July 2021 and it doesn't have a .NET Core package

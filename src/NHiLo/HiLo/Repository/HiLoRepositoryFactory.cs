@@ -23,8 +23,6 @@ namespace NHiLo.HiLo.Repository
             {
                 ["Microsoft.Data.SqlClient"] = (entityName, config) => GetSqlServerRepository(entityName, config),
                 ["MySql.Data.MySqlClient"] = (entityName, config) => new MySqlHiLoRepository(entityName, config),
-                ["System.Data.SqlServerCe.3.5"] = (entityName, config) => new SqlServerCeHiLoRepository(entityName, config),
-                ["System.Data.SqlServerCe.4.0"] = (entityName, config) => new SqlServerCeHiLoRepository(entityName, config),
                 ["System.Data.OracleClient"] = (entityName, config) => new OracleHiLoRepository(entityName, config),
                 ["NHilo.InMemory"] = (entityName, config) => new InMemoryHiloRepository(entityName, config)
             };
