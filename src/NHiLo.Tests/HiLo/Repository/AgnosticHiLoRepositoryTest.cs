@@ -1,11 +1,10 @@
-﻿using System;
-using Xunit;
-using NHiLo.HiLo.Repository;
+﻿using Moq;
 using NHiLo.HiLo.Config;
-using System.Data.Common;
-using Moq;
-using System.Data;
+using NHiLo.HiLo.Repository;
 using NHiLo.Tests.TestDoubles;
+using System.Data;
+using System.Data.Common;
+using Xunit;
 
 namespace NHiLo.Tests.HiLo.Repository
 {
@@ -62,6 +61,7 @@ namespace NHiLo.Tests.HiLo.Repository
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldInvokeTheInitializeRepositoryMethodWithoutCreatingRepositoryStructure()
             {
                 // Arrange
@@ -78,6 +78,7 @@ namespace NHiLo.Tests.HiLo.Repository
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldInvokeTheInitializeRepositoryMethodCreatingRepositoryStructure()
             {
                 // Arrange

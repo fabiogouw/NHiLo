@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHilo.HiLo.Repository;
 using NHiLo.HiLo.Config;
+using System;
+using System.Collections.Concurrent;
 
 namespace NHiLo.HiLo.Repository
 {
@@ -16,28 +15,29 @@ namespace NHiLo.HiLo.Repository
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
-        private readonly Dictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions;
+        private readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions;
 
         public HiLoRepositoryFactory()
         {
-            _factoryFunctions = new Dictionary<string, CreateIHiLoRepositoryFunction>()
+            _factoryFunctions = new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
-                { "Microsoft.Data.SqlClient", (entityName, config) => GetSqlServerRepository(entityName, config) },
-                { "MySql.Data.MySqlClient", (entityName, config) => new MySqlHiLoRepository(entityName, config) },
-                { "System.Data.SqlServerCe.3.5", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-                { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-                { "System.Data.OracleClient", (entityName, config) => new OracleHiLoRepository(entityName, config) },
-                { "NHilo.InMemory", (entityName, config) => new InMemoryHiloRepository(entityName, config) }
+                ["Microsoft.Data.SqlClient"] = (entityName, config) => GetSqlServerRepository(entityName, config),
+                ["MySql.Data.MySqlClient"] = (entityName, config) => new MySqlHiLoRepository(entityName, config),
+                ["System.Data.SqlServerCe.3.5"] = (entityName, config) => new SqlServerCeHiLoRepository(entityName, config),
+                ["System.Data.SqlServerCe.4.0"] = (entityName, config) => new SqlServerCeHiLoRepository(entityName, config),
+                ["System.Data.OracleClient"] = (entityName, config) => new OracleHiLoRepository(entityName, config),
+                ["NHilo.InMemory"] = (entityName, config) => new InMemoryHiloRepository(entityName, config)
             };
         }
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
         {
-            IHiLoRepository repository = null;
             string provider = config.ProviderName;
+            if (string.IsNullOrWhiteSpace(provider))
+                throw new NHiloException(ErrorCodes.NoProviderName);
             if (!_factoryFunctions.ContainsKey(provider))
-                throw new ArgumentException($"Provider '{ provider }' for repository not implemented.");
-            repository = _factoryFunctions[provider](entityName, config);
+                throw new NHiloException(ErrorCodes.ProviderNotImplemented).WithInfo("Provider Name", provider);
+            var repository = new ExceptionWrapperRepository(() => _factoryFunctions[provider](entityName, config));
             repository.PrepareRepository();
             return repository;
         }
@@ -49,6 +49,14 @@ namespace NHiLo.HiLo.Repository
                 return new SqlServerSequenceHiLoRepository(entityName, config);
             }
             return new SqlServerHiLoRepository(entityName, config);
+        }
+
+        public void RegisterRepository(string providerName, Func<IHiLoRepository> funcCreateRepository)
+        {
+            if (string.IsNullOrWhiteSpace(providerName))
+                throw new ArgumentException($"Provider name cannot be registered with an empty value.");
+            if (!_factoryFunctions.ContainsKey(providerName))
+                _factoryFunctions.TryAdd(providerName, (entityName, config) => funcCreateRepository());
         }
     }
 }

@@ -1,17 +1,19 @@
-﻿using Xunit;
-using Moq;
+﻿using Moq;
 using NHiLo.HiLo;
 using System;
 using System.Collections.Generic;
+using Xunit;
 using Xunit.Sdk;
 
 namespace NHiLo.Tests.HiLo
 {
+    [Trait("Category", "Unit")]
     public class HiLoGeneratorTest
     {
-        public class ctor
+        public class Ctor
         {
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldFailCreatingInstanceWithNullAsRepository()
             {
                 // Arrange
@@ -29,6 +31,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldFailCreatingInstanceWith0AsMaxLo()
             {
                 // Arrange
@@ -49,6 +52,7 @@ namespace NHiLo.Tests.HiLo
         public class GetKey
         {
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetTheHiValueFromRepository()
             {
                 // Arrange
@@ -62,6 +66,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetTheHiValueFromRepositoryOnceFor10KeyGenerationsWith10AsMaxLo()
             {
                 // Arrange
@@ -76,6 +81,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetTheHiValueFromRepositoryTwiceFor11KeyGenerationsWith10AsMaxLo()
             {
                 // Arrange
@@ -90,6 +96,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetTheFirstKeyFromTheHiValue()
             {
                 // Arrange
@@ -103,6 +110,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetTheSecondKeyFromTheHiValue()
             {
                 // Arrange
@@ -117,6 +125,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetThe11thKeyFromTheHiValue()
             {
                 // Arrange
@@ -133,6 +142,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetDifferentKeysForEachCall()
             {
                 // Arrange

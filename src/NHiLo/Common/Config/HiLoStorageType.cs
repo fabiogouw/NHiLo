@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NHiLo.Common.Config
+﻿namespace NHiLo.Common.Config
 {
     /// <summary>
     /// Holds the types of storage that can be used to keep record of the Hi values within the database.

@@ -1,5 +1,4 @@
 ﻿using Xunit;
-using NHiLo.Guid;
 
 namespace NHiLo.Tests.Guid
 {

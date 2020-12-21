@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NHiLo.Common;
-using NHiLo.Common.Config;
 using NHiLo.HiLo;
 using NHiLo.HiLo.Config;
 using NHiLo.HiLo.Repository;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
 namespace NHiLo // this should be available at the root namespace
@@ -15,9 +14,8 @@ namespace NHiLo // this should be available at the root namespace
     /// </summary>
     public class HiLoGeneratorFactory : IKeyGeneratorFactory<long>
     {
-        private readonly static object _lock = new object();
         // When instantiated, key generators are stored in a static field. That's how NHilo keeps the id generation globally per AppDomain.
-        private readonly static Dictionary<string, IKeyGenerator<long>> _keyGenerators = new Dictionary<string, IKeyGenerator<long>>();
+        private readonly static ConcurrentDictionary<string, IKeyGenerator<long>> _keyGenerators = new ConcurrentDictionary<string, IKeyGenerator<long>>();
         private readonly IHiLoRepositoryFactory _repositoryFactory;
         private readonly IHiLoConfiguration _config;
         private static readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$");
@@ -30,7 +28,7 @@ namespace NHiLo // this should be available at the root namespace
 
         private HiLoGeneratorFactory(IHiLoRepositoryFactory repositoryFactory, IConfiguration configuration)
         {
-            if(configuration == null)
+            if (configuration == null)
             {
                 var builder = new ConfigurationBuilder()
                     .SetBasePath(Environment.CurrentDirectory)
@@ -50,10 +48,10 @@ namespace NHiLo // this should be available at the root namespace
         public IKeyGenerator<long> GetKeyGenerator(string entityName)
         {
             EnsureCorrectEntityName(entityName);
-            lock (_lock)
+            lock (_keyGenerators)
             {
                 if (!_keyGenerators.ContainsKey(entityName))
-                    _keyGenerators.Add(entityName, CreateKeyGenerator(entityName));
+                    _keyGenerators.TryAdd(entityName, CreateKeyGenerator(entityName));
                 return _keyGenerators[entityName];
             }
         }
@@ -69,7 +67,8 @@ namespace NHiLo // this should be available at the root namespace
         private IKeyGenerator<long> CreateKeyGenerator(string entityName)
         {
             var entityConfig = _config.GetEntityConfig(entityName);
-            return new HiLoGenerator(_repositoryFactory.GetRepository(entityName, _config), entityConfig != null ? entityConfig.MaxLo : _config.DefaultMaxLo);
+            var repository = _repositoryFactory.GetRepository(entityName, _config);
+            return new HiLoGenerator(repository, entityConfig.MaxLo);
         }
     }
 }

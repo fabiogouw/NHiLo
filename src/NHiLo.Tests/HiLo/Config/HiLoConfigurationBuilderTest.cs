@@ -1,11 +1,8 @@
-﻿using NHiLo.HiLo.Config;
-using Xunit;
-using System;
-using System.Configuration;
-using Moq;
+﻿using Moq;
 using NHiLo.Common.Config;
-using NHiLo.Common;
-using NHiLo.Tests.TestDoubles.Config;
+using NHiLo.HiLo.Config;
+using System.Configuration;
+using Xunit;
 using Xunit.Sdk;
 
 namespace NHiLo.Tests.HiLo.Config
@@ -15,6 +12,7 @@ namespace NHiLo.Tests.HiLo.Config
         public class Build
         {
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldThrowAnExceptionWhenTheresNoConnectionStringAvailableAtConfiguration()
             {
                 // Arrange
@@ -34,6 +32,7 @@ namespace NHiLo.Tests.HiLo.Config
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnTheLastConnectionStringInConfigFileAsTheConnectionForNHiLosUseWhenTheConnectionWasntSpecified()
             {
                 // Arrange
@@ -48,6 +47,7 @@ namespace NHiLo.Tests.HiLo.Config
             }
             /*
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnTheConnectionStringInConfigFileSpecifiedByKeyGeneratorConfigurationSection()
             {
                 // Arrange
@@ -65,6 +65,7 @@ namespace NHiLo.Tests.HiLo.Config
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldThrowAnExceptionWhenTheConnectionStringAvailableAtConfigurationDoesNotMatchWithTheOnesInConfigFile()
             {
                 // Arrange

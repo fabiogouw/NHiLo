@@ -1,9 +1,6 @@
 ﻿using NHiLo.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace NHiLo // this should be available at the root namespace
 {
@@ -11,10 +8,16 @@ namespace NHiLo // this should be available at the root namespace
     /// A custom exception for NHilo.
     /// </summary>
     [Serializable]
-    public class NHiloException : ApplicationException 
+    public class NHiloException : ApplicationException
     {
+
         internal NHiloException(ErrorCodes errorCode)
             : base(GetMessageForErrorCode(errorCode))
+        {
+            ErrorCode = errorCode;
+        }
+        internal NHiloException(ErrorCodes errorCode, Exception innerException)
+            : base(GetMessageForErrorCode(errorCode), innerException)
         {
             ErrorCode = errorCode;
         }
@@ -27,6 +30,12 @@ namespace NHiLo // this should be available at the root namespace
         private static string GetMessageForErrorCode(ErrorCodes errorCode)
         {
             return errorCode.GetDescription();
+        }
+
+        public NHiloException WithInfo(string key, string value)
+        {
+            Data.Add(key, value);
+            return this;
         }
 
         public override void GetObjectData(SerializationInfo info, StreamingContext context)

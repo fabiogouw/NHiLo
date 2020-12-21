@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NHiLo.Common;
 
 namespace NHiLo.HiLo
 {
@@ -24,15 +20,11 @@ namespace NHiLo.HiLo
         /// <param name="maxLo">The value used as the low part of the key.</param>
         public HiLoGenerator(IHiLoRepository repository, int maxLo)
         {
-            if(repository == null)
-            {
-                throw new ArgumentException("An valid instance of IHiLoRepository must be provided.");
-            }
-            if(maxLo <= 0)
+            if (maxLo <= 0)
             {
                 throw new ArgumentException("The value of 'maxLo' must be greater than zero.");
             }
-            _repository = repository;
+            _repository = repository ?? throw new ArgumentException("An valid instance of IHiLoRepository must be provided.");
             _maxLo = maxLo;
         }
 

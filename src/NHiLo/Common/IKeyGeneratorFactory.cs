@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NHiLo // this should be available at the root namespace
+﻿namespace NHiLo // this should be available at the root namespace
 {
     /// <summary>
     /// Represents the contract used to create objects that generate keys.

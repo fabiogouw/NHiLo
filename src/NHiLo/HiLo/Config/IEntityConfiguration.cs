@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NHiLo.HiLo.Config
+﻿namespace NHiLo.HiLo.Config
 {
     public interface IEntityConfiguration
     {

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
-using System.Text;
 
 namespace NHiLo.Tests.TestDoubles
 {
@@ -11,7 +8,7 @@ namespace NHiLo.Tests.TestDoubles
     {
         public override void Commit()
         {
-            
+
         }
 
         protected override DbConnection DbConnection
@@ -26,7 +23,7 @@ namespace NHiLo.Tests.TestDoubles
 
         public override void Rollback()
         {
-            
+
         }
     }
 }

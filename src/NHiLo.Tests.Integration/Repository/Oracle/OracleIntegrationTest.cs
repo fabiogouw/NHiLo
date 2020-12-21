@@ -1,12 +1,12 @@
 using DotNet.Testcontainers.Containers.Builders;
 using DotNet.Testcontainers.Containers.Modules;
 using DotNet.Testcontainers.Containers.WaitStrategies;
-using Xunit;
 using Microsoft.Extensions.Configuration;
+using Oracle.ManagedDataAccess.Client;
 using System.IO;
 using System.Text;
+using Xunit;
 using Xunit.Abstractions;
-using Oracle.ManagedDataAccess.Client;
 
 namespace NHiLo.Tests.Integration.Repository.Oracle
 {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
+﻿using NHiLo.Common;
 using NHiLo.HiLo.Config;
+using System.Data;
 using System.Text.RegularExpressions;
-using NHiLo.Common;
 
 namespace NHiLo.HiLo.Repository
 {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NHiLo // this should be available at the root namespace
+﻿namespace NHiLo // this should be available at the root namespace
 {
     public interface IKeyGenerator<T>
     {

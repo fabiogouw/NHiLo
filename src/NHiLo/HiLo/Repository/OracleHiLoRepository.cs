@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.HiLo.Config;
+using System;
 using System.Data;
-using NHiLo.HiLo.Config;
 
 namespace NHiLo.HiLo.Repository
 {
@@ -13,7 +10,7 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToUpdateNextHiValue;
         private string _sqlStatementToCreateRepository;
         private string _sqlStatementToInitializeEntity;
-    
+
         public OracleHiLoRepository(string entityName, IHiLoConfiguration config)
             : base(entityName, config, Oracle.ManagedDataAccess.Client.OracleClientFactory.Instance)
         {

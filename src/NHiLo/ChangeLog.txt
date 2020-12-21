@@ -27,3 +27,4 @@
 	- Breaking changes in HiLoGeneratorFactory constructor
 	- Changing the SQL Server provider from System.Data.SqlClient to Microsoft.Data.SqlClient
 	- Adding integration tests (Docker images / Test Containers framework)
+	- Adding the possibility to register custom Hilo repositories

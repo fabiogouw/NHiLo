@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-
-namespace NHiLo.Guid
+﻿namespace NHiLo.Guid
 {
     /// <summary>
     /// Create sequential guids to be used as keys encoding them as Ascii85 to produce 20 byte strings (smaller).

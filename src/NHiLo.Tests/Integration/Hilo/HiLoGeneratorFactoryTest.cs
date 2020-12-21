@@ -1,12 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Xunit;
-using NHiLo.HiLo;
-using Microsoft.Extensions.Configuration;
-
-namespace NHiLo.Tests.Integration.Hilo
+﻿namespace NHiLo.Tests.Integration.Hilo
 {
     public class HiLoGeneratorFactoryTest
     {

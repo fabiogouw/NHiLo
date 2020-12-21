@@ -1,5 +1,5 @@
-﻿using Xunit;
-using NHiLo.Guid;
+﻿using NHiLo.Guid;
+using Xunit;
 
 namespace NHiLo.Tests.Guid
 {
@@ -8,6 +8,7 @@ namespace NHiLo.Tests.Guid
         public class GetKey : BaseTestGuidGenerator.GetKey
         {
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetANonNullAscii85Guid()
             {
                 // Arrange
@@ -17,6 +18,7 @@ namespace NHiLo.Tests.Guid
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGetDifferentAscii85Keys()
             {
                 // Arrange
@@ -26,6 +28,7 @@ namespace NHiLo.Tests.Guid
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldGet20LengthGuid()
             {
                 // Arrange

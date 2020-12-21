@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.Common.Config;
 using System.Configuration;
-using NHiLo.Common;
-using NHiLo.Common.Config;
 
 namespace NHiLo.HiLo.Config
 {
     public class HiLoConfigurationBuilder
     {
-        private IConfigurationManager _configuration;
+        private readonly IConfigurationManager _configuration;
         private ConnectionStringsSection _connectionStringsConfig;
 
         public HiLoConfigurationBuilder(IConfigurationManager configuration)
@@ -47,7 +42,7 @@ namespace NHiLo.HiLo.Config
 
         private ConnectionStringSettings FindConnectionStringToBeUsedByHiLoConfiguration(IHiLoConfiguration hiloConfig)
         {
-            ConnectionStringSettings connectionStringSettings = null;
+            ConnectionStringSettings connectionStringSettings;
             if (!string.IsNullOrEmpty(hiloConfig.ConnectionStringId))
                 connectionStringSettings = _connectionStringsConfig.ConnectionStrings[hiloConfig.ConnectionStringId];
             else

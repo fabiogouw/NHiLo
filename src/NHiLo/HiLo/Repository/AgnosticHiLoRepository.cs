@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.HiLo.Config;
+using System;
 using System.Data;
 using System.Data.Common;
-using NHiLo.Common;
-using NHiLo.HiLo.Config;
 
 namespace NHiLo.HiLo.Repository
 {

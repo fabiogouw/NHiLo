@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Moq;
 using NHiLo.HiLo;
-using NHiLo.HiLo.Config;
-using NHiLo.HiLo.Repository;
 using System.IO;
 using System.Text;
 using Xunit;
@@ -15,6 +12,7 @@ namespace NHiLo.Tests.HiLo
         public class GetKeyGenerator
         {
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnAnInstanceOfHiLoGenerator()
             {
                 // Arrange
@@ -25,8 +23,9 @@ namespace NHiLo.Tests.HiLo
                 // Assert
                 Assert.IsAssignableFrom<HiLoGenerator>(generator);
             }
-            
+
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnTheSameInstanceForTheSameEntity()
             {
                 // Arrange
@@ -38,8 +37,9 @@ namespace NHiLo.Tests.HiLo
                 // Assert
                 Assert.Same(generator1, generator2);
             }
-            
+
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnTheSameInstanceForTheSameEntityAndForDifferentFactories()
             {
                 // Arrange
@@ -52,8 +52,9 @@ namespace NHiLo.Tests.HiLo
                 // Assert
                 Assert.Same(generator1, generator2);
             }
-            
+
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnDifferentInstancesForDifferentEntities()
             {
                 // Arrange
@@ -65,8 +66,9 @@ namespace NHiLo.Tests.HiLo
                 // Assert
                 Assert.NotSame(generator1, generator2);
             }
-            
+
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldReturnDifferentInstancesForDifferentEntitiesAndForDifferentFactories()
             {
                 // Arrange
@@ -81,6 +83,7 @@ namespace NHiLo.Tests.HiLo
             }
             /*
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldCreateGeneratorGettingTheDefaultMaxLoFromConfig()
             {
                 // Arrange
@@ -95,6 +98,7 @@ namespace NHiLo.Tests.HiLo
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldCreateGeneratorGettingTheMaxLoFromSpecificEntityInConfig()
             {
                 // Arrange
@@ -112,24 +116,28 @@ namespace NHiLo.Tests.HiLo
             }
             */
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldRaiseExceptionIfEntityNameStartsWithANumber()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("123name");
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldRaiseExceptionIfEntityNameContainsSpaces()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("n ame");
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldRaiseExceptionIfEntityNameContainsSingleQuotes()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("name'");
             }
 
             [Fact]
+            [Trait("Category", "Unit")]
             public void ShouldRaiseExceptionIfEntityNameHasMoreThan100Chars()
             {
                 ShouldRaiseExceptionIfEntityNameIsInvalid("namesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnames1");
@@ -152,6 +160,26 @@ namespace NHiLo.Tests.HiLo
                     Assert.Equal(ErrorCodes.InvalidEntityName, ex.ErrorCode);
                 }
             }
+
+            [Fact]
+            [Trait("Category", "Unit")]
+            public void ShouldRaiseExceptionAsNoProviderNameHasBeenSupplied()
+            {
+                // Arrange
+                var mockConfig = CreateHiloConfigurationWithNoConfigurationForNHiloAndOnlyOneConnectionStringWithNoProviderName();
+                var factory = new HiLoGeneratorFactory(mockConfig);
+                // Act
+                try
+                {
+                    var generator = factory.GetKeyGenerator("dummyNoProviderName");
+                    throw new XunitException();
+                }
+                catch (NHiloException ex)
+                {
+                    // Assert
+                    Assert.Equal(ErrorCodes.NoProviderName, ex.ErrorCode);
+                }
+            }
         }
 
         #region Utils
@@ -167,6 +195,18 @@ namespace NHiLo.Tests.HiLo
                         ""ConnectionString"":""test"",
                         ""ProviderName"":""NHilo.InMemory""
                     }
+                }
+            }";
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
+            return builder.Build();
+        }
+
+        public static IConfiguration CreateHiloConfigurationWithNoConfigurationForNHiloAndOnlyOneConnectionStringWithNoProviderName()
+        {
+            var appSettings = @"{
+                ""ConnectionStrings"":{
+                    ""NHiLo"": ""test""
                 }
             }";
             var builder = new ConfigurationBuilder();

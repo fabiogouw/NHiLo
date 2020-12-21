@@ -1,13 +1,11 @@
 using DotNet.Testcontainers.Containers.Builders;
 using DotNet.Testcontainers.Containers.Modules;
 using DotNet.Testcontainers.Containers.WaitStrategies;
-using System;
-using System.Net;
-using Xunit;
 using Microsoft.Extensions.Configuration;
+using MySql.Data.MySqlClient;
 using System.IO;
 using System.Text;
-using MySql.Data.MySqlClient;
+using Xunit;
 using Xunit.Abstractions;
 
 namespace NHiLo.Tests.Integration.Repository.MySql
