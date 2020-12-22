@@ -4,7 +4,7 @@ using System.Data;
 namespace NHiLo.HiLo.Repository
 {
     /// <summary>
-    /// NHilo's repository implementation for Microsoft SQL Server.
+    /// NHiLo's repository implementation for Microsoft SQL Server.
     /// </summary>
     public class SqlServerHiLoRepository : AgnosticHiLoRepository
     {
@@ -34,8 +34,8 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToCreateRepository;
         private string _sqlStatementToInitializeEntity;
 
-        public SqlServerHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
+        public SqlServerHiLoRepository(IHiLoConfiguration config)
+            : base(config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             InitializeSqlStatements(config);
         }
@@ -51,7 +51,7 @@ namespace NHiLo.HiLo.Repository
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToSelectAndUpdateNextHiValue;
-            cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
+            cmd.Parameters.Add(CreateEntityParameter(cmd, EntityName));
             return (long)cmd.ExecuteScalar();
         }
 
@@ -66,7 +66,7 @@ namespace NHiLo.HiLo.Repository
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToInitializeEntity;
-            cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
+            cmd.Parameters.Add(CreateEntityParameter(cmd, EntityName));
             cmd.ExecuteNonQuery();
         }
     }

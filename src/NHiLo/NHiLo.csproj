@@ -8,7 +8,11 @@
     <Authors>Fabio Gouw</Authors>
     <Company />
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/fabiogouw/NHilo/</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/fabiogouw/NHiLo/</PackageProjectUrl>
+    <PackageId>NHiLo</PackageId>
+    <Product>NHiLo</Product>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +25,13 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="MySql.Data" Version="8.0.22" />
     <PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.100" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

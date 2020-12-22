@@ -2,7 +2,7 @@
 {
     public interface IHiLoRepository
     {
-        void PrepareRepository();
+        void PrepareRepository(string entityName);
         long GetNextHi();
     }
 }

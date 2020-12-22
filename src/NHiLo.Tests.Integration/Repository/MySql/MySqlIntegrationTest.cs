@@ -39,7 +39,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                 await testcontainer.StartAsync();
                 string connectionString = $"Server={ testcontainer.Hostname };Database=myDataBase;Uid=myUser;Pwd=myPassword;";
                 var appSettings = $@"{{
-                    ""NHilo"":{{
+                    ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

@@ -1,6 +1,6 @@
 # NHilo
 
-![.NET](https://github.com/fabiogouw/NHilo/workflows/.NET/badge.svg)
+![Build](https://github.com/fabiogouw/NHilo/workflows/Build/badge.svg)
 
 ## What is NHilo?
 

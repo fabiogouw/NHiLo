@@ -29,13 +29,13 @@ namespace NHiLo.Tests.HiLo.Config
                 ""ConnectionStrings"":{
                     ""NHiLo"":{
                         ""ConnectionString"":""test"",
-                        ""ProviderName"":""NHilo.InMemory""
+                        ""ProviderName"":""NHiLo.InMemory""
                     }
                 }
             }");
             var wrapper = new ConfigurationManagerWrapper(configuration);
             Assert.Equal("test", wrapper.GetConnectionStringsSection().ConnectionStrings[0].ConnectionString);
-            Assert.Equal("NHilo.InMemory", wrapper.GetConnectionStringsSection().ConnectionStrings[0].ProviderName);
+            Assert.Equal("NHiLo.InMemory", wrapper.GetConnectionStringsSection().ConnectionStrings[0].ProviderName);
         }
 
         private IConfiguration CreateConfiguration(string appSettings)

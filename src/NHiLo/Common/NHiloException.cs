@@ -5,18 +5,18 @@ using System.Runtime.Serialization;
 namespace NHiLo // this should be available at the root namespace
 {
     /// <summary>
-    /// A custom exception for NHilo.
+    /// A custom exception for NHiLo.
     /// </summary>
     [Serializable]
-    public class NHiloException : ApplicationException
+    public class NHiLoException : ApplicationException
     {
 
-        internal NHiloException(ErrorCodes errorCode)
+        internal NHiLoException(ErrorCodes errorCode)
             : base(GetMessageForErrorCode(errorCode))
         {
             ErrorCode = errorCode;
         }
-        internal NHiloException(ErrorCodes errorCode, Exception innerException)
+        internal NHiLoException(ErrorCodes errorCode, Exception innerException)
             : base(GetMessageForErrorCode(errorCode), innerException)
         {
             ErrorCode = errorCode;
@@ -32,7 +32,7 @@ namespace NHiLo // this should be available at the root namespace
             return errorCode.GetDescription();
         }
 
-        public NHiloException WithInfo(string key, string value)
+        public NHiLoException WithInfo(string key, string value)
         {
             Data.Add(key, value);
             return this;

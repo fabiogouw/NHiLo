@@ -18,7 +18,7 @@ namespace NHiLo.HiLo.Config
          *              "ProviderName": "System.Data.SqlServerCe.4.0"
          *       }
          *   },
-         *   "NHilo": {
+         *   "NHiLo": {
          *      "ConnectionStringId": "",
          *      "ProviderName": "",
          *      "CreateHiLoStructureIfNotExists": true,
@@ -28,9 +28,9 @@ namespace NHiLo.HiLo.Config
          *      "EntityColumnName": "",
          *      "StorageType": "",
          *      "ObjectPrefix": "",
-         *      "Entities": [
-         *          { "name": "", "maxLo" : 10 }   
-         *      ]
+         *      "Entities": {
+         *          "myEntity": { "maxLo" : 10 }
+         *      }
          *   }
          * }
          */
@@ -46,16 +46,16 @@ namespace NHiLo.HiLo.Config
         {
             var configuration = new HiLoConfigElement
             {
-                ConnectionStringId = _configuration.GetValue<string>("NHilo:ConnectionStringId", string.Empty),
-                ProviderName = _configuration.GetValue<string>("NHilo:ProviderName", string.Empty),
-                CreateHiLoStructureIfNotExists = _configuration.GetValue("NHilo:CreateHiLoStructureIfNotExists", true),
-                DefaultMaxLo = _configuration.GetValue("NHilo:DefaultMaxLo", 100),
-                TableName = _configuration.GetValue("NHilo:TableName", "NHILO"),
-                NextHiColumnName = _configuration.GetValue("NHilo:NextHiColumnName", "NEXT_HI"),
-                EntityColumnName = _configuration.GetValue("NHilo:EntityColumnName", "ENTITY"),
-                StorageType = _configuration.GetValue("NHilo:StorageType", HiLoStorageType.Table),
-                ObjectPrefix = _configuration.GetValue("NHilo:ObjectPrefix", string.Empty),
-                Entities = _configuration.GetSection("NHilo:ObjectPrefix").GetChildren().Select(v =>
+                ConnectionStringId = _configuration.GetValue<string>("NHiLo:ConnectionStringId", string.Empty),
+                ProviderName = _configuration.GetValue<string>("NHiLo:ProviderName", string.Empty),
+                CreateHiLoStructureIfNotExists = _configuration.GetValue("NHiLo:CreateHiLoStructureIfNotExists", true),
+                DefaultMaxLo = _configuration.GetValue("NHiLo:DefaultMaxLo", 100),
+                TableName = _configuration.GetValue("NHiLo:TableName", "NHILO"),
+                NextHiColumnName = _configuration.GetValue("NHiLo:NextHiColumnName", "NEXT_HI"),
+                EntityColumnName = _configuration.GetValue("NHiLo:EntityColumnName", "ENTITY"),
+                StorageType = _configuration.GetValue("NHiLo:StorageType", HiLoStorageType.Table),
+                ObjectPrefix = _configuration.GetValue("NHiLo:ObjectPrefix", string.Empty),
+                Entities = _configuration.GetSection("NHiLo:Entities").GetChildren().Select(v =>
                     (IEntityConfiguration)new EntityConfigElement()
                     {
                         Name = v.GetValue<string>("Name"),
@@ -77,7 +77,7 @@ namespace NHiLo.HiLo.Config
                 {
                     Name = connectionString.Key,
                     ConnectionString = children.SingleOrDefault(x => x.Key.ToLower() == "connectionstring")?.Value ?? connectionString.Value,
-                    ProviderName = children.SingleOrDefault(x => x.Key.ToLower() == "providername")?.Value ?? _configuration.GetValue<string>("NHilo:ProviderName", string.Empty)
+                    ProviderName = children.SingleOrDefault(x => x.Key.ToLower() == "providername")?.Value ?? _configuration.GetValue<string>("NHiLo:ProviderName", string.Empty)
                 };
                 connectionStringsSection.ConnectionStrings.Add(connectionStringSetting);
             }

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NHilo\NHilo.csproj" />
+    <ProjectReference Include="..\NHiLo\NHiLo.csproj" />
   </ItemGroup>
 
 </Project>

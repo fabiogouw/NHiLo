@@ -10,12 +10,7 @@ namespace NHiLo.HiLo.Repository
     {
         private static readonly IDictionary<string, long> _repository = new Dictionary<string, long>();
 
-        private readonly string _entityName;
-        public InMemoryHiloRepository(string entityName, IHiLoConfiguration config)
-        {
-            _entityName = entityName;
-        }
-
+        private string _entityName;
         public long GetNextHi()
         {
             lock (_repository)
@@ -26,9 +21,10 @@ namespace NHiLo.HiLo.Repository
             }
         }
 
-        public void PrepareRepository()
+        public void PrepareRepository(string entityName)
         {
-            _repository.Add(_entityName, 0);
+            _entityName = entityName;
+            _repository.Add(entityName, 0);
         }
     }
 }

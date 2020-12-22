@@ -39,7 +39,7 @@ namespace NHiLo.Tests.Integration.Repository.Oracle
                 string connectionString = $@"Data Source={ testcontainer.Hostname }:1521/xe;User Id=system;Password=oracle;";
 
                 var appSettings = $@"{{
-                    ""NHilo"":{{
+                    ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

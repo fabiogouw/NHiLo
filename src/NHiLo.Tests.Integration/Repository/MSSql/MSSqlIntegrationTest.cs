@@ -28,7 +28,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
         {
             string entityName = "myMSSqlTableEntity";
             string funcAppSettings(string connectionString) => $@"{{
-                    ""NHilo"":{{
+                    ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{
@@ -55,7 +55,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
         {
             string entityName = "myMSSqlSequenceEntity";
             string funcAppSettings(string connectionString) => $@"{{
-                    ""NHilo"":{{
+                    ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100"",
                         ""StorageType"" : ""Sequence""
                     }},

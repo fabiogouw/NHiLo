@@ -12,8 +12,8 @@ namespace NHiLo.Tests.HiLo.Repository
     {
         private class TestableHiLoRepository : AgnosticHiLoRepository
         {
-            public TestableHiLoRepository(string entityName, IHiLoConfiguration config, DbProviderFactory provider)
-                : base(entityName, config, provider)
+            public TestableHiLoRepository(IHiLoConfiguration config, DbProviderFactory provider)
+                : base(config, provider)
             {
             }
 
@@ -56,7 +56,7 @@ namespace NHiLo.Tests.HiLo.Repository
 
             private TestableHiLoRepository CreateSystemUnderTest(Mock<IHiLoConfiguration> mockConfig, Mock<DbProviderFactory> mockDbProviderFactory)
             {
-                var target = new TestableHiLoRepository("", mockConfig.Object, mockDbProviderFactory.Object);
+                var target = new TestableHiLoRepository(mockConfig.Object, mockDbProviderFactory.Object);
                 return target;
             }
 
@@ -71,7 +71,7 @@ namespace NHiLo.Tests.HiLo.Repository
                 mockDbProviderFactory = SetupDbProvider(mockDbProviderFactory);
                 var target = CreateSystemUnderTest(mockConfig, mockDbProviderFactory);
                 // Act
-                target.PrepareRepository();
+                target.PrepareRepository("");
                 // Assert
                 Assert.Equal(1, target.CallsToInitializeRepositoryForEntity);
                 Assert.Equal(0, target.CallsToCreateRepositoryStructure);
@@ -88,7 +88,7 @@ namespace NHiLo.Tests.HiLo.Repository
                 mockDbProviderFactory = SetupDbProvider(mockDbProviderFactory);
                 var target = CreateSystemUnderTest(mockConfig, mockDbProviderFactory);
                 // Act
-                target.PrepareRepository();
+                target.PrepareRepository("");
                 // Assert
                 Assert.Equal(1, target.CallsToInitializeRepositoryForEntity);
                 Assert.Equal(1, target.CallsToCreateRepositoryStructure);

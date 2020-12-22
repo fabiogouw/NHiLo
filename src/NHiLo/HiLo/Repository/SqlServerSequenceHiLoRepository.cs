@@ -6,16 +6,16 @@ using System.Text.RegularExpressions;
 namespace NHiLo.HiLo.Repository
 {
     /// <summary>
-    /// NHilo's repository implementation for Microsoft SQL Server.
+    /// NHiLo's repository implementation for Microsoft SQL Server.
     /// </summary>
     public class SqlServerSequenceHiLoRepository : AgnosticHiLoRepository
     {
         private readonly string _sqlStatementToSelectAndUpdateNextHiValue = @"SELECT NEXT VALUE FOR [dbo].[{0}{1}];";
         private readonly string _objectPrefix = "SQ_HiLo_";
-        private Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$");
+        private readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$");
 
-        public SqlServerSequenceHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
+        public SqlServerSequenceHiLoRepository(IHiLoConfiguration config)
+            : base(config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             if (!string.IsNullOrEmpty(config.ObjectPrefix))
             {
@@ -27,7 +27,7 @@ namespace NHiLo.HiLo.Repository
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
             EnsureCorrectSequencePrefixName();
-            cmd.CommandText = string.Format(_sqlStatementToSelectAndUpdateNextHiValue, _objectPrefix, _entityName);
+            cmd.CommandText = string.Format(_sqlStatementToSelectAndUpdateNextHiValue, _objectPrefix, EntityName);
             return (long)cmd.ExecuteScalar();
         }
 
@@ -47,7 +47,7 @@ namespace NHiLo.HiLo.Repository
 	            SELECT 1;
             END
             ELSE
-	            SELECT 0;", _objectPrefix, _entityName);
+	            SELECT 0;", _objectPrefix, EntityName);
             cmd.ExecuteNonQuery();
         }
 
@@ -55,7 +55,7 @@ namespace NHiLo.HiLo.Repository
         {
             if (!_entityNameValidator.IsMatch(_objectPrefix) || _objectPrefix.Length > Constants.MAX_LENGTH_ENTITY_NAME)
             {
-                throw new NHiloException(ErrorCodes.InvalidSequencePrefixName);
+                throw new NHiLoException(ErrorCodes.InvalidSequencePrefixName);
             }
         }
     }

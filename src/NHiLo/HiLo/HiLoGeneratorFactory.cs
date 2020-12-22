@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NHiLo.Common;
+using NHiLo.Common.Config.Legacy;
 using NHiLo.HiLo;
 using NHiLo.HiLo.Config;
 using NHiLo.HiLo.Repository;
@@ -14,11 +15,18 @@ namespace NHiLo // this should be available at the root namespace
     /// </summary>
     public class HiLoGeneratorFactory : IKeyGeneratorFactory<long>
     {
-        // When instantiated, key generators are stored in a static field. That's how NHilo keeps the id generation globally per AppDomain.
+        // When instantiated, key generators are stored in a static field. That's how NHiLo keeps the id generation globally per AppDomain.
         private readonly static ConcurrentDictionary<string, IKeyGenerator<long>> _keyGenerators = new ConcurrentDictionary<string, IKeyGenerator<long>>();
         private readonly IHiLoRepositoryFactory _repositoryFactory;
         private readonly IHiLoConfiguration _config;
         private static readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$");
+
+        [Obsolete("For legacy compatibility only (.NET Framework). Newer versions like .NET Core and .NET 5 should use the constructor that receives an IConfiguration parameter.")]
+        public HiLoGeneratorFactory() :
+            this(null, null)
+        {
+
+        }
 
         public HiLoGeneratorFactory(IConfiguration configuration) :
             this(null, configuration)
@@ -31,8 +39,7 @@ namespace NHiLo // this should be available at the root namespace
             if (configuration == null)
             {
                 var builder = new ConfigurationBuilder()
-                    .SetBasePath(Environment.CurrentDirectory)
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+                    .Add(new NETConfigConfigurationProvider())
                     .AddEnvironmentVariables();
                 configuration = builder.Build();
             }
@@ -60,7 +67,7 @@ namespace NHiLo // this should be available at the root namespace
         {
             if (!_entityNameValidator.IsMatch(entityName) || entityName.Length > Constants.MAX_LENGTH_ENTITY_NAME)
             {
-                throw new NHiloException(ErrorCodes.InvalidEntityName);
+                throw new NHiLoException(ErrorCodes.InvalidEntityName);
             }
         }
 

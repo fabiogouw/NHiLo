@@ -37,14 +37,18 @@ namespace NHiLo.HiLo.Config
         private void CheckConsistenceOfConnectionStringsSection(ConnectionStringsSection connectionStringsConfig)
         {
             if (connectionStringsConfig == null || connectionStringsConfig.ConnectionStrings.Count == 0)
-                throw new NHiloException(ErrorCodes.NoConnectionStringAvailable);
+                throw new NHiLoException(ErrorCodes.NoConnectionStringAvailable);
         }
 
         private ConnectionStringSettings FindConnectionStringToBeUsedByHiLoConfiguration(IHiLoConfiguration hiloConfig)
         {
             ConnectionStringSettings connectionStringSettings;
             if (!string.IsNullOrEmpty(hiloConfig.ConnectionStringId))
+            {
                 connectionStringSettings = _connectionStringsConfig.ConnectionStrings[hiloConfig.ConnectionStringId];
+                if (connectionStringSettings == null)
+                    throw new NHiLoException(ErrorCodes.NoSpecifiedConnectionStringWasFound).WithInfo("ConnectionStringId", hiloConfig.ConnectionStringId);
+            }
             else
                 connectionStringSettings = _connectionStringsConfig.ConnectionStrings[_connectionStringsConfig.ConnectionStrings.Count - 1];   // or get the last connection string
             CheckConsistenceOfConnectionStringsSettings(connectionStringSettings);
@@ -54,7 +58,7 @@ namespace NHiLo.HiLo.Config
         private void CheckConsistenceOfConnectionStringsSettings(ConnectionStringSettings connectionStringSettings)
         {
             if (connectionStringSettings == null)
-                throw new NHiloException(ErrorCodes.NoConnectionStringAvailable);
+                throw new NHiLoException(ErrorCodes.NoConnectionStringAvailable);
         }
 
         private IHiLoConfiguration PrepareHiLoConfigurationWithConnectionString(IHiLoConfiguration hiloConfig, ConnectionStringSettings connectionStringSettings)

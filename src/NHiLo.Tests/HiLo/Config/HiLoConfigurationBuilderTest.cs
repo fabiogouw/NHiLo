@@ -24,7 +24,7 @@ namespace NHiLo.Tests.HiLo.Config
                     var actual = target.Build();
                     throw new XunitException();
                 }
-                catch (NHiloException ex)
+                catch (NHiLoException ex)
                 {
                     // Assert
                     Assert.Equal(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);
@@ -81,7 +81,7 @@ namespace NHiLo.Tests.HiLo.Config
                     var actual = target.Build();
                     throw new XunitException();
                 }
-                catch (NHiloException ex)
+                catch (NHiLoException ex)
                 {
                     // Assert
                     Assert.Equal(ErrorCodes.NoConnectionStringAvailable, ex.ErrorCode);

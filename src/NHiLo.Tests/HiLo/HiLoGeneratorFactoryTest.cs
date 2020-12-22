@@ -154,7 +154,7 @@ namespace NHiLo.Tests.HiLo
                     factory.GetKeyGenerator(entityName);
                     throw new XunitException();
                 }
-                catch (NHiloException ex)
+                catch (NHiLoException ex)
                 {
                     // Assert
                     Assert.Equal(ErrorCodes.InvalidEntityName, ex.ErrorCode);
@@ -166,7 +166,7 @@ namespace NHiLo.Tests.HiLo
             public void ShouldRaiseExceptionAsNoProviderNameHasBeenSupplied()
             {
                 // Arrange
-                var mockConfig = CreateHiloConfigurationWithNoConfigurationForNHiloAndOnlyOneConnectionStringWithNoProviderName();
+                var mockConfig = CreateHiloConfigurationWithNoConfigurationForNHiLoAndOnlyOneConnectionStringWithNoProviderName();
                 var factory = new HiLoGeneratorFactory(mockConfig);
                 // Act
                 try
@@ -174,7 +174,7 @@ namespace NHiLo.Tests.HiLo
                     var generator = factory.GetKeyGenerator("dummyNoProviderName");
                     throw new XunitException();
                 }
-                catch (NHiloException ex)
+                catch (NHiLoException ex)
                 {
                     // Assert
                     Assert.Equal(ErrorCodes.NoProviderName, ex.ErrorCode);
@@ -187,13 +187,13 @@ namespace NHiLo.Tests.HiLo
         public static IConfiguration CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20()
         {
             var appSettings = @"{
-                ""NHilo"":{
+                ""NHiLo"":{
                     ""DefaultMaxLo"" : ""100""
                 },
                 ""ConnectionStrings"":{
                     ""NHiLo"":{
                         ""ConnectionString"":""test"",
-                        ""ProviderName"":""NHilo.InMemory""
+                        ""ProviderName"":""NHiLo.InMemory""
                     }
                 }
             }";
@@ -202,7 +202,7 @@ namespace NHiLo.Tests.HiLo
             return builder.Build();
         }
 
-        public static IConfiguration CreateHiloConfigurationWithNoConfigurationForNHiloAndOnlyOneConnectionStringWithNoProviderName()
+        public static IConfiguration CreateHiloConfigurationWithNoConfigurationForNHiLoAndOnlyOneConnectionStringWithNoProviderName()
         {
             var appSettings = @"{
                 ""ConnectionStrings"":{

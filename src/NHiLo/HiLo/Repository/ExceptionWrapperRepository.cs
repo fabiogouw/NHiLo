@@ -2,7 +2,7 @@
 using NHiLo.HiLo;
 using System;
 
-namespace NHilo.HiLo.Repository
+namespace NHiLo.HiLo.Repository
 {
     /// <summary>
     /// Wrap the calls to the underlying repository to handle the errors.
@@ -18,7 +18,7 @@ namespace NHilo.HiLo.Repository
             }
             catch (Exception ex)
             {
-                throw new NHiloException(ErrorCodes.ErrorWhileCreatingTheRepository, ex);
+                throw new NHiLoException(ErrorCodes.ErrorWhileCreatingTheRepository, ex);
             }
         }
         public long GetNextHi()
@@ -29,19 +29,19 @@ namespace NHilo.HiLo.Repository
             }
             catch (Exception ex)
             {
-                throw new NHiloException(ErrorCodes.ErrorWhileGettingNextHiValue, ex);
+                throw new NHiLoException(ErrorCodes.ErrorWhileGettingNextHiValue, ex);
             }
         }
 
-        public void PrepareRepository()
+        public void PrepareRepository(string entityName)
         {
             try
             {
-                _repository.PrepareRepository();
+                _repository.PrepareRepository(entityName);
             }
             catch (Exception ex)
             {
-                throw new NHiloException(ErrorCodes.ErrorWhilePreparingRepository, ex);
+                throw new NHiLoException(ErrorCodes.ErrorWhilePreparingRepository, ex);
             }
         }
     }
