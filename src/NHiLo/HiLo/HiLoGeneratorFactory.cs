@@ -48,7 +48,7 @@ namespace NHiLo // this should be available at the root namespace
         }
 
         /// <summary>
-        /// Gets the object which generates new unique keys for a giben entity name.
+        /// Gets the object which generates new unique keys for a given entity name.
         /// </summary>
         /// <param name="entityName"></param>
         /// <returns></returns>

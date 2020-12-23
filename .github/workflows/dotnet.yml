@@ -24,8 +24,8 @@ jobs:
     - name: Info
       run: dotnet --info
     - name: Restore
-      run: dotnet restore     
+      run: dotnet restore NHilo.sln    
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build NHilo.sln --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal --filter Category=Unit
+      run: dotnet test NHilo.sln --no-build --verbosity normal --filter Category=Unit
