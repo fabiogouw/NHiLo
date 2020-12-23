@@ -52,7 +52,7 @@ namespace NHiLo.HiLo.Repository
         /// <summary>
         /// Register a new repository to be used to store hi values.
         /// </summary>
-        /// <param name="providerName">The name of the custom respository provider</param>
+        /// <param name="providerName">The name of the custom respository provider.</param>
         /// <param name="funcCreateRepository">A function that creates new instances of the repository.</param>
         public static void RegisterRepository(string providerName, Func<IHiLoRepository> funcCreateRepository)
         {
