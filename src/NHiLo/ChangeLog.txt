@@ -1,4 +1,4 @@
-﻿NHilo changelog
+﻿NHiLo changelog
 
 * 1.0.0-beta - 2012-09-27
 	- Initial version (SQL Server, SQL Server CE and MySql).
@@ -9,7 +9,7 @@
 	- Fixing bugs in configuration schema.
 
 * 1.1.0 - 2013-03-01
-	- Adding configuration to specify NHilo's table and columns names.
+	- Adding configuration to specify NHiLo's table and columns names.
 
 * 1.2.0 - 2014-07-29
 	- Changing the namespace of the main classes.
@@ -20,3 +20,11 @@
 * 1.4.0 - 2017-04-03
 	- Adding support to SQL Server's sequences.
 	- Adding support to generate 20 byte string guids (ASCII85).
+
+* 2.0.0 - 2020-12-23
+	- Upgrading to .NET Standard 2.0
+	- Changing the configuration model
+	- Changing the SQL Server provider from System.Data.SqlClient to Microsoft.Data.SqlClient
+	- Adding integration tests for SQL Server, Oracle and MySql (Docker images / Test Containers framework)
+	- Adding the possibility to register custom Hilo repositories
+	- Dropping support for SQL Server CE, since Microsoft will no longer support it after July 2021 and it doesn't have a .NET Core package

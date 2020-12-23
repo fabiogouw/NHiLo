@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.Common.Config;
 using System.Configuration;
-using NHiLo.Common;
-using NHiLo.Common.Config;
 
 namespace NHiLo.HiLo.Config
 {
     public class HiLoConfigurationBuilder
     {
-        private IConfigurationManager _configuration;
+        private readonly IConfigurationManager _configuration;
         private ConnectionStringsSection _connectionStringsConfig;
 
         public HiLoConfigurationBuilder(IConfigurationManager configuration)
@@ -29,14 +24,12 @@ namespace NHiLo.HiLo.Config
 
         private IHiLoConfiguration GetHiLoConfigurationSection()
         {
-            var keyGeneratorConfig = _configuration.GetSection<IKeyGeneratorConfiguration>("nhilo");
-            var hiloConfig = keyGeneratorConfig != null ? keyGeneratorConfig.HiloKeyGenerator : new HiLoConfigElement();
-            return hiloConfig;
+            return _configuration.GetKeyGeneratorConfigurationSection() ?? new HiLoConfigElement();
         }
 
         private ConnectionStringsSection GetConnectionStringsConfigurationSection()
         {
-            var connectionStringsConfig = _configuration.GetSection<ConnectionStringsSection>("connectionStrings");
+            var connectionStringsConfig = _configuration.GetConnectionStringsSection();
             CheckConsistenceOfConnectionStringsSection(connectionStringsConfig);
             return connectionStringsConfig;
         }
@@ -44,14 +37,18 @@ namespace NHiLo.HiLo.Config
         private void CheckConsistenceOfConnectionStringsSection(ConnectionStringsSection connectionStringsConfig)
         {
             if (connectionStringsConfig == null || connectionStringsConfig.ConnectionStrings.Count == 0)
-                throw new NHiloException(ErrorCodes.NoConnectionStringAvailable);
+                throw new NHiLoException(ErrorCodes.NoConnectionStringAvailable);
         }
 
         private ConnectionStringSettings FindConnectionStringToBeUsedByHiLoConfiguration(IHiLoConfiguration hiloConfig)
         {
-            ConnectionStringSettings connectionStringSettings = null;
+            ConnectionStringSettings connectionStringSettings;
             if (!string.IsNullOrEmpty(hiloConfig.ConnectionStringId))
+            {
                 connectionStringSettings = _connectionStringsConfig.ConnectionStrings[hiloConfig.ConnectionStringId];
+                if (connectionStringSettings == null)
+                    throw new NHiLoException(ErrorCodes.NoSpecifiedConnectionStringWasFound).WithInfo("ConnectionStringId", hiloConfig.ConnectionStringId);
+            }
             else
                 connectionStringSettings = _connectionStringsConfig.ConnectionStrings[_connectionStringsConfig.ConnectionStrings.Count - 1];   // or get the last connection string
             CheckConsistenceOfConnectionStringsSettings(connectionStringSettings);
@@ -61,7 +58,7 @@ namespace NHiLo.HiLo.Config
         private void CheckConsistenceOfConnectionStringsSettings(ConnectionStringSettings connectionStringSettings)
         {
             if (connectionStringSettings == null)
-                throw new NHiloException(ErrorCodes.NoConnectionStringAvailable);
+                throw new NHiLoException(ErrorCodes.NoConnectionStringAvailable);
         }
 
         private IHiLoConfiguration PrepareHiLoConfigurationWithConnectionString(IHiLoConfiguration hiloConfig, ConnectionStringSettings connectionStringSettings)

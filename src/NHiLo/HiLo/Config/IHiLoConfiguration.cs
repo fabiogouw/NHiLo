@@ -1,5 +1,4 @@
 ﻿using NHiLo.Common.Config;
-using System;
 
 namespace NHiLo.HiLo.Config
 {
@@ -14,9 +13,9 @@ namespace NHiLo.HiLo.Config
         bool CreateHiLoStructureIfNotExists { get; }
         int DefaultMaxLo { get; }
         IEntityConfiguration GetEntityConfig(string entityName);
-        string TableName{ get; }
-        string NextHiColumnName{ get; }
-        string EntityColumnName{ get; }
+        string TableName { get; }
+        string NextHiColumnName { get; }
+        string EntityColumnName { get; }
         HiLoStorageType StorageType { get; }
         string ObjectPrefix { get; }
     }

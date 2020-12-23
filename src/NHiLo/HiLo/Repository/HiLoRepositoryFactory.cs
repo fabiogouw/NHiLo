@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.HiLo.Repository;
 using NHiLo.HiLo.Config;
+using System;
+using System.Collections.Concurrent;
 
 namespace NHiLo.HiLo.Repository
 {
@@ -11,43 +10,59 @@ namespace NHiLo.HiLo.Repository
     /// </summary>
     public class HiLoRepositoryFactory : IHiLoRepositoryFactory
     {
-        private delegate IHiLoRepository CreateIHiLoRepositoryFunction(string entityName, IHiLoConfiguration config);
+        private delegate IHiLoRepository CreateIHiLoRepositoryFunction(IHiLoConfiguration config);
 
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
-        private readonly Dictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions;
+        private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions;
 
-        public HiLoRepositoryFactory()
+        static HiLoRepositoryFactory()
         {
-            _factoryFunctions = new Dictionary<string, CreateIHiLoRepositoryFunction>()
+            _factoryFunctions = new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
-                { "System.Data.SqlClient", (entityName, config) => GetSqlServerRepository(entityName, config) },
-                { "MySql.Data.MySqlClient", (entityName, config) => new MySqlHiLoRepository(entityName, config) },
-                { "System.Data.SqlServerCe.3.5", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-                { "System.Data.SqlServerCe.4.0", (entityName, config) => new SqlServerCeHiLoRepository(entityName, config) },
-                { "System.Data.OracleClient", (entityName, config) => new OracleHiLoRepository(entityName, config) }
+                ["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
+                ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),
+                ["System.Data.OracleClient"] = (config) => new OracleHiLoRepository(config),
+                ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
         }
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
         {
-            IHiLoRepository repository = null;
             string provider = config.ProviderName;
+            if (string.IsNullOrWhiteSpace(provider))
+                throw new NHiLoException(ErrorCodes.NoProviderName);
             if (!_factoryFunctions.ContainsKey(provider))
-                throw new ArgumentException("Repository not implemented (yet).", provider);
-            repository = _factoryFunctions[provider](entityName, config);
-            repository.PrepareRepository();
+                throw new NHiLoException(ErrorCodes.ProviderNotImplemented).WithInfo("Provider Name", provider);
+            var repository = new ExceptionWrapperRepository(() => _factoryFunctions[provider](config));
+            repository.PrepareRepository(entityName);
             return repository;
         }
 
-        private IHiLoRepository GetSqlServerRepository(string entityName, IHiLoConfiguration config)
+        private static IHiLoRepository GetSqlServerRepository(IHiLoConfiguration config)
         {
             if (config.StorageType == Common.Config.HiLoStorageType.Sequence)
             {
-                return new SqlServerSequenceHiLoRepository(entityName, config);
+                return new SqlServerSequenceHiLoRepository(config);
             }
-            return new SqlServerHiLoRepository(entityName, config);
+            return new SqlServerHiLoRepository(config);
+        }
+
+        /// <summary>
+        /// Register a new repository to be used to store hi values.
+        /// </summary>
+        /// <param name="providerName">The name of the custom respository provider.</param>
+        /// <param name="funcCreateRepository">A function that creates new instances of the repository.</param>
+        public static void RegisterRepository(string providerName, Func<IHiLoRepository> funcCreateRepository)
+        {
+            if (string.IsNullOrWhiteSpace(providerName))
+                throw new ArgumentException($"Provider name cannot be registered with an empty value.");
+            lock (_factoryFunctions)
+            {
+                if (!_factoryFunctions.ContainsKey(providerName))
+                    _factoryFunctions.TryAdd(providerName, (config) => funcCreateRepository());
+            }
         }
     }
 }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.HiLo.Config;
 using System.Data;
-using NHiLo.HiLo.Config;
 
 namespace NHiLo.HiLo.Repository
 {
@@ -14,8 +10,8 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToCreateRepository;
         private string _sqlStatementToInitializeEntity;
 
-        public MySqlHiLoRepository(string entityName, IHiLoConfiguration config)
-            : base(entityName, config)
+        public MySqlHiLoRepository(IHiLoConfiguration config)
+            : base(config, MySql.Data.MySqlClient.MySqlClientFactory.Instance)
         {
             InitializeSqlStatements(config);
         }
@@ -32,7 +28,7 @@ namespace NHiLo.HiLo.Repository
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToGetLatestNextHiValue;
-            cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
+            cmd.Parameters.Add(CreateEntityParameter(cmd, EntityName));
             long nextHi = (long)cmd.ExecuteScalar();
             cmd.CommandText = _sqlStatementToUpdateNextHiValue;
             cmd.ExecuteNonQuery();
@@ -50,7 +46,7 @@ namespace NHiLo.HiLo.Repository
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToInitializeEntity;
-            cmd.Parameters.Add(CreateEntityParameter(cmd, _entityName));
+            cmd.Parameters.Add(CreateEntityParameter(cmd, EntityName));
             cmd.ExecuteNonQuery();
         }
     }

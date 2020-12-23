@@ -1,6 +1,6 @@
 # NHilo
 
-Documentation on using NHilo is available at https://github.com/fabiogouw/NHilo.
+![Build](https://github.com/fabiogouw/NHilo/workflows/Build/badge.svg)
 
 ## What is NHilo?
 
@@ -18,4 +18,6 @@ var generator = factory.GetKeyGenerator("myEntity");
 long key = generator.GetKey();
 ```
 
-In your application configuration file (web.config, for example), you need specified at least one connection string. NHiLo will use the last connection string for storing its control value table. Currently we have tested NHiLo with SQL Server, SQL Server CE, MySQL and Oracle.
+In your application configuration file (appsettings.json, for example), you need specified at least one connection string. NHiLo will use the last connection string for storing its control value table. Currently we have tested NHiLo with SQL Server, SQL Server CE, MySQL and Oracle.
+
+For a full documentation, please go to [NHilo's wiki page](https://github.com/fabiogouw/NHilo/wiki).

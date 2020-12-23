@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using NHiLo.HiLo.Config;
+using System;
 using System.Data;
 using System.Data.Common;
-using NHiLo.Common;
-using NHiLo.HiLo.Config;
 
 namespace NHiLo.HiLo.Repository
 {
     /// <summary>
-    /// A base repository that allows the creation of DBMS NHilo repositories.
+    /// A base repository that allows the creation of DBMS NHiLo repositories.
     /// </summary>
     public abstract class AgnosticHiLoRepository : IHiLoRepository
     {
-        protected string _entityName;
-        private IHiLoConfiguration _config;
+        private string _entityName;
+        private readonly IHiLoConfiguration _config;
         internal Func<string, DbProviderFactory> DbFactoryCreator { private get; set; } // for testability
 
-        public AgnosticHiLoRepository(string entityName, IHiLoConfiguration config)
-        {
-            _entityName = entityName;
-            _config = config;
-            DbFactoryCreator = (providerName) => DbProviderFactories.GetFactory(providerName);
+        protected string EntityName 
+        { 
+            get { return _entityName; } 
         }
 
-        public void PrepareRepository()
+        public AgnosticHiLoRepository(IHiLoConfiguration config, DbProviderFactory provider)
         {
+            _config = config;
+            DbFactoryCreator = (providerName) => provider;
+        }
+
+        public void PrepareRepository(string entityName)
+        {
+            _entityName = entityName;
             PrepareCommandForExecutionWithTransaction(cmd =>
                 {
                     if (_config.CreateHiLoStructureIfNotExists) // this prevents situations where the user doesn't have database permissions to create tables

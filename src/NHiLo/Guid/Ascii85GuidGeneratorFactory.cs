@@ -1,8 +1,4 @@
 ﻿using NHiLo.Guid;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NHiLo // this should be available at the root namespace
 {
