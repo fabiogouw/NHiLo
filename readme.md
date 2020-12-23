@@ -13,7 +13,10 @@ Here's a snippet showing how to use NHiLo. First, you need to create a factory t
 ```csharp
 using NHilo;
 // ...
-var factory = new HiLoGeneratorFactory();
+var builder = new ConfigurationBuilder();
+var config = builder.AddJsonFile("appsettings.json").Build();
+// ...
+var factory = new HiLoGeneratorFactory(config);
 var generator = factory.GetKeyGenerator("myEntity");
 long key = generator.GetKey();
 ```
