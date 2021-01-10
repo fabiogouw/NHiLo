@@ -1,6 +1,7 @@
 # NHilo
 
 ![Build](https://github.com/fabiogouw/NHilo/workflows/Build/badge.svg)
+[![NuGet Badge](https://buildstats.info/nuget/NHilo)](https://www.nuget.org/packages/NHilo)
 
 ## What is NHilo?
 
