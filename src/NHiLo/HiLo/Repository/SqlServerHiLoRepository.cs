@@ -53,7 +53,6 @@ namespace NHiLo.HiLo.Repository
             _sqlStatementToCheckSelectPermission = PrepareSqlStatement("SELECT * FROM [dbo].[{0}]", config);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Parameter is validated by the caller.")]
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToSelectAndUpdateNextHiValue;
@@ -61,7 +60,6 @@ namespace NHiLo.HiLo.Repository
             return (long)cmd.ExecuteScalar();
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Parameter is validated by the caller.")]
         protected override void CreateRepositoryStructure(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToCreateRepository;
@@ -86,19 +84,11 @@ namespace NHiLo.HiLo.Repository
                 }
                 catch (SqlException ex2)
                 {
-                    if (ex2.Number == ERROR_NUMBER_SELECT_PERMISSION)
-                    {
-                        throw ex2;
-                    }
-                    else
-                    {
-                        throw ex;
-                    }
+                    throw ex2.Number == ERROR_NUMBER_SELECT_PERMISSION ? ex2 : ex;
                 }
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "Parameter is validated by the caller.")]
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
             cmd.CommandText = _sqlStatementToInitializeEntity;

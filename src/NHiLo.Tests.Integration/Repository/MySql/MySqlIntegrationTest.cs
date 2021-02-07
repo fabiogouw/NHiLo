@@ -1,5 +1,7 @@
 using DotNet.Testcontainers.Containers.Builders;
+using DotNet.Testcontainers.Containers.Configurations.Databases;
 using DotNet.Testcontainers.Containers.Modules;
+using DotNet.Testcontainers.Containers.Modules.Databases;
 using DotNet.Testcontainers.Containers.WaitStrategies;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
@@ -24,27 +26,25 @@ namespace NHiLo.Tests.Integration.Repository.MySql
         [Trait("Category", "Integration")]
         public async void ShouldConnectToABrandNewDatabaseAndGetKey()
         {
-            var testcontainersBuilder = new TestcontainersBuilder<TestcontainersContainer>()
-              .WithImage("mysql:latest")
-              .WithName("mysql-nhilo")
-              .WithEnvironment("MYSQL_ROOT_PASSWORD", "my-secret-pw")
-              .WithEnvironment("MYSQL_DATABASE", "myDataBase")
-              .WithEnvironment("MYSQL_USER", "myUser")
-              .WithEnvironment("MYSQL_PASSWORD", "myPassword")
-              .WithPortBinding(3306)
-              .WithWaitStrategy(Wait.ForUnixContainer().UntilCommandIsCompleted($"mysql --host='localhost' --port='3306' --user='myUser' --password='myPassword' --protocol=TCP --execute 'SHOW DATABASES;'"));
+            var testcontainersBuilder = new TestcontainersBuilder<MySqlTestcontainer>()
+                .WithDatabase(new MySqlTestcontainerConfiguration
+                {
+                    Database = "myDataBase",
+                    Username = "myUser",
+                    Password = "myPassword",
+                    
+                });
 
             await using (var testcontainer = testcontainersBuilder.Build())
             {
                 await testcontainer.StartAsync();
-                string connectionString = $"Server={ testcontainer.Hostname };Database=myDataBase;Uid=myUser;Pwd=myPassword;";
                 var appSettings = $@"{{
                     ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ connectionString }"",
+                            ""ConnectionString"":""{ testcontainer.ConnectionString }"",
                             ""ProviderName"":""MySql.Data.MySqlClient""
                         }}
                     }}
@@ -58,7 +58,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                 _output.WriteLine($"Key generated: '{key}'");
                 Assert.True(key > 0, "Expected key to be greater than 0.");
 
-                await using (var connection = new MySqlConnection(connectionString))
+                await using (var connection = new MySqlConnection(testcontainer.ConnectionString))
                 {
                     connection.Open();
                     await using (var cmd = new MySqlCommand())

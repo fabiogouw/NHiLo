@@ -1,8 +1,6 @@
 using DotNet.Testcontainers.Containers.Builders;
 using DotNet.Testcontainers.Containers.Configurations.Databases;
-using DotNet.Testcontainers.Containers.Modules;
 using DotNet.Testcontainers.Containers.Modules.Databases;
-using DotNet.Testcontainers.Containers.WaitStrategies;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -82,20 +80,17 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
         }
         private async Task TestDatabase(Func<string, string> funcAppSettings, Func<SqlCommand, long> validateNextHi, string entityName)
         {
-            var testcontainersBuilder = new TestcontainersBuilder<TestcontainersContainer>()
-              .WithImage("mcr.microsoft.com/mssql/server")
-              .WithName("mssql-nhilo")
-              .WithEnvironment("ACCEPT_EULA", "Y")
-              .WithEnvironment("SA_PASSWORD", "myP@ssword100")
-              .WithPortBinding(1433)
-              .WithWaitStrategy(Wait.ForUnixContainer().UntilCommandIsCompleted($"/opt/mssql-tools/bin/sqlcmd -S 'localhost,1433' -U 'sa' -P 'myP@ssword100'"));
+            var testcontainersBuilder = new TestcontainersBuilder<MsSqlTestcontainer>()
+                .WithDatabase(new MsSqlTestcontainerConfiguration
+                {
+                    Password = "myP@ssword100",
+                });
 
             await using var testcontainer = testcontainersBuilder.Build();
             await testcontainer.StartAsync();
-            string connectionString = $"Server={ testcontainer.Hostname };Database=master;User Id=sa;Password=myP@ssword100;";
 
             var builder = new ConfigurationBuilder();
-            builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(funcAppSettings(connectionString))));
+            builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(funcAppSettings(testcontainer.ConnectionString))));
 
             var factory = new HiLoGeneratorFactory(builder.Build());
             var generator = factory.GetKeyGenerator(entityName);
@@ -103,7 +98,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
             _output.WriteLine($"Key generated: '{key}'");
             Assert.True(key > 0, "Expected key to be greater than 0.");
 
-            await using var connection = new SqlConnection(connectionString);
+            await using var connection = new SqlConnection(testcontainer.ConnectionString);
             connection.Open();
             await using var cmd = new SqlCommand();
             cmd.Connection = connection;
@@ -160,8 +155,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                 DENY SELECT ON [dbo].[NHILO] TO [nhilo_user];
                 GO
             ";
-            await ExecuteScript(prepareDbScript, 
-                new SqlConnection($"Server={ testcontainer.Hostname },{ testcontainer.Port };Database=master;User Id=sa;Password=myP@ssword100;"));
+            await ExecuteScript(prepareDbScript, new SqlConnection(testcontainer.ConnectionString));
 
             var builder = new ConfigurationBuilder();
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(
@@ -225,8 +219,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                 CREATE USER [nhilo_user] FOR LOGIN [nhilo_user];
                 GO
             ";
-            await ExecuteScript(prepareDbScript,
-                new SqlConnection($"Server={ testcontainer.Hostname },{ testcontainer.Port };Database=master;User Id=sa;Password=myP@ssword100;"));
+            await ExecuteScript(prepareDbScript, new SqlConnection(testcontainer.ConnectionString));
 
             var builder = new ConfigurationBuilder();
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(
