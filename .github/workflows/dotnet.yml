@@ -16,19 +16,10 @@ jobs:
         working-directory: ./src
         
     steps:
-      - uses: actions/checkout@v2
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.x
-      - name: Info
-        run: dotnet --info
-      - name: Restore
-        run: dotnet restore NHilo.sln    
-      - name: Build
-        run: dotnet build NHilo.sln --no-restore
-      - name: Test
-        run: dotnet test NHilo.sln --no-build --verbosity normal --filter Category=Unit
 
       - name: Set up JDK 11
         uses: actions/setup-java@v1
@@ -56,6 +47,9 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          
+      - name: Restore
+        run: dotnet restore NHilo.sln        
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -65,3 +59,5 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"fabiogouw_NHilo" /o:"fabiogouw" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build NHilo.sln --no-restore
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+      - name: Test
+        run: dotnet test NHilo.sln --no-build --verbosity normal --filter Category=Unit          
