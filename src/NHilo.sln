@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests.Integration", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1D19C28F-CF17-4DAB-866A-CD3B30DEA1E7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{53474907-DC0E-4198-B50E-A243D5C9E851}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Example", "..\samples\NHiLo.Example\NHiLo.Example.csproj", "{CEEEF019-3270-4CD1-94CE-EF9459FD8EFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEEEF019-3270-4CD1-94CE-EF9459FD8EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEEEF019-3270-4CD1-94CE-EF9459FD8EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEEEF019-3270-4CD1-94CE-EF9459FD8EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEEEF019-3270-4CD1-94CE-EF9459FD8EFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +44,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FCC18C67-323F-4EF6-9C99-522BDFA4CCE8} = {1D19C28F-CF17-4DAB-866A-CD3B30DEA1E7}
 		{9003DC61-ED7D-451B-BEF4-0D3B14970BDF} = {1D19C28F-CF17-4DAB-866A-CD3B30DEA1E7}
+		{CEEEF019-3270-4CD1-94CE-EF9459FD8EFC} = {53474907-DC0E-4198-B50E-A243D5C9E851}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2B4529A7-B710-429D-AB7F-11F4D1D5BDEA}
