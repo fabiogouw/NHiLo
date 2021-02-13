@@ -52,7 +52,9 @@ jobs:
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
           
       - name: Restore
-        run: dotnet restore .\src\NHilo.sln        
+        run: |
+          ls
+          dotnet restore .\src\NHilo.sln        
       
       - name: Build and analyze
         env:
