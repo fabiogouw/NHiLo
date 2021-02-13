@@ -14,6 +14,9 @@ jobs:
     defaults:
       run:
         working-directory: ./src
+
+    env:
+      TZ: America/Sao_Paulo # for integration tests with Oracle DB
         
     steps:
       - name: Setup .NET
@@ -59,5 +62,7 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"fabiogouw_NHilo" /o:"fabiogouw" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build NHilo.sln --no-restore
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-      - name: Test
+      - name: Unit Test
         run: dotnet test NHilo.sln --no-build --verbosity normal --filter Category=Unit          
+      - name: Integration Test
+        run: dotnet test NHilo.sln --no-build --verbosity normal --filter Category=Integration          
