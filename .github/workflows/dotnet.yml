@@ -62,12 +62,12 @@ jobs:
         run: dotnet build ./src/NHilo.sln --no-restore 
 
       - name: Unit Test
-        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Unit /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
+        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Unit --collect:"XPlat Code Coverage" -l trx
       
       - name: Integration Test
         env:
           TZ: America/Sao_Paulo # for integration tests with Oracle DB
-        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Integration /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
+        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Integration --collect:"XPlat Code Coverage" -l trx
 
       - name: End analyze
         env:
