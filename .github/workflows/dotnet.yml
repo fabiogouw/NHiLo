@@ -52,19 +52,25 @@ jobs:
       - name: Restore
         run: dotnet restore ./src/NHilo.sln        
       
-      - name: Build and analyze
+      - name: Start analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          ./.sonar/scanner/dotnet-sonarscanner begin /k:"fabiogouw_NHilo" /o:"fabiogouw" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ./src/NHilo.sln --no-restore
-          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
-          
+        run: ./.sonar/scanner/dotnet-sonarscanner begin /k:"fabiogouw_NHilo" /o:"fabiogouw" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+
+      - name: Build
+        run: dotnet build ./src/NHilo.sln --no-restore 
+
       - name: Unit Test
-        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Unit          
+        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Unit /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
       
       - name: Integration Test
         env:
           TZ: America/Sao_Paulo # for integration tests with Oracle DB
-        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Integration          
+        run: dotnet test ./src/NHilo.sln --no-build --verbosity normal --filter Category=Integration /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
+
+      - name: End analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
