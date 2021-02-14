@@ -54,12 +54,16 @@ jobs:
 
       - name: Restore
         run: dotnet restore ./src/NHilo.sln        
-      
+
+      - name: Find file 1
+        run: readlink -f ./.reports/SonarQube.xml
+
       - name: Start analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./.sonar/scanner/dotnet-sonarscanner begin /k:"fabiogouw_NHilo" /o:"fabiogouw" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths=./.reports/SonarQube.xml
+        run: ./.sonar/scanner/dotnet-sonarscanner begin /k:"fabiogouw_NHilo" /o:"fabiogouw" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths=/home/runner/work/NHilo/NHilo/.reports/SonarQube.xml
+        #./.reports/SonarQube.xml
 
       - name: Build
         run: dotnet build ./src/NHilo.sln --no-restore 
@@ -74,12 +78,6 @@ jobs:
 
       - name: Create Coverage Report
         run: ./.reportgenerator/reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./.reports -reporttypes:"SonarQube"
-        
-      - name: Find file
-        run: |
-          pwd
-          ls
-          cat /home/runner/work/NHilo/NHilo/src/.reports/SonarQube.xml
 
       - name: End analyze
         env:
