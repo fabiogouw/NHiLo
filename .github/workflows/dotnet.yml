@@ -55,9 +55,6 @@ jobs:
       - name: Restore
         run: dotnet restore ./src/NHilo.sln        
 
-      - name: Find file 1
-        run: readlink -f ./.reports/SonarQube.xml
-
       - name: Start analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,6 +75,9 @@ jobs:
 
       - name: Create Coverage Report
         run: ./.reportgenerator/reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./.reports -reporttypes:"SonarQube"
+
+      - name: Find file 1
+        run: readlink -f ./.reports/SonarQube.xml
 
       - name: End analyze
         env:
