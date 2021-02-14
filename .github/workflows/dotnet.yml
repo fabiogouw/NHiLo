@@ -73,7 +73,9 @@ jobs:
         run: dotnet test ./src/NHilo.sln --blame --no-build --verbosity normal --filter Category=Integration --collect:"XPlat Code Coverage" -l trx
 
       - name: Create Coverage Report
-        run: ./.reportgenerator/reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./reports -reporttypes:"SonarQube"
+        run: |
+          ./.reportgenerator/reportgenerator -reports:./**/coverage.cobertura.xml -targetdir:./reports -reporttypes:"SonarQube"
+          cat ./reports/SonarQube.xml
 
       - name: End analyze
         env:
