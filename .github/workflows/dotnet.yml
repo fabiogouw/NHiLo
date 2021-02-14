@@ -78,7 +78,8 @@ jobs:
       - name: Find file
         run: |
           pwd
-          cat ./.reports/SonarQube.xml
+          ls
+          cat /home/runner/work/NHilo/NHilo/src/.reports/SonarQube.xml
 
       - name: End analyze
         env:
