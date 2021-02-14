@@ -1,6 +1,7 @@
 using DotNet.Testcontainers.Containers.Builders;
 using DotNet.Testcontainers.Containers.Configurations.Databases;
 using DotNet.Testcontainers.Containers.Modules.Databases;
+using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -25,7 +26,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
 
         [Fact]
         [Trait("Category", "Integration")]
-        public async void ShouldConnectToABrandNewDatabaseAndGetKeyUsingTable()
+        public async Task Should_ConnectToABrandNewDatabaseAndGetKey_When_UsingTable()
         {
             string entityName = "myMSSqlTableEntity";
             string funcAppSettings(string connectionString) => $@"{{
@@ -52,7 +53,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
         }
         [Fact]
         [Trait("Category", "Integration")]
-        public async void ShouldConnectToABrandNewDatabaseAndGetKeyUsingSequence()
+        public async Task Should_ConnectToABrandNewDatabaseAndGetKey_When_UsingSequence()
         {
             string entityName = "myMSSqlSequenceEntity";
             string funcAppSettings(string connectionString) => $@"{{
@@ -96,7 +97,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
             var generator = factory.GetKeyGenerator(entityName);
             long key = generator.GetKey();
             _output.WriteLine($"Key generated: '{key}'");
-            Assert.True(key > 0, "Expected key to be greater than 0.");
+            key.Should().BeGreaterThan(0, "is expected the key to be greater than 0.");
 
             await using var connection = new SqlConnection(testcontainer.ConnectionString);
             connection.Open();
@@ -104,12 +105,12 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
             cmd.Connection = connection;
             long nexttHi = validateNextHi(cmd);
             _output.WriteLine($"Next Hi value: '{nexttHi}'");
-            Assert.True(nexttHi == 2, "Expected next Hi value to be equal to 2 (first execution).");
+            nexttHi.Should().Be(2, "is expected the next Hi value to be equal to 2 (first execution).");
         }
 
         [Fact]
         [Trait("Category", "Integration")]
-        public async void ShouldRaiseErrorForLackOfSELECTPermission()
+        public async Task Should_RaiseError_When_LackOfSELECTPermission()
         {
             var testcontainersBuilder = new TestcontainersBuilder<MsSqlTestcontainer>()
                 .WithDatabase(new MsSqlTestcontainerConfiguration
@@ -172,21 +173,16 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                 }}"
                 )));
             var factory = new HiLoGeneratorFactory(builder.Build());
-            try
-            {
-                factory.GetKeyGenerator("myMSSqlSequenceEntity");
-                Assert.True(false, "Expected exception has not been thrown.");
-            }
-            catch (NHiLoException ex)
-            {
-                _output.WriteLine($"InnerException: '{ex.InnerException.Message}'");
-                Assert.Equal(229, (ex.InnerException as SqlException).Number);
-            }
+            Action act = () => factory.GetKeyGenerator("MSSqlSequenceEntity");
+
+            act.Should().Throw<NHiLoException>()
+                .WithInnerException<SqlException>()
+                .Where(ex => ex.Number == 229, "229 is the SQL Server's error code for lack of select permission");
         }
 
         [Fact]
         [Trait("Category", "Integration")]
-        public async void ShouldRaiseErrorForLackOfCREATE_TABLEPermission()
+        public async Task Should_RaiseError_When_LackOfCreateTablePermission()
         {
             var testcontainersBuilder = new TestcontainersBuilder<MsSqlTestcontainer>()
                 .WithDatabase(new MsSqlTestcontainerConfiguration
@@ -236,16 +232,11 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                 }}"
                 )));
             var factory = new HiLoGeneratorFactory(builder.Build());
-            try
-            {
-                factory.GetKeyGenerator("myMSSqlSequenceEntity");
-                Assert.True(false, "Expected exception has not been thrown.");
-            }
-            catch (NHiLoException ex)
-            {
-                _output.WriteLine($"InnerException: '{ex.InnerException.Message}'");
-                Assert.Equal(262, (ex.InnerException as SqlException).Number);
-            }
+            Action act = () => factory.GetKeyGenerator("MSSqlSequenceEntity");
+
+            act.Should().Throw<NHiLoException>()
+                .WithInnerException<SqlException>()
+                .Where(ex => ex.Number == 262, "262 is the SQL Server's error code for lack of create table permission");
         }
 
         private async Task ExecuteScript(string prepareDbScript, SqlConnection connection)

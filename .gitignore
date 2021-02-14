@@ -348,3 +348,8 @@ __pycache__/
 # Analysis
 .sonarqube
 .reports
+
+#
+
+StryketOutput
+TestDoubles

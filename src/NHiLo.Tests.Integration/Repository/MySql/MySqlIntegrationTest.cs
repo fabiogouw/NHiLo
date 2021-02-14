@@ -1,12 +1,12 @@
 using DotNet.Testcontainers.Containers.Builders;
 using DotNet.Testcontainers.Containers.Configurations.Databases;
-using DotNet.Testcontainers.Containers.Modules;
 using DotNet.Testcontainers.Containers.Modules.Databases;
-using DotNet.Testcontainers.Containers.WaitStrategies;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using MySql.Data.MySqlClient;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,7 +24,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
 
         [Fact]
         [Trait("Category", "Integration")]
-        public async void ShouldConnectToABrandNewDatabaseAndGetKey()
+        public async Task Should_ConnectToABrandNewDatabaseAndGetKey()
         {
             var testcontainersBuilder = new TestcontainersBuilder<MySqlTestcontainer>()
                 .WithDatabase(new MySqlTestcontainerConfiguration
@@ -56,7 +56,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                 var generator = factory.GetKeyGenerator("myMySqlEntity");
                 long key = generator.GetKey();
                 _output.WriteLine($"Key generated: '{key}'");
-                Assert.True(key > 0, "Expected key to be greater than 0.");
+                key.Should().BeGreaterThan(0, "is expected the key to be greater than 0.");
 
                 await using (var connection = new MySqlConnection(testcontainer.ConnectionString))
                 {
@@ -70,7 +70,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                             reader.Read();
                             long nexttHi = reader.GetInt64("NEXT_HI");
                             _output.WriteLine($"Next Hi value: '{nexttHi}'");
-                            Assert.True(nexttHi == 2, "Expected next Hi value to be equal to 2 (first execution).");
+                            nexttHi.Should().Be(2, "is expected the next Hi value to be equal to 2 (first execution).");
                         }
                     }
                 }

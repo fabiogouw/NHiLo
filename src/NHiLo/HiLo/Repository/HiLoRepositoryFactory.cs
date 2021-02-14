@@ -24,6 +24,7 @@ namespace NHiLo.HiLo.Repository
                 ["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
                 ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),
                 ["System.Data.OracleClient"] = (config) => new OracleHiLoRepository(config),
+                ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
         }
