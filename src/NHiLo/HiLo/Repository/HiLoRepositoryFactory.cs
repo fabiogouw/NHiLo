@@ -15,11 +15,8 @@ namespace NHiLo.HiLo.Repository
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
-        private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions;
-
-        static HiLoRepositoryFactory()
-        {
-            _factoryFunctions = new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
+        private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
+            new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
                 ["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
                 ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),
@@ -27,7 +24,6 @@ namespace NHiLo.HiLo.Repository
                 ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
-        }
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
         {
