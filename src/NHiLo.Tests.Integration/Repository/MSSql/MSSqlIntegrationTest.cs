@@ -1,6 +1,6 @@
-using DotNet.Testcontainers.Containers.Builders;
-using DotNet.Testcontainers.Containers.Configurations.Databases;
-using DotNet.Testcontainers.Containers.Modules.Databases;
+using DotNet.Testcontainers.Builders;
+using DotNet.Testcontainers.Configurations;
+using DotNet.Testcontainers.Containers;
 using FluentAssertions;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -156,7 +156,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                 DENY SELECT ON [dbo].[NHILO] TO [nhilo_user];
                 GO
             ";
-            await ExecuteScript(prepareDbScript, new SqlConnection(testcontainer.ConnectionString));
+            await testcontainer.ExecScriptAsync(prepareDbScript);
 
             var builder = new ConfigurationBuilder();
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(
@@ -215,7 +215,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                 CREATE USER [nhilo_user] FOR LOGIN [nhilo_user];
                 GO
             ";
-            await ExecuteScript(prepareDbScript, new SqlConnection(testcontainer.ConnectionString));
+            await testcontainer.ExecScriptAsync(prepareDbScript);
 
             var builder = new ConfigurationBuilder();
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(
@@ -237,29 +237,6 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
             act.Should().Throw<NHiLoException>()
                 .WithInnerException<SqlException>()
                 .Where(ex => ex.Number == 262, "262 is the SQL Server's error code for lack of create table permission");
-        }
-
-        private async Task ExecuteScript(string prepareDbScript, SqlConnection connection)
-        {
-            var commandStrings = Regex.Split(prepareDbScript, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-            connection.Open();
-            try
-            {
-                foreach (string commandString in commandStrings)
-                {
-                    if (!string.IsNullOrWhiteSpace(commandString.Trim()))
-                    {
-                        using (var command = new SqlCommand(commandString, connection))
-                        {
-                            await command.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                connection.Close();
-            }
         }
     }
 }
