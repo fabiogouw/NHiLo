@@ -25,7 +25,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-		<PackageReference Include="MySql.Data" Version="8.0.23" />
+		<PackageReference Include="MySql.Data" Version="8.0.30" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.100" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.0.4" />
 	</ItemGroup>
