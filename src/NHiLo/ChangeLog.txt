@@ -28,3 +28,13 @@
 	- Adding integration tests for SQL Server, Oracle and MySql (Docker images / Test Containers framework)
 	- Adding the possibility to register custom Hilo repositories
 	- Dropping support for SQL Server CE, since Microsoft will no longer support it after July 2021 and it doesn't have a .NET Core package
+
+* 2.1.0 - 2022-04-21
+	- Upgrade library dependencies
+	- New provider for SQLite
+	- Bug fix for generating sequential guid using Linux (was working only for Windows based systems)
+	- Bug fix for clearer error messaging in SQL Server provider
+	- Upgrading test projects to .NET 6
+
+* 2.1.1 - 2022-11-15
+	- MySql charset fix
