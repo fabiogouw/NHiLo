@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<Version>2.1.1</Version>
+		<Version>2.1.2</Version>
 		<Description>Implementation of the HiLo algorithm for .NET. Available for SQL Server, SQL Server CE, Oracle and MySql.</Description>
 		<Copyright>Copyright © Fabio Gouw 2022</Copyright>
 		<Authors>Fabio Gouw</Authors>
@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.1" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.2" />
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.3" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
