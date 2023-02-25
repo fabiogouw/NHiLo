@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NHiLo.Common.Legacy;
-using System.Configuration;
+using Conf = System.Configuration;
 
 namespace NHiLo.Common.Config.Legacy
 {
@@ -8,13 +8,13 @@ namespace NHiLo.Common.Config.Legacy
     {
         public override void Load()
         {
-            foreach (ConnectionStringSettings connectionString in ConfigurationManager.ConnectionStrings)
+            foreach (Conf.ConnectionStringSettings connectionString in Conf.ConfigurationManager.ConnectionStrings)
             {
                 Data.Add($"ConnectionStrings:{connectionString.Name}:ConnectionString", connectionString.ConnectionString);
                 Data.Add($"ConnectionStrings:{connectionString.Name}:ProviderName", connectionString.ProviderName);
             }
 
-            var config = ConfigurationManager.GetSection("nhilo") as KeyGeneratorConfig;
+            var config = Conf.ConfigurationManager.GetSection("nhilo") as KeyGeneratorConfig;
             Data.Add("NHiLo:ConnectionStringId", config.HiloKeyGenerator.ConnectionStringId);
             Data.Add("NHiLo:ProviderName", config.HiloKeyGenerator.ProviderName);
             Data.Add("NHiLo:CreateHiLoStructureIfNotExists", config.HiloKeyGenerator.CreateHiLoStructureIfNotExists.ToString());
