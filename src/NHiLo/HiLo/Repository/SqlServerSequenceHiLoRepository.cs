@@ -33,7 +33,7 @@ namespace NHiLo.HiLo.Repository
         }
 
         protected override void CreateRepositoryStructure(IDbCommand cmd)
-        {
+        {   
             // no need to initialize repository, each entity will have tis own sequence
         }
 

@@ -23,18 +23,12 @@ namespace NHiLo // this should be available at the root namespace
 
         [Obsolete("For legacy compatibility only (.NET Framework). Newer versions like .NET Core and .NET 5 should use the constructor that receives an IConfiguration parameter.")]
         public HiLoGeneratorFactory() :
-            this(null, null)
+            this(null)
         {
 
         }
 
-        public HiLoGeneratorFactory(IConfiguration configuration) :
-            this(null, configuration)
-        {
-
-        }
-
-        private HiLoGeneratorFactory(IHiLoRepositoryFactory repositoryFactory, IConfiguration configuration)
+        public HiLoGeneratorFactory(IConfiguration configuration)
         {
             if (configuration == null)
             {
@@ -44,7 +38,7 @@ namespace NHiLo // this should be available at the root namespace
                 configuration = builder.Build();
             }
             _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
-            _repositoryFactory = repositoryFactory ?? new HiLoRepositoryFactory();
+            _repositoryFactory = new HiLoRepositoryFactory();
         }
 
         /// <summary>

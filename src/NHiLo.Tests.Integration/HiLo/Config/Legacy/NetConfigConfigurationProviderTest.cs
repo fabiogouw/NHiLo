@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using NHiLo.Common.Config.Legacy;
 using Xunit;
 
-namespace NHiLo.Tests.HiLo.Config
+namespace NHiLo.Tests.Integration.HiLo.Config.Legacy
 {
     public class NetConfigConfigurationProviderTest
     {

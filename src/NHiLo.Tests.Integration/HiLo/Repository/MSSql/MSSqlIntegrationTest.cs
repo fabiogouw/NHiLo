@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NHiLo.Tests.Integration.Repository.MSSql
+namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 {
     [Collection("Database Integration")]
     public class MSSqlIntegrationTest
@@ -35,7 +35,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ connectionString }"",
+                            ""ConnectionString"":""{connectionString}"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
@@ -43,7 +43,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
 
             long validateNextHi(SqlCommand cmd)
             {
-                cmd.CommandText = $"SELECT * FROM NHILO WHERE ENTITY = '{ entityName }'";
+                cmd.CommandText = $"SELECT * FROM NHILO WHERE ENTITY = '{entityName}'";
                 using var reader = cmd.ExecuteReader();
                 reader.Read();
                 return reader.GetInt64(reader.GetOrdinal("NEXT_HI"));
@@ -63,7 +63,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ connectionString }"",
+                            ""ConnectionString"":""{connectionString}"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
@@ -71,7 +71,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
 
             long validateNextHi(SqlCommand cmd)
             {
-                cmd.CommandText = $"SELECT current_value FROM sys.sequences WHERE name = 'SQ_HiLo_{ entityName }'";
+                cmd.CommandText = $"SELECT current_value FROM sys.sequences WHERE name = 'SQ_HiLo_{entityName}'";
                 using var reader = cmd.ExecuteReader();
                 reader.Read();
                 return reader.GetInt64(0) + 1; // +1 because Sequence works different from the table implementation
@@ -166,7 +166,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""Server={ testcontainer.Hostname },{ testcontainer.Port };Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
+                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.Port};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
@@ -225,7 +225,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""Server={ testcontainer.Hostname },{ testcontainer.Port };Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
+                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.Port};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
