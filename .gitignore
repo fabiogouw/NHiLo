@@ -352,3 +352,6 @@ __pycache__/
 #
 
 StryketOutput
+
+# for a hack to test the legacy configuration code
+!src/NHiLo.Tests.Integration/testhost.dll.config

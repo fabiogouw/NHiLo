@@ -27,7 +27,10 @@ namespace NHiLo.Tests.Integration.Repository.Oracle
         public async Task Should_ConnectToABrandNewDatabaseAndGetKey()
         {
             var testcontainersBuilder = new TestcontainersBuilder<OracleTestcontainer>()
-                .WithDatabase(new OracleTestcontainerConfiguration());
+                .WithDatabase(new OracleTestcontainerConfiguration()
+                {
+                    Password = "password"
+                });
 
             await using (var testcontainer = testcontainersBuilder.Build())
             {
