@@ -43,90 +43,110 @@ namespace NHiLo.Guid
         /// <summary>
         /// Decodes an ASCII85 encoded string into the original binary data
         /// </summary>
-        /// <param name="s">ASCII85 encoded string</param>
+        /// <param name="encodedString">ASCII85 encoded string</param>
         /// <returns>byte array of decoded binary data</returns>
-        public byte[] Decode(string s)
+        public byte[] Decode(string encodedString)
         {
-            if (EnforceMarks && !s.StartsWith(PrefixMark) || !s.EndsWith(SuffixMark))
+            if (EnforceMarks && !encodedString.StartsWith(PrefixMark) || !encodedString.EndsWith(SuffixMark))
             {
                 throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
                     .WithInfo("reason", $"ASCII85 encoded data should begin with '{ PrefixMark }' and end with '{ SuffixMark }'");
             }
 
-            s = RemoveSufixAndPrefix(s);
+            encodedString = RemoveSufixAndPrefix(encodedString);
 
             using (MemoryStream ms = new MemoryStream())
             {
                 int count = 0;
-                bool processChar = false;
+                bool validChar = false;
 
-                foreach (char c in s)
+                foreach (char encodedChar in encodedString)
                 {
-                    switch (c)
-                    {
-                        case 'z':
-                            if (count != 0)
-                            {
-                                throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
-                                    .WithInfo("reason", "The character 'z' is invalid inside an ASCII85 block.");
-                            }
-                            _decodedBlock[0] = 0;
-                            _decodedBlock[1] = 0;
-                            _decodedBlock[2] = 0;
-                            _decodedBlock[3] = 0;
-                            ms.Write(_decodedBlock, 0, _decodedBlock.Length);
-                            processChar = false;
-                            break;
-                        case '\n':
-                        case '\r':
-                        case '\t':
-                        case '\0':
-                        case '\f':
-                        case '\b':
-                            processChar = false;
-                            break;
-                        default:
-                            if (c < '!' || c > 'u')
-                            {
-                                throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
-                                    .WithInfo("reason", $"Bad character '{ c }' found. ASCII85 only allows characters '!' to 'u'.");
-                            }
-                            processChar = true;
-                            break;
-                    }
+                    validChar = IsValidChar(ms, count, encodedChar);
 
-                    if (processChar)
+                    if (validChar)
                     {
-                        _tuple += ((uint)(c - _asciiOffset) * pow85[count]);
-                        count++;
-                        if (count == _encodedBlock.Length)
-                        {
-                            DecodeBlock();
-                            ms.Write(_decodedBlock, 0, _decodedBlock.Length);
-                            _tuple = 0;
-                            count = 0;
-                        }
+                        count = ProcessChar(ms, count, encodedChar);
                     }
                 }
 
                 // if we have some bytes left over at the end..
                 if (count != 0)
                 {
-                    if (count == 1)
-                    {
-                        throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
-                            .WithInfo("reason", "The last block of ASCII85 data cannot be a single byte.");
-                    }
-                    count--;
-                    _tuple += pow85[count];
-                    DecodeBlock(count);
-                    for (int i = 0; i < count; i++)
-                    {
-                        ms.WriteByte(_decodedBlock[i]);
-                    }
+                    ProcessBytesLeft(ms, count);
                 }
 
                 return ms.ToArray();
+            }
+        }
+
+        private int ProcessChar(MemoryStream ms, int count, char encodedChar)
+        {
+            _tuple += ((uint)(encodedChar - _asciiOffset) * pow85[count]);
+            count++;
+            if (count == _encodedBlock.Length)
+            {
+                DecodeBlock();
+                ms.Write(_decodedBlock, 0, _decodedBlock.Length);
+                _tuple = 0;
+                count = 0;
+            }
+
+            return count;
+        }
+
+        private bool IsValidChar(MemoryStream ms, int count, char encodedChar)
+        {
+            bool processChar;
+            switch (encodedChar)
+            {
+                case 'z':
+                    if (count != 0)
+                    {
+                        throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
+                            .WithInfo("reason", "The character 'z' is invalid inside an ASCII85 block.");
+                    }
+                    _decodedBlock[0] = 0;
+                    _decodedBlock[1] = 0;
+                    _decodedBlock[2] = 0;
+                    _decodedBlock[3] = 0;
+                    ms.Write(_decodedBlock, 0, _decodedBlock.Length);
+                    processChar = false;
+                    break;
+                case '\n':
+                case '\r':
+                case '\t':
+                case '\0':
+                case '\f':
+                case '\b':
+                    processChar = false;
+                    break;
+                default:
+                    if (encodedChar < '!' || encodedChar > 'u')
+                    {
+                        throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
+                            .WithInfo("reason", $"Bad character '{encodedChar}' found. ASCII85 only allows characters '!' to 'u'.");
+                    }
+                    processChar = true;
+                    break;
+            }
+
+            return processChar;
+        }
+
+        private void ProcessBytesLeft(MemoryStream ms, int count)
+        {
+            if (count == 1)
+            {
+                throw new NHiLoException(ErrorCodes.DecodingASCII85StringError)
+                    .WithInfo("reason", "The last block of ASCII85 data cannot be a single byte.");
+            }
+            count--;
+            _tuple += pow85[count];
+            DecodeBlock(count);
+            for (int i = 0; i < count; i++)
+            {
+                ms.WriteByte(_decodedBlock[i]);
             }
         }
 

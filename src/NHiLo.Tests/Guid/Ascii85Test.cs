@@ -10,7 +10,7 @@ namespace NHiLo.Tests.Guid
         [Theory]
         [Trait("Category", "Unit")]
         [InlineData("Any colour you like")]
-        public void ShouldAEncondedValueBeDecodedToTheOriginal(string value)
+        public void Should_AEncondedValueBeDecodedToTheOriginal_When_TheValueIsEncodedAndDecodedSequentially(string value)
         {
             // Arrange
             var sut = new Ascii85();
@@ -24,18 +24,32 @@ namespace NHiLo.Tests.Guid
 
         public class Decode
         {
+            // <~6#Lrj@rH1%F`JUMDfm1=Bkq8~> is an example of valid encoded string
             [Theory]
             [Trait("Category", "Unit")]
-            [InlineData("value without the prefix and sufix")]
-            [InlineData("<~just prefix")]
-            [InlineData("just sufix~>")]
-            public void ShouldThrowErrorWhenDecodeAValueWithoutPrefixOrSufix(string value)
+            [InlineData("value-without-the-prefix-and-sufix", "ASCII85 encoded data should begin with '<~' and end with '~>'")]  // without prefix and sufix
+            [InlineData("<~without-sufix", "ASCII85 encoded data should begin with '<~' and end with '~>'")]     // without sufix
+            [InlineData("without-prefix~>", "ASCII85 encoded data should begin with '<~' and end with '~>'")]    // without prefix
+            [InlineData("<~z~>", "Bad character 'z' found. ASCII85 only allows characters '!' to 'u'.")]   // char z
+            [InlineData("<~invalid~>", "Bad character 'v' found. ASCII85 only allows characters '!' to 'u'.")]   // char v
+            [InlineData("<~ ~>", "Bad character ' ' found. ASCII85 only allows characters '!' to 'u'.")]   // spaces are invalid
+            [InlineData("<~w#Lrj@rH1%F`JUMDfm1=Bkq8~>", "Bad character 'w' found. ASCII85 only allows characters '!' to 'u'.")]   // the first w is an invalid char
+            
+            public void Should_ThrowError_When_DecodingAStringWithoutInvalidCondition(string value, string message)
             {
                 // Arrange
                 var sut = new Ascii85();
                 sut.EnforceMarks = true;
-                // Act & Assert
-                Assert.Throws<NHiLoException>(() => sut.Decode(value));
+                try
+                {
+                    // Act
+                    sut.Decode(value);
+                }
+                catch (NHiLoException ex)
+                {
+                    // Assert
+                    ex.Data["reason"].Should().Be(message);
+                }
             }
         }
     }
