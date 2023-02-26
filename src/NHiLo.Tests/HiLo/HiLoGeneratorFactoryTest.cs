@@ -117,33 +117,33 @@ namespace NHiLo.Tests.HiLo
             */
             [Fact]
             [Trait("Category", "Unit")]
-            public void ShouldRaiseExceptionIfEntityNameStartsWithANumber()
+            public void Should_RaiseException_When_EntityNameStartsWithANumber()
             {
-                ShouldRaiseExceptionIfEntityNameIsInvalid("123name");
+                RaiseExceptionIfEntityNameIsInvalid("123name");
             }
 
             [Fact]
             [Trait("Category", "Unit")]
-            public void ShouldRaiseExceptionIfEntityNameContainsSpaces()
+            public void Should_RaiseException_When_EntityNameContainsSpaces()
             {
-                ShouldRaiseExceptionIfEntityNameIsInvalid("n ame");
+                RaiseExceptionIfEntityNameIsInvalid("n ame");
             }
 
             [Fact]
             [Trait("Category", "Unit")]
-            public void ShouldRaiseExceptionIfEntityNameContainsSingleQuotes()
+            public void Should_RaiseException_When_EntityNameContainsSingleQuotes()
             {
-                ShouldRaiseExceptionIfEntityNameIsInvalid("name'");
+                RaiseExceptionIfEntityNameIsInvalid("name'");
             }
 
             [Fact]
             [Trait("Category", "Unit")]
-            public void ShouldRaiseExceptionIfEntityNameHasMoreThan100Chars()
+            public void Should_RaiseException_When_EntityNameHasMoreThan100Chars()
             {
-                ShouldRaiseExceptionIfEntityNameIsInvalid("namesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnames1");
+                RaiseExceptionIfEntityNameIsInvalid("namesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnamesnames1");
             }
 
-            private void ShouldRaiseExceptionIfEntityNameIsInvalid(string entityName)
+            private static void RaiseExceptionIfEntityNameIsInvalid(string entityName)
             {
                 // Arrange
                 var mockConfig = CreateHiloConfigurationWithDefaultMaxLo100AndFirstEntityWithMaxLo20();
@@ -163,7 +163,7 @@ namespace NHiLo.Tests.HiLo
 
             [Fact]
             [Trait("Category", "Unit")]
-            public void ShouldRaiseExceptionAsNoProviderNameHasBeenSupplied()
+            public void Should_RaiseException_When_NoProviderNameHasBeenSupplied()
             {
                 // Arrange
                 var mockConfig = CreateHiloConfigurationWithNoConfigurationForNHiLoAndOnlyOneConnectionStringWithNoProviderName();

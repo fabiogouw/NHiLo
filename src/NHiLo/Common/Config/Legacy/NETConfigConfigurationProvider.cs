@@ -4,7 +4,7 @@ using Conf = System.Configuration;
 
 namespace NHiLo.Common.Config.Legacy
 {
-    public class NETConfigConfigurationProvider : ConfigurationProvider, IConfigurationSource
+    public class NetConfigConfigurationProvider : ConfigurationProvider, IConfigurationSource
     {
         public override void Load()
         {

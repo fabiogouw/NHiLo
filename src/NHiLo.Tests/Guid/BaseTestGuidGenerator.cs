@@ -6,7 +6,7 @@ namespace NHiLo.Tests.Guid
     {
         public abstract class GetKey
         {
-            protected void ShouldGetANonNullGuid(IKeyGenerator<string> generator)
+            protected static void ShouldGetANonNullGuid(IKeyGenerator<string> generator)
             {
                 // Act
                 string key = generator.GetKey();
@@ -14,7 +14,7 @@ namespace NHiLo.Tests.Guid
                 Assert.NotEqual(System.Guid.Empty.ToString(), key);
             }
 
-            protected void ShouldGetDifferentKeys(IKeyGenerator<string> generator)
+            protected static void ShouldGetDifferentKeys(IKeyGenerator<string> generator)
             {
                 // Act
                 string key1 = generator.GetKey();

@@ -5,15 +5,15 @@ using Xunit;
 
 namespace NHiLo.Tests.HiLo.Config
 {
-    public class NETConfigConfigurationProviderTest
+    public class NetConfigConfigurationProviderTest
     {
         [Fact]
         [Trait("Category", "Integration")]
-        public void ShouldReadTheConfigurationsFromTheDefaultCongigurationFile()
+        public void Should_ReadTheConfigurationsFromTheAppConfigFile_When_UsingTheLegacyConfigurationMode()
         {
             // HACK: the file testhost.dll.config is copied to the bin folder, during the build stage, to be loaded by the test engine
             var builder = new ConfigurationBuilder()
-                .Add(new NETConfigConfigurationProvider());
+                .Add(new NetConfigConfigurationProvider());
             IConfiguration configuration = builder.Build();
             configuration.GetValue<string>("NHiLo:ConnectionStringId").Should().Be("DB1");
             configuration.GetValue<bool>("NHiLo:CreateHiLoStructureIfNotExists").Should().Be(true);

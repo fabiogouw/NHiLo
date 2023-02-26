@@ -19,7 +19,7 @@ namespace NHiLo.HiLo.Repository
             get { return _entityName; } 
         }
 
-        public AgnosticHiLoRepository(IHiLoConfiguration config, DbProviderFactory provider)
+        protected AgnosticHiLoRepository(IHiLoConfiguration config, DbProviderFactory provider)
         {
             _config = config;
             DbFactoryCreator = (providerName) => provider;

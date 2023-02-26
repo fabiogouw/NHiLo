@@ -38,7 +38,7 @@ namespace NHiLo.Tests.HiLo.Config
             Assert.Equal("NHiLo.InMemory", wrapper.GetConnectionStringsSection().ConnectionStrings[0].ProviderName);
         }
 
-        private IConfiguration CreateConfiguration(string appSettings)
+        private static IConfiguration CreateConfiguration(string appSettings)
         {
             var builder = new ConfigurationBuilder();
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));

@@ -4,7 +4,7 @@
     /// Represents the contract used to create objects that generate keys.
     /// </summary>
     /// <typeparam name="T">The type of the key (long, string, etc).</typeparam>
-    public interface IKeyGeneratorFactory<T>
+    public interface IKeyGeneratorFactory<out T>
     {
         /// <summary>
         /// Returns the object that produces new key values.

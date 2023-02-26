@@ -1,5 +1,6 @@
 ﻿using NHiLo.Common;
 using NHiLo.HiLo.Config;
+using System;
 using System.Data;
 using System.Text.RegularExpressions;
 
@@ -12,7 +13,7 @@ namespace NHiLo.HiLo.Repository
     {
         private readonly string _sqlStatementToSelectAndUpdateNextHiValue = @"SELECT NEXT VALUE FOR [dbo].[{0}{1}];";
         private readonly string _objectPrefix = "SQ_HiLo_";
-        private readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$");
+        private readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$", RegexOptions.None, TimeSpan.FromMilliseconds(10));
 
         public SqlServerSequenceHiLoRepository(IHiLoConfiguration config)
             : base(config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
