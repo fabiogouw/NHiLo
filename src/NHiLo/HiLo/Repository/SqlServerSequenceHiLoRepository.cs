@@ -11,7 +11,8 @@ namespace NHiLo.HiLo.Repository
     /// </summary>
     public class SqlServerSequenceHiLoRepository : AgnosticHiLoRepository
     {
-        private readonly string _sqlStatementToSelectAndUpdateNextHiValue = @"SELECT NEXT VALUE FOR [dbo].[{0}{1}];";
+        private readonly string _sqlStatementToSelectAndUpdateNextHiValue = @"DECLARE @sql NVARCHAR(MAX) = 'SELECT NEXT VALUE FOR ' + QUOTENAME(@entityName);
+                                                                              EXEC sp_executesql @sql;";
         private readonly string _objectPrefix = "SQ_HiLo_";
         private readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$", RegexOptions.None, TimeSpan.FromMilliseconds(10));
 
@@ -28,7 +29,11 @@ namespace NHiLo.HiLo.Repository
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
         {
             EnsureCorrectSequencePrefixName();
-            cmd.CommandText = string.Format(_sqlStatementToSelectAndUpdateNextHiValue, _objectPrefix, EntityName);
+            cmd.CommandText = _sqlStatementToSelectAndUpdateNextHiValue;
+            var entityNameParam = cmd.CreateParameter();
+            entityNameParam.ParameterName = "entityName";
+            entityNameParam.Value = _objectPrefix + EntityName;
+            cmd.Parameters.Add(entityNameParam);
             return (long)cmd.ExecuteScalar();
         }
 
@@ -41,14 +46,19 @@ namespace NHiLo.HiLo.Repository
         protected override void InitializeRepositoryForEntity(IDbCommand cmd)
         {
             EnsureCorrectSequencePrefixName();
-            cmd.CommandText = string.Format(@"
-            IF NOT EXISTS(SELECT 1 FROM sys.sequences WHERE name = '{0}{1}')
-            BEGIN
-	            CREATE SEQUENCE [dbo].[{0}{1}] START WITH 1 INCREMENT BY 1;
-	            SELECT 1;
-            END
-            ELSE
-	            SELECT 0;", _objectPrefix, EntityName);
+            cmd.CommandText = @"
+            DECLARE @sql NVARCHAR(MAX) = 'IF NOT EXISTS(SELECT 1 FROM sys.sequences WHERE name = ''' + QUOTENAME(@entityName) + ''')
+                                          BEGIN
+	                                          CREATE SEQUENCE [dbo].' + QUOTENAME(@entityName) + ' START WITH 1 INCREMENT BY 1;
+	                                          SELECT 1;
+                                          END
+                                          ELSE
+	                                          SELECT 0;'
+            EXEC sp_executesql @sql;";
+            var entityNameParam = cmd.CreateParameter();
+            entityNameParam.ParameterName = "entityName";
+            entityNameParam.Value = _objectPrefix + EntityName;
+            cmd.Parameters.Add(entityNameParam);
             cmd.ExecuteNonQuery();
         }
 
