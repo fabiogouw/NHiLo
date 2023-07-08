@@ -11,7 +11,7 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToInitializeEntity;
 
         public MySqlHiLoRepository(IHiLoConfiguration config)
-            : base(config, MySqlConnector.MySqlConnectorFactory.Instance)
+            : base(config, MySql.Data.MySqlClient.MySqlClientFactory.Instance)
         {
             InitializeSqlStatements(config);
         }
