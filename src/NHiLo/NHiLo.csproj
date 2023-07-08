@@ -37,10 +37,11 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
-		<PackageReference Include="MySql.Data" Version="8.0.32" />
+		<PackageReference Include="MySqlConnector" Version="2.2.6" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="2.19.190" />
 		<PackageReference Include="SQLitePCLRaw.core" Version="2.1.5" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="7.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
