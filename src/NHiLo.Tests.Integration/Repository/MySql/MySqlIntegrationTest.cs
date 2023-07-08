@@ -45,7 +45,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
                             ""ConnectionString"":""{ testcontainer.ConnectionString }"",
-                            ""ProviderName"":""MySql.Data.MySqlClient""
+                            ""ProviderName"":""MySqlConnector""
                         }}
                     }}
                 }}";

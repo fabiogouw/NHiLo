@@ -19,7 +19,8 @@ namespace NHiLo.HiLo.Repository
             new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
                 ["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
-                ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),
+                ["MySqlConnector"] = (config) => new MySqlHiLoRepository(config),
+                ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),   //compatibility
                 ["System.Data.OracleClient"] = (config) => new OracleHiLoRepository(config),
                 ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
