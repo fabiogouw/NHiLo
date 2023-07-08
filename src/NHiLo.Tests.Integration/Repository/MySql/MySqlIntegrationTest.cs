@@ -3,7 +3,7 @@ using DotNet.Testcontainers.Configurations;
 using DotNet.Testcontainers.Containers;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
