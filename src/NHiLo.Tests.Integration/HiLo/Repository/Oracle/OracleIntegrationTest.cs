@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NHiLo.Tests.Integration.Repository.Oracle
+namespace NHiLo.Tests.Integration.HiLo.Repository.Oracle
 {
     [Collection("Database Integration")]
     public class OracleIntegrationTest
@@ -42,7 +42,7 @@ namespace NHiLo.Tests.Integration.Repository.Oracle
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ testcontainer.ConnectionString }"",
+                            ""ConnectionString"":""{testcontainer.ConnectionString}"",
                             ""ProviderName"":""System.Data.OracleClient""
                         }}
                     }}

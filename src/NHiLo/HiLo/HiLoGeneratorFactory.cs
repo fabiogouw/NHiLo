@@ -19,32 +19,26 @@ namespace NHiLo // this should be available at the root namespace
         private readonly static ConcurrentDictionary<string, IKeyGenerator<long>> _keyGenerators = new ConcurrentDictionary<string, IKeyGenerator<long>>();
         private readonly IHiLoRepositoryFactory _repositoryFactory;
         private readonly IHiLoConfiguration _config;
-        private static readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$");
+        private static readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$", RegexOptions.None, TimeSpan.FromMilliseconds(10));
 
         [Obsolete("For legacy compatibility only (.NET Framework). Newer versions like .NET Core and .NET 5 should use the constructor that receives an IConfiguration parameter.")]
         public HiLoGeneratorFactory() :
-            this(null, null)
+            this(null)
         {
 
         }
 
-        public HiLoGeneratorFactory(IConfiguration configuration) :
-            this(null, configuration)
-        {
-
-        }
-
-        private HiLoGeneratorFactory(IHiLoRepositoryFactory repositoryFactory, IConfiguration configuration)
+        public HiLoGeneratorFactory(IConfiguration configuration)
         {
             if (configuration == null)
             {
                 var builder = new ConfigurationBuilder()
-                    .Add(new NETConfigConfigurationProvider())
+                    .Add(new NetConfigConfigurationProvider())
                     .AddEnvironmentVariables();
                 configuration = builder.Build();
             }
             _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
-            _repositoryFactory = repositoryFactory ?? new HiLoRepositoryFactory();
+            _repositoryFactory = new HiLoRepositoryFactory();
         }
 
         /// <summary>

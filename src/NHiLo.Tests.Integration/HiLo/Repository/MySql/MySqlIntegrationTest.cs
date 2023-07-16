@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NHiLo.Tests.Integration.Repository.MySql
+namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
 {
     [Collection("Database Integration")]
     public class MySqlIntegrationTest
@@ -32,7 +32,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                     Database = "myDataBase",
                     Username = "myUser",
                     Password = "myPassword",
-                    
+
                 });
 
             await using (var testcontainer = testcontainersBuilder.Build())
@@ -44,7 +44,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ testcontainer.ConnectionString }"",
+                            ""ConnectionString"":""{testcontainer.ConnectionString}"",
                             ""ProviderName"":""MySqlConnector""
                         }}
                     }}

@@ -4,7 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Version>2.2.0</Version>
 		<Description>Implementation of the HiLo algorithm for .NET. Available for SQL Server, SQL Server CE, Oracle and MySql.</Description>
-		<Copyright>Copyright © Fabio Gouw 2022</Copyright>
+		<Copyright>Copyright © Fabio Gouw 2023</Copyright>
 		<Authors>Fabio Gouw</Authors>
 		<Company />
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>

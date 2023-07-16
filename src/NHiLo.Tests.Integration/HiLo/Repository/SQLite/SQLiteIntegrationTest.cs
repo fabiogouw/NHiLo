@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NHiLo.Tests.Integration.Repository.MySql
+namespace NHiLo.Tests.Integration.HiLo.Repository.SQLite
 {
     [Collection("Database Integration")]
     public class SqliteIntegrationTest
@@ -36,7 +36,7 @@ namespace NHiLo.Tests.Integration.Repository.MySql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ connectionString }"",
+                            ""ConnectionString"":""{connectionString}"",
                             ""ProviderName"":""Microsoft.Data.Sqlite""
                         }}
                     }}

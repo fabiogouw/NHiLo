@@ -4,7 +4,7 @@
     /// Holds the types of storage that can be used to keep record of the Hi values within the database.
     /// </summary>
     /// <remarks>No all DBMS can implement all these storage types.</remarks>
-    public enum HiLoStorageType : int
+    public enum HiLoStorageType
     {
         /// <summary>
         /// Store Hi values in tables.

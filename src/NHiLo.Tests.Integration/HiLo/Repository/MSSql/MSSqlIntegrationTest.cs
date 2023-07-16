@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NHiLo.Tests.Integration.Repository.MSSql
+namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 {
     [Collection("Database Integration")]
     public class MSSqlIntegrationTest
@@ -35,7 +35,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ connectionString }"",
+                            ""ConnectionString"":""{connectionString}"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
@@ -43,7 +43,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
 
             long validateNextHi(SqlCommand cmd)
             {
-                cmd.CommandText = $"SELECT * FROM NHILO WHERE ENTITY = '{ entityName }'";
+                cmd.CommandText = $"SELECT * FROM NHILO WHERE ENTITY = '{entityName}'";
                 using var reader = cmd.ExecuteReader();
                 reader.Read();
                 return reader.GetInt64(reader.GetOrdinal("NEXT_HI"));
@@ -63,7 +63,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{ connectionString }"",
+                            ""ConnectionString"":""{connectionString}"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
@@ -71,13 +71,42 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
 
             long validateNextHi(SqlCommand cmd)
             {
-                cmd.CommandText = $"SELECT current_value FROM sys.sequences WHERE name = 'SQ_HiLo_{ entityName }'";
+                cmd.CommandText = $"SELECT current_value FROM sys.sequences WHERE name = 'SQ_HiLo_{entityName}'";
                 using var reader = cmd.ExecuteReader();
                 reader.Read();
                 return reader.GetInt64(0) + 1; // +1 because Sequence works different from the table implementation
             }
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
+        }
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async Task Should_ThrowException_When_UsingSequenceWithAnInvalidPrefix()
+        {
+            string entityName = "myMSSqlSequenceEntity";
+            string funcAppSettings(string connectionString) => $@"{{
+                    ""NHiLo"":{{
+                        ""DefaultMaxLo"" : ""100"",
+                        ""StorageType"" : ""Sequence"",
+                        ""ObjectPrefix"": ""'""
+                    }},
+                    ""ConnectionStrings"":{{
+                        ""NHiLo"":{{
+                            ""ConnectionString"":""{connectionString}"",
+                            ""ProviderName"":""Microsoft.Data.SqlClient""
+                        }}
+                    }}
+                }}";
+
+            try
+            {
+                await TestDatabase(funcAppSettings, cmd => 0, entityName);
+                Assert.Fail("This test must throw an exception");
+            }
+            catch (NHiLoException ex)
+            {
+                ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.InvalidEntityName);
+            }
         }
         private async Task TestDatabase(Func<string, string> funcAppSettings, Func<SqlCommand, long> validateNextHi, string entityName)
         {
@@ -166,7 +195,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""Server={ testcontainer.Hostname },{ testcontainer.Port };Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
+                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.Port};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
@@ -225,7 +254,7 @@ namespace NHiLo.Tests.Integration.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""Server={ testcontainer.Hostname },{ testcontainer.Port };Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
+                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.Port};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
