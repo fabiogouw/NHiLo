@@ -79,6 +79,35 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async Task Should_ThrowException_When_UsingSequenceWithAnInvalidPrefix()
+        {
+            string entityName = "myMSSqlSequenceEntity";
+            string funcAppSettings(string connectionString) => $@"{{
+                    ""NHiLo"":{{
+                        ""DefaultMaxLo"" : ""100"",
+                        ""StorageType"" : ""Sequence"",
+                        ""ObjectPrefix"": ""'""
+                    }},
+                    ""ConnectionStrings"":{{
+                        ""NHiLo"":{{
+                            ""ConnectionString"":""{connectionString}"",
+                            ""ProviderName"":""Microsoft.Data.SqlClient""
+                        }}
+                    }}
+                }}";
+
+            try
+            {
+                await TestDatabase(funcAppSettings, cmd => 0, entityName);
+                Assert.Fail("This test must throw an exception");
+            }
+            catch (NHiLoException ex)
+            {
+                ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.InvalidEntityName);
+            }
+        }
         private async Task TestDatabase(Func<string, string> funcAppSettings, Func<SqlCommand, long> validateNextHi, string entityName)
         {
             var testcontainersBuilder = new TestcontainersBuilder<MsSqlTestcontainer>()
