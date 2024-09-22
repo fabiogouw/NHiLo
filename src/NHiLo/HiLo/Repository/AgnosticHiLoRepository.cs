@@ -98,7 +98,7 @@ namespace NHiLo.HiLo.Repository
             using (var conn = CreateConnection())
             {
                 conn.Open();
-                using (var trans = conn.BeginTransaction(IsolationLevel.Serializable))
+                using (var trans = conn.BeginTransaction(IsolationLevel.ReadCommitted))
                 {
                     try
                     {
