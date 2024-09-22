@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using Testcontainers.Oracle;
 
 namespace NHiLo.Tests.Integration.HiLo.Repository.Oracle
 {
@@ -26,11 +27,8 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.Oracle
         [Trait("Category", "Integration")]
         public async Task Should_ConnectToABrandNewDatabaseAndGetKey()
         {
-            var testcontainersBuilder = new TestcontainersBuilder<OracleTestcontainer>()
-                .WithDatabase(new OracleTestcontainerConfiguration()
-                {
-                    Password = "password"
-                });
+            var testcontainersBuilder = new OracleBuilder()
+                .WithPassword("password");
 
             await using (var testcontainer = testcontainersBuilder.Build())
             {
@@ -42,7 +40,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.Oracle
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{testcontainer.ConnectionString}"",
+                            ""ConnectionString"":""{testcontainer.GetConnectionString()}"",
                             ""ProviderName"":""System.Data.OracleClient""
                         }}
                     }}
@@ -56,7 +54,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.Oracle
                 _output.WriteLine($"Key generated: '{key}'");
                 key.Should().BeGreaterThan(0, "is expected the key to be greater than 0.");
 
-                await using (var connection = new OracleConnection(testcontainer.ConnectionString))
+                await using (var connection = new OracleConnection(testcontainer.GetConnectionString()))
                 {
                     connection.Open();
                     await using (var cmd = connection.CreateCommand())
