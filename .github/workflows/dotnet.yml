@@ -27,7 +27,13 @@ jobs:
       
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis       
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Install dotnet-sonarscanner
+        run: dotnet tool install --global dotnet-sonarscanner
+
+      - name: Install dotnet-coverage
+        run: dotnet tool install --global dotnet-coverage
 
       - name: Restore
         run: dotnet restore ./src/NHilo.sln        
@@ -42,3 +48,12 @@ jobs:
         env:
           TZ: America/Sao_Paulo # for integration tests with Oracle DB
         run: dotnet test ./src/NHilo.sln --no-build --configuration Release --verbosity normal --filter Category=Integration --collect:"XPlat Code Coverage" -l trx
+
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@v3.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=fabiogouw
+            -Dsonar.projectKey=fabiogouw_NHiLo

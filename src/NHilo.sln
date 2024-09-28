@@ -1,15 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo", "NHiLo\NHiLo.csproj", "{FB544588-0570-466F-9A1F-D554675F5CDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo", "NHiLo\NHiLo.csproj", "{FB544588-0570-466F-9A1F-D554675F5CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Tests", "NHiLo.Tests\NHiLo.Tests.csproj", "{2A7BB3EF-FCBC-44E9-824E-034CD4D4FC3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests", "NHiLo.Tests\NHiLo.Tests.csproj", "{2A7BB3EF-FCBC-44E9-824E-034CD4D4FC3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHiLo.Tests.Integration", "NHiLo.Tests.Integration\NHiLo.Tests.Integration.csproj", "{D240AC8B-5E41-44A6-B6F3-F71AC3ABF1F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NHiLo.Tests.Integration", "NHiLo.Tests.Integration\NHiLo.Tests.Integration.csproj", "{D240AC8B-5E41-44A6-B6F3-F71AC3ABF1F5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{CDE2D060-6E68-11EB-B827-83182767B3D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48FB3410-FA68-4B60-B266-60CFC1048AE9}"
+	ProjectSection(SolutionItems) = preProject
+		..\.github\workflows\dotnet.yml = ..\.github\workflows\dotnet.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,9 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{FB544588-0570-466F-9A1F-D554675F5CDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -61,8 +63,11 @@ Global
 		{D240AC8B-5E41-44A6-B6F3-F71AC3ABF1F5}.Release|x86.ActiveCfg = Release|Any CPU
 		{D240AC8B-5E41-44A6-B6F3-F71AC3ABF1F5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D240AC8B-5E41-44A6-B6F3-F71AC3ABF1F5} = {CDE2D060-6E68-11EB-B827-83182767B3D8}
 		{2A7BB3EF-FCBC-44E9-824E-034CD4D4FC3E} = {CDE2D060-6E68-11EB-B827-83182767B3D8}
+		{D240AC8B-5E41-44A6-B6F3-F71AC3ABF1F5} = {CDE2D060-6E68-11EB-B827-83182767B3D8}
 	EndGlobalSection
 EndGlobal
