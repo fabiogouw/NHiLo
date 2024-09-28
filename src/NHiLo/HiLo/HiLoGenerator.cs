@@ -11,6 +11,7 @@ namespace NHiLo.HiLo
         private readonly IHiLoRepository _repository;
         private long _currentHi;
         private readonly int _maxLo;
+        private readonly int _temp;
         private int _currentLo = int.MaxValue;  // starts with the maximum value to ensure the repository's first call
 
         /// <summary>
