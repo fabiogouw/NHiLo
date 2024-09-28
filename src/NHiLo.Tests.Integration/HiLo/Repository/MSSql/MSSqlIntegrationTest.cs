@@ -12,6 +12,10 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using Testcontainers.MsSql;
+using System.Runtime.InteropServices;
+using Testcontainers.MySql;
+using Renci.SshNet.Security;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 
 namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 {
@@ -109,11 +113,23 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
                 ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.InvalidEntityName);
             }
         }
-        private async Task TestDatabase(Func<string, string> funcAppSettings, Func<SqlCommand, long> validateNextHi, string entityName)
+
+        private MsSqlBuilder CreateImagemBuilder()
         {
             var testcontainersBuilder = new MsSqlBuilder()
+                .WithPortBinding(1433, true)
                 .WithPassword("myP@ssword100");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // FIX https://blog.rufer.be/2024/09/22/workaround-fix-testcontainers-sql-error-docker-dotnet-dockerapiexception-docker-api-responded-with-status-codeconflict/
+                testcontainersBuilder = testcontainersBuilder.WithImage("mcr.microsoft.com/mssql/server:2022-latest");
+            }
+            return testcontainersBuilder;
+        }
 
+        private async Task TestDatabase(Func<string, string> funcAppSettings, Func<SqlCommand, long> validateNextHi, string entityName)
+        {
+            var testcontainersBuilder = CreateImagemBuilder();
             await using var testcontainer = testcontainersBuilder.Build();
             await testcontainer.StartAsync();
 
@@ -139,8 +155,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
         [Trait("Category", "Integration")]
         public async Task Should_RaiseError_When_LackOfSELECTPermission()
         {
-            var testcontainersBuilder = new MsSqlBuilder()
-                .WithPassword("myP@ssword100");
+            var testcontainersBuilder = CreateImagemBuilder();
 
             await using var testcontainer = testcontainersBuilder.Build();
             await testcontainer.StartAsync();
@@ -190,11 +205,12 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.GetMappedPublicPort(1433)};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
+                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.GetMappedPublicPort(1433)};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;TrustServerCertificate=True"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
-                }}"
+                }}
+            "
                 )));
             var factory = new HiLoGeneratorFactory(builder.Build());
             Action act = () => factory.GetKeyGenerator("MSSqlSequenceEntity");
@@ -208,8 +224,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
         [Trait("Category", "Integration")]
         public async Task Should_RaiseError_When_LackOfCreateTablePermission()
         {
-            var testcontainersBuilder = new MsSqlBuilder()
-                .WithPassword("myP@ssword100");
+            var testcontainersBuilder = CreateImagemBuilder();
 
             await using var testcontainer = testcontainersBuilder.Build();
             await testcontainer.StartAsync();
@@ -246,7 +261,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.GetMappedPublicPort(1433)};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;"",
+                            ""ConnectionString"":""Server={testcontainer.Hostname},{testcontainer.GetMappedPublicPort(1433)};Database=testDB;User Id=nhilo_user;Password=nhilo_p@ssW0rd;TrustServerCertificate=True"",
                             ""ProviderName"":""Microsoft.Data.SqlClient""
                         }}
                     }}
