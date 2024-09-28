@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using Testcontainers.MySql;
+using Testcontainers.MsSql;
 
 namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
 {
@@ -26,14 +28,10 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
         [Trait("Category", "Integration")]
         public async Task Should_ConnectToABrandNewDatabaseAndGetKey()
         {
-            var testcontainersBuilder = new TestcontainersBuilder<MySqlTestcontainer>()
-                .WithDatabase(new MySqlTestcontainerConfiguration
-                {
-                    Database = "myDataBase",
-                    Username = "myUser",
-                    Password = "myPassword",
-
-                });
+            var testcontainersBuilder = new MySqlBuilder()
+                .WithDatabase("myDataBase")
+                .WithPassword("myUser")
+                .WithUsername("myPassword");
 
             await using (var testcontainer = testcontainersBuilder.Build())
             {
@@ -44,7 +42,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
-                            ""ConnectionString"":""{testcontainer.ConnectionString}"",
+                            ""ConnectionString"":""{testcontainer.GetConnectionString()}"",
                             ""ProviderName"":""MySqlConnector""
                         }}
                     }}
@@ -58,7 +56,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
                 _output.WriteLine($"Key generated: '{key}'");
                 key.Should().BeGreaterThan(0, "is expected the key to be greater than 0.");
 
-                await using (var connection = new MySqlConnection(testcontainer.ConnectionString))
+                await using (var connection = new MySqlConnection(testcontainer.GetConnectionString()))
                 {
                     connection.Open();
                     await using (var cmd = new MySqlCommand())
