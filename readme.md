@@ -1,7 +1,8 @@
 # NHilo
 
 ![Build](https://github.com/fabiogouw/NHilo/workflows/Build/badge.svg)
-[![NuGet Badge](https://buildstats.info/nuget/NHilo)](https://www.nuget.org/packages/NHilo)
+![NuGet Version](https://img.shields.io/nuget/v/NHiLo)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=fabiogouw_NHiLo&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=fabiogouw_NHiLo)
 
 ## What is NHilo?
 
