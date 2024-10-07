@@ -54,6 +54,11 @@ namespace NHiLo.HiLo.Repository
             get { return "@pEntity"; }
         }
 
+        protected virtual IsolationLevel GetDefaultIsolationLevel()
+        {
+            return IsolationLevel.Serializable;
+        }
+
         /// <summary>
         /// Prepare the SQL statement provided these information:
         /// {0} - table name
@@ -98,7 +103,7 @@ namespace NHiLo.HiLo.Repository
             using (var conn = CreateConnection())
             {
                 conn.Open();
-                using (var trans = conn.BeginTransaction(IsolationLevel.ReadCommitted))
+                using (var trans = conn.BeginTransaction(GetDefaultIsolationLevel()))
                 {
                     try
                     {
