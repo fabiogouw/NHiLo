@@ -33,13 +33,13 @@ namespace NHiLo.HiLo.Repository
                     if (_config.CreateHiLoStructureIfNotExists) // this prevents situations where the user doesn't have database permissions to create tables
                         CreateRepositoryStructure(cmd);
                     InitializeRepositoryForEntity(cmd);
-                });
+                }, GetPrepareRepositoryIsolationLevel());
         }
 
         public long GetNextHi()
         {
             long result = -1;
-            PrepareCommandForExecutionWithTransaction(cmd => result = GetNextHiFromDatabase(cmd));
+            PrepareCommandForExecutionWithTransaction(cmd => result = GetNextHiFromDatabase(cmd), GetNextHiIsolationLevel());
             return result;
         }
 
@@ -52,6 +52,16 @@ namespace NHiLo.HiLo.Repository
         protected virtual string EntityParameterName
         {
             get { return "@pEntity"; }
+        }
+
+        protected virtual IsolationLevel GetPrepareRepositoryIsolationLevel()
+        {
+            return IsolationLevel.Serializable;
+        }
+
+        protected virtual IsolationLevel GetNextHiIsolationLevel()
+        {
+            return IsolationLevel.Serializable;
         }
 
         /// <summary>
@@ -93,12 +103,12 @@ namespace NHiLo.HiLo.Repository
             return conn;
         }
 
-        private void PrepareCommandForExecutionWithTransaction(Action<IDbCommand> commandAction)
+        private void PrepareCommandForExecutionWithTransaction(Action<IDbCommand> commandAction, IsolationLevel isolationLevel)
         {
             using (var conn = CreateConnection())
             {
                 conn.Open();
-                using (var trans = conn.BeginTransaction(IsolationLevel.ReadCommitted))
+                using (var trans = conn.BeginTransaction(isolationLevel))
                 {
                     try
                     {

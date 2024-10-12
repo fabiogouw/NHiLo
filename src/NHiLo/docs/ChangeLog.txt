@@ -50,3 +50,6 @@
 	- Bumps Oracle.ManagedDataAccess.Core from 2.19.100 to 2.19.180
 	- Bumps SQLitePCLRaw.core from 2.0.4 to 2.1.4
 	- Bumps Microsoft.Extensions's dependencies from 5.0.0 to 7.0.0
+
+ * 2.3.0
+	- Read committed as the isolation level for Oracle repository initiation
