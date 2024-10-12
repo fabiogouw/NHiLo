@@ -68,7 +68,7 @@ namespace NHiLo.HiLo.Repository
             get { return ":pEntity"; }
         }
 
-        protected override IsolationLevel GetDefaultIsolationLevel()
+        protected override IsolationLevel GetPrepareRepositoryIsolationLevel()
         {
             return IsolationLevel.ReadCommitted;
         }
