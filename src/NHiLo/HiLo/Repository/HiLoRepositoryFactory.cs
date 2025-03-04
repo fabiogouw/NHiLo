@@ -18,11 +18,11 @@ namespace NHiLo.HiLo.Repository
         private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
             new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
-                ["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
+                /*["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
                 ["MySqlConnector"] = (config) => new MySqlHiLoRepository(config),
                 ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),   //compatibility
                 ["System.Data.OracleClient"] = (config) => new OracleHiLoRepository(config),
-                ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),
+                ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),*/
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
 
@@ -38,14 +38,14 @@ namespace NHiLo.HiLo.Repository
             return repository;
         }
 
-        private static IHiLoRepository GetSqlServerRepository(IHiLoConfiguration config)
+        /*private static IHiLoRepository GetSqlServerRepository(IHiLoConfiguration config)
         {
             if (config.StorageType == Common.Config.HiLoStorageType.Sequence)
             {
                 return new SqlServerSequenceHiLoRepository(config);
             }
             return new SqlServerHiLoRepository(config);
-        }
+        }*/
 
         /// <summary>
         /// Register a new repository to be used to store hi values.

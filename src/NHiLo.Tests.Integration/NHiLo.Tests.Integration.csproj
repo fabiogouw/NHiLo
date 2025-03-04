@@ -32,6 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NHilLo.Repository.MySql\NHilLo.Repository.MySql.csproj" />
+    <ProjectReference Include="..\NHilLo.Repository.Oracle\NHilLo.Repository.Oracle.csproj" />
+    <ProjectReference Include="..\NHilLo.Repository.SQLite\NHilLo.Repository.SQLite.csproj" />
+    <ProjectReference Include="..\NHilLo.Repository.SQLServer\NHilLo.Repository.SQLServer.csproj" />
     <ProjectReference Include="..\NHiLo\NHiLo.csproj" />
   </ItemGroup>
 
