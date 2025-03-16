@@ -13,7 +13,6 @@ using Xunit;
 using Xunit.Abstractions;
 using Testcontainers.MsSql;
 using System.Runtime.InteropServices;
-using Testcontainers.MySql;
 using Renci.SshNet.Security;
 using Microsoft.VisualStudio.TestPlatform.Utilities;
 
