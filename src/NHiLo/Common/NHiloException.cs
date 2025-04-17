@@ -11,12 +11,12 @@ namespace NHiLo // this should be available at the root namespace
     public class NHiLoException : ApplicationException, ISerializable
     {
 
-        internal NHiLoException(ErrorCodes errorCode)
+        public NHiLoException(ErrorCodes errorCode)
             : base(GetMessageForErrorCode(errorCode))
         {
             ErrorCode = errorCode;
         }
-        internal NHiLoException(ErrorCodes errorCode, Exception innerException)
+        public NHiLoException(ErrorCodes errorCode, Exception innerException)
             : base(GetMessageForErrorCode(errorCode), innerException)
         {
             ErrorCode = errorCode;
