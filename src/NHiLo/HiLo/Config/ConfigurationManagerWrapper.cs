@@ -55,6 +55,7 @@ namespace NHiLo.HiLo.Config
                 EntityColumnName = _configuration.GetValue("NHiLo:EntityColumnName", "ENTITY"),
                 StorageType = _configuration.GetValue("NHiLo:StorageType", HiLoStorageType.Table),
                 ObjectPrefix = _configuration.GetValue("NHiLo:ObjectPrefix", string.Empty),
+                EntityNameValidationTimeout = _configuration.GetValue<int?>("NHiLo:EntityNameValidationTimeout", null),
                 Entities = _configuration.GetSection("NHiLo:Entities").GetChildren().Select(v =>
                     (IEntityConfiguration)new EntityConfigElement()
                     {

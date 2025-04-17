@@ -32,5 +32,7 @@ namespace NHiLo.Tests.TestDoubles.Config
         public HiLoStorageType StorageType { get; set; }
 
         public string ObjectPrefix { get; set; }
+
+        public int? EntityNameValidationTimeout { get; set; }
     }
 }

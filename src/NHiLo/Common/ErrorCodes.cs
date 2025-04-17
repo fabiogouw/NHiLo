@@ -26,6 +26,11 @@ namespace NHiLo
         [Description("No specified connection string was found.")]
         NoSpecifiedConnectionStringWasFound = 1003,
         /// <summary>
+        /// Entity name validation has timed out.
+        /// </summary>
+        [Description("The entity name is too complex to validate within the current timeout. Try to increase this value in the EntityNameValidationTimeout configuration.")]
+        EntityNameValidationTimedOut = 1004,
+        /// <summary>
         /// NHiLo could not identify which provider should it use to create repositories.
         /// </summary>
         [Description("No provider name has been supplied.")]

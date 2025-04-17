@@ -56,6 +56,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+
         [Fact]
         [Trait("Category", "Integration")]
         public async Task Should_ConnectToABrandNewDatabaseAndGetKey_When_UsingSequence()
@@ -84,11 +85,12 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+
         [Fact]
         [Trait("Category", "Integration")]
-        public async Task Should_ThrowException_When_UsingSequenceWithAnInvalidPrefix()
+        public async Task Should_ThrowExceptionInvalidEntityName_When_UsingSequenceWithAnInvalidPrefix()
         {
-            string entityName = "myMSSqlSequenceEntity";
+            string entityName = "myMSSqlSequenceEntity2";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100"",
@@ -110,7 +112,41 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             }
             catch (NHiLoException ex)
             {
+                ex.ErrorCode.Should().Be(ErrorCodes.ErrorWhilePreparingRepository);
                 ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.InvalidEntityName);
+            }
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async Task Should_ThrowExceptionEntityNameValidationTimedOut_When_UsingAnInvalidPrefixThatExceedsTheRegexValidationTimeout()
+        {
+            string entityName = "myMSSqlSequenceEntity1";
+            string complexPrefix = new string('a', 99999) + "!";
+            string funcAppSettings(string connectionString) => $@"{{
+                    ""NHiLo"":{{
+                        ""DefaultMaxLo"" : ""100"",
+                        ""StorageType"" : ""Sequence"",
+                        ""ObjectPrefix"": ""{complexPrefix}"",
+                        ""EntityNameValidationTimeout"": ""1""
+                    }},
+                    ""ConnectionStrings"":{{
+                        ""NHiLo"":{{
+                            ""ConnectionString"":""{connectionString}"",
+                            ""ProviderName"":""Microsoft.Data.SqlClient""
+                        }}
+                    }}
+                }}";
+
+            try
+            {
+                await TestDatabase(funcAppSettings, cmd => 0, entityName);
+                Assert.Fail("This test must throw an exception");
+            }
+            catch (NHiLoException ex)
+            {
+                ex.ErrorCode.Should().Be(ErrorCodes.ErrorWhilePreparingRepository);
+                ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.EntityNameValidationTimedOut);
             }
         }
 
@@ -276,3 +312,44 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
         }
     }
 }
+
+
+/*
+ using System;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+
+public class HelloWorld
+{
+    public static void Main(string[] args)
+    {
+        var watch = new Stopwatch();
+        watch.Start();
+        try {
+            string pattern = @"^[a-zA-Z]+[a-zA-Z0-9_]*$";
+            string input = new string('a', 999) + "!";
+
+            // Set a very short timeout for the Regex operation.
+            TimeSpan timeout = TimeSpan.FromMilliseconds(10);
+
+            // Create a Regex instance with the specified timeout.
+            Regex regex = new Regex(pattern, RegexOptions.None, timeout);
+
+            // Attempt to match the pattern against the input. This should exceed the timeout.
+            try
+            {
+                regex.Match(input); // This will throw RegexMatchTimeoutException
+                Console.WriteLine("Ok :-(");
+            }
+            catch (RegexMatchTimeoutException ex)
+            {
+                Console.WriteLine("Regex timed out: " + ex.Message);
+            }
+        }
+        finally {
+            watch.Stop();
+        }
+        Console.WriteLine ("Elapsed milliseconds: " + watch.ElapsedMilliseconds);
+    }
+}
+ */
