@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using NHiLo.HiLo;
 using System.IO;
 using System.Text;

@@ -69,5 +69,11 @@ namespace NHiLo.HiLo.Config.Legacy
         {
             get { return (string)this["objectPrefix"]; }
         }
+
+        [ConfigurationProperty("entityNameValidationTimeout", IsRequired = false, DefaultValue = null)]
+        public int? EntityNameValidationTimeout
+        {
+            get { return (int?)this["entityNameValidationTimeout"]; }
+        }
     }
 }

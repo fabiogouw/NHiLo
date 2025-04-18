@@ -56,6 +56,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+
         [Fact]
         [Trait("Category", "Integration")]
         public async Task Should_ConnectToABrandNewDatabaseAndGetKey_When_UsingSequence()
@@ -84,11 +85,12 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+
         [Fact]
         [Trait("Category", "Integration")]
-        public async Task Should_ThrowException_When_UsingSequenceWithAnInvalidPrefix()
+        public async Task Should_ThrowExceptionInvalidEntityName_When_UsingSequenceWithAnInvalidPrefix()
         {
-            string entityName = "myMSSqlSequenceEntity";
+            string entityName = "myMSSqlSequenceEntity2";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
                         ""DefaultMaxLo"" : ""100"",
@@ -110,7 +112,41 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             }
             catch (NHiLoException ex)
             {
+                ex.ErrorCode.Should().Be(ErrorCodes.ErrorWhilePreparingRepository);
                 ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.InvalidEntityName);
+            }
+        }
+
+        [Fact]
+        [Trait("Category", "Integration")]
+        public async Task Should_ThrowExceptionEntityNameValidationTimedOut_When_UsingAnInvalidPrefixThatExceedsTheRegexValidationTimeout()
+        {
+            string entityName = "myMSSqlSequenceEntity1";
+            string complexPrefix = new string('a', 99999) + "!";
+            string funcAppSettings(string connectionString) => $@"{{
+                    ""NHiLo"":{{
+                        ""DefaultMaxLo"" : ""100"",
+                        ""StorageType"" : ""Sequence"",
+                        ""ObjectPrefix"": ""{complexPrefix}"",
+                        ""EntityNameValidationTimeout"": ""1""
+                    }},
+                    ""ConnectionStrings"":{{
+                        ""NHiLo"":{{
+                            ""ConnectionString"":""{connectionString}"",
+                            ""ProviderName"":""Microsoft.Data.SqlClient""
+                        }}
+                    }}
+                }}";
+
+            try
+            {
+                await TestDatabase(funcAppSettings, cmd => 0, entityName);
+                Assert.Fail("This test must throw an exception");
+            }
+            catch (NHiLoException ex)
+            {
+                ex.ErrorCode.Should().Be(ErrorCodes.ErrorWhilePreparingRepository);
+                ex.InnerException.As<NHiLoException>().ErrorCode.Should().Be(ErrorCodes.EntityNameValidationTimedOut);
             }
         }
 

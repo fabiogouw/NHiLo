@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentAssertions;
+using Microsoft.Extensions.Configuration;
 using NHiLo.HiLo;
 using System.IO;
 using System.Text;
@@ -180,6 +181,46 @@ namespace NHiLo.Tests.HiLo
                     Assert.Equal(ErrorCodes.NoProviderName, ex.ErrorCode);
                 }
             }
+
+            [Fact]
+            [Trait("Category", "Unit")]
+            public void Should_ThrowEntityNameValidationTimedOutException_When_UsingAnInvalidEntityNameThatExceedsTheRegexValidationTimeout()
+            {
+                // Arrange
+                var mockConfig = CreateHiloConfigurationWithNoConfigurationForNHiLoAndOnlyOneConnectionStringWithNoProviderName();
+                var factory = new HiLoGeneratorFactory(mockConfig);
+                string complexEntityName = new string('a', 99999) + "!";
+                try
+                {
+                    // Act
+                    var generator = factory.GetKeyGenerator(complexEntityName);
+                }
+                catch (NHiLoException ex)
+                {
+                    // Assert
+                    ex.ErrorCode.Should().Be(ErrorCodes.EntityNameValidationTimedOut);
+                }
+            }
+
+            [Fact]
+            [Trait("Category", "Unit")]
+            public void Should_ThrowExceptionInvalidEntityName_When_UsingAnEntityNameThatCanCauseValidationTimeouts()
+            {
+                // Arrange
+                var mockConfig = CreateHiloConfigurationWithCustomEntityNameValidationTimeout(1000000);
+                var factory = new HiLoGeneratorFactory(mockConfig);
+                string complexEntityName = new string('a', 99999) + "!";
+                try
+                {
+                    // Act
+                    var generator = factory.GetKeyGenerator(complexEntityName);
+                }
+                catch (NHiLoException ex)
+                {
+                    // Assert
+                    ex.ErrorCode.Should().Be(ErrorCodes.InvalidEntityName);
+                }
+            }
         }
 
         #region Utils
@@ -209,6 +250,24 @@ namespace NHiLo.Tests.HiLo
                     ""NHiLo"": ""test""
                 }
             }";
+            var builder = new ConfigurationBuilder();
+            builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
+            return builder.Build();
+        }
+
+        public static IConfiguration CreateHiloConfigurationWithCustomEntityNameValidationTimeout(int entityNameValidationTimeout)
+        {
+            var appSettings = $@"{{
+                    ""NHiLo"":{{
+                        ""EntityNameValidationTimeout"": ""{entityNameValidationTimeout}""
+                    }},
+                    ""ConnectionStrings"":{{
+                        ""NHiLo"":{{
+                            ""ConnectionString"":""anything"",
+                            ""ProviderName"":""Microsoft.Data.SqlClient""
+                        }}
+                    }}
+                }}";
             var builder = new ConfigurationBuilder();
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(appSettings)));
             return builder.Build();
