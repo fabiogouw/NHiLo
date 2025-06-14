@@ -12,12 +12,13 @@ namespace NHiLo.HiLo.Repository
     public class SqlServerSequenceHiLoRepository : AgnosticHiLoRepository
     {
         private readonly string _objectPrefix;
-        private readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$", RegexOptions.None, TimeSpan.FromMilliseconds(10));
+        private readonly Regex _entityNameValidator;
 
         public SqlServerSequenceHiLoRepository(IHiLoConfiguration config)
             : base(config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             _objectPrefix = !string.IsNullOrWhiteSpace(config.ObjectPrefix) ? config.ObjectPrefix : "SQ_HiLo_";
+            _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9_]*$", RegexOptions.None, TimeSpan.FromMilliseconds(config.EntityNameValidationTimeout.GetValueOrDefault(10)));
         }
 
         protected override long GetNextHiFromDatabase(IDbCommand cmd)
@@ -57,9 +58,16 @@ namespace NHiLo.HiLo.Repository
         private string BuildSequencePrefixName()
         {
             string sequenceName = _objectPrefix + EntityName;
-            if (!_entityNameValidator.IsMatch(sequenceName) || sequenceName.Length > Constants.MAX_LENGTH_ENTITY_NAME)
+            try
             {
-                throw new NHiLoException(ErrorCodes.InvalidEntityName);
+                if (!_entityNameValidator.IsMatch(sequenceName) || sequenceName.Length > Constants.MAX_LENGTH_ENTITY_NAME)
+                {
+                    throw new NHiLoException(ErrorCodes.InvalidEntityName);
+                }
+            }
+            catch (RegexMatchTimeoutException ex)
+            {
+                throw new NHiLoException(ErrorCodes.EntityNameValidationTimedOut, ex);
             }
             return sequenceName;
         }

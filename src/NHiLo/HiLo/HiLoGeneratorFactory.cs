@@ -19,7 +19,7 @@ namespace NHiLo // this should be available at the root namespace
         private readonly static ConcurrentDictionary<string, IKeyGenerator<long>> _keyGenerators = new ConcurrentDictionary<string, IKeyGenerator<long>>();
         private readonly IHiLoRepositoryFactory _repositoryFactory;
         private readonly IHiLoConfiguration _config;
-        private static readonly Regex _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$", RegexOptions.None, TimeSpan.FromMilliseconds(10));
+        private readonly Regex _entityNameValidator;
 
         [Obsolete("For legacy compatibility only (.NET Framework). Newer versions like .NET Core and .NET 5 should use the constructor that receives an IConfiguration parameter.")]
         public HiLoGeneratorFactory() :
@@ -38,6 +38,7 @@ namespace NHiLo // this should be available at the root namespace
                 configuration = builder.Build();
             }
             _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
+            _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$", RegexOptions.None, TimeSpan.FromMilliseconds(_config.EntityNameValidationTimeout.GetValueOrDefault(10)));
             _repositoryFactory = new HiLoRepositoryFactory();
         }
 
@@ -59,9 +60,16 @@ namespace NHiLo // this should be available at the root namespace
 
         private void EnsureCorrectEntityName(string entityName)
         {
-            if (!_entityNameValidator.IsMatch(entityName) || entityName.Length > Constants.MAX_LENGTH_ENTITY_NAME)
+            try
             {
-                throw new NHiLoException(ErrorCodes.InvalidEntityName);
+                if (!_entityNameValidator.IsMatch(entityName) || entityName.Length > Constants.MAX_LENGTH_ENTITY_NAME)
+                {
+                    throw new NHiLoException(ErrorCodes.InvalidEntityName);
+                }
+            }
+            catch (RegexMatchTimeoutException ex)
+            {
+                throw new NHiLoException(ErrorCodes.EntityNameValidationTimedOut, ex);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using NHiLo.Common.Config;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace NHiLo.HiLo.Config
@@ -66,6 +67,11 @@ namespace NHiLo.HiLo.Config
         }
 
         public string ObjectPrefix
+        {
+            get; internal set;
+        }
+
+        public int? EntityNameValidationTimeout
         {
             get; internal set;
         }
