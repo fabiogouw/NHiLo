@@ -55,6 +55,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+
         [Fact]
         [Trait("Category", "Integration")]
         public async Task Should_ConnectToABrandNewDatabaseAndGetKey_When_UsingSequence()
@@ -83,9 +84,10 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
 
             await TestDatabase(funcAppSettings, validateNextHi, entityName);
         }
+
         [Fact]
         [Trait("Category", "Integration")]
-        public async Task Should_ThrowException_When_UsingSequenceWithAnInvalidPrefix()
+        public async Task Should_ThrowExceptionInvalidEntityName_When_UsingSequenceWithAnInvalidPrefix()
         {
             string entityName = "myMSSqlSequenceEntity2";
             string funcAppSettings(string connectionString) => $@"{{

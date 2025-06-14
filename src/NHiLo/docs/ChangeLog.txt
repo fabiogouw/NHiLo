@@ -53,3 +53,6 @@
 
  * 2.3.0
 	- Read committed as the isolation level for Oracle repository initiation
+
+ * 2.4.0
+	- Add EntityNameValidationTimeout property in config to deal with regex timeout exceptions
