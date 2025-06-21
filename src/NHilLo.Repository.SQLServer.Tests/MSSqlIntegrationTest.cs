@@ -35,6 +35,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             string entityName = "myMSSqlTableEntity";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
+                        ""Providers"": [{{ ""Name"": ""MySqlConnector"", ""Type"": ""NHiLo.HiLo.Repository.SqlServerHiloRepositoryProvider, NHilLo.Repository.SQLServer"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

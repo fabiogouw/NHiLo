@@ -2,6 +2,8 @@
 using NHiLo.HiLo.Config;
 using System;
 using System.Collections.Concurrent;
+using System.Reflection;
+using System.Linq;
 
 namespace NHiLo.HiLo.Repository
 {
@@ -11,6 +13,9 @@ namespace NHiLo.HiLo.Repository
     public class HiLoRepositoryFactory : IHiLoRepositoryFactory
     {
         private delegate IHiLoRepository CreateIHiLoRepositoryFunction(IHiLoConfiguration config);
+
+        private static readonly object _lock = new object();
+        private static bool _isInitialized = false;
 
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
@@ -26,6 +31,26 @@ namespace NHiLo.HiLo.Repository
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
 
+        public HiLoRepositoryFactory(IHiLoConfiguration config)
+        {
+            lock (_lock)
+            {
+                if (!_isInitialized)
+                {
+                    var providers = config.Providers.Select(p => new { p.Name, Type = Type.GetType(p.Type) })
+                        .Where(p => typeof(IHiLoRepositoryProvider).IsAssignableFrom(p.Type));
+                    foreach (var provider in providers)
+                    {
+                        bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
+                        if (hasParameterlessCtor)
+                            throw new InvalidOperationException($"Type {provider.Type.FullName} must have a parameterless constructor.");
+                        RegisterRepository(provider.Name, (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type));
+                    }
+                    _isInitialized = true;
+                }
+            }
+        }
+
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
         {
             string provider = config.ProviderName;
@@ -38,28 +63,19 @@ namespace NHiLo.HiLo.Repository
             return repository;
         }
 
-        /*private static IHiLoRepository GetSqlServerRepository(IHiLoConfiguration config)
-        {
-            if (config.StorageType == Common.Config.HiLoStorageType.Sequence)
-            {
-                return new SqlServerSequenceHiLoRepository(config);
-            }
-            return new SqlServerHiLoRepository(config);
-        }*/
-
         /// <summary>
         /// Register a new repository to be used to store hi values.
         /// </summary>
         /// <param name="providerName">The name of the custom respository provider.</param>
         /// <param name="funcCreateRepository">A function that creates new instances of the repository.</param>
-        public static void RegisterRepository(string providerName, Func<IHiLoRepository> funcCreateRepository)
+        private static void RegisterRepository(string providerName, IHiLoRepositoryProvider provider)
         {
             if (string.IsNullOrWhiteSpace(providerName))
                 throw new ArgumentException($"Provider name cannot be registered with an empty value.");
             lock (_factoryFunctions)
             {
                 if (!_factoryFunctions.ContainsKey(providerName))
-                    _factoryFunctions.TryAdd(providerName, (config) => funcCreateRepository());
+                    _factoryFunctions.TryAdd(providerName, (config) => provider.Build(config));
             }
         }
     }

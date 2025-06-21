@@ -1,4 +1,5 @@
 ﻿using NHiLo.Common.Config;
+using System.Collections.Generic;
 
 namespace NHiLo.HiLo.Config
 {
@@ -7,6 +8,7 @@ namespace NHiLo.HiLo.Config
     /// </summary>
     public interface IHiLoConfiguration
     {
+        List<IRepositoryProviderElement> Providers { get; set; }
         string ConnectionString { get; set; }
         string ProviderName { get; set; }
         string ConnectionStringId { get; }

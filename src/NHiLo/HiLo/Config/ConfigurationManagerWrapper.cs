@@ -19,6 +19,10 @@ namespace NHiLo.HiLo.Config
          *       }
          *   },
          *   "NHiLo": {
+         *      "Providers": [
+         *          "",
+         *          ""
+         *      ]
          *      "ConnectionStringId": "",
          *      "ProviderName": "",
          *      "CreateHiLoStructureIfNotExists": true,
@@ -61,8 +65,13 @@ namespace NHiLo.HiLo.Config
                     {
                         Name = v.GetValue<string>("Name"),
                         MaxLo = v.GetValue("MaxLo", 10)
-                    }
-            ).ToList()
+                    }).ToList(),
+                Providers = _configuration.GetSection("NHiLo:Providers").GetChildren().Select(v =>
+                    (IRepositoryProviderElement)new RepositoryProviderElement()
+                    {
+                        Name = v.GetValue<string>("Name"),
+                        Type = v.GetValue<string>("Type")
+                    }).ToList()
             };
             return configuration;
         }

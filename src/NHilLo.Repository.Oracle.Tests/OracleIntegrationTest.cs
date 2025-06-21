@@ -36,6 +36,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.Oracle
 
                 var appSettings = $@"{{
                     ""NHiLo"":{{
+                        ""Providers"": [{{ ""Name"": ""System.Data.OracleClient"", ""Type"": ""NHiLo.HiLo.Repository.OracleHiloRepositoryProvider, NHilLo.Repository.Oracle"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

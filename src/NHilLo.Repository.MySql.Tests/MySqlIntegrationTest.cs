@@ -37,6 +37,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
                 await testcontainer.StartAsync();
                 var appSettings = $@"{{
                     ""NHiLo"":{{
+                        ""Providers"": [{{ ""Name"": ""MySqlConnector"", ""Type"": ""NHiLo.HiLo.Repository.MySqlHiloRepositoryProvider, NHilLo.Repository.MySql"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

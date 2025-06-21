@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NHiLo.Common;
-using NHiLo.Common.Config.Legacy;
 using NHiLo.HiLo;
 using NHiLo.HiLo.Config;
 using NHiLo.HiLo.Repository;
@@ -30,16 +29,9 @@ namespace NHiLo // this should be available at the root namespace
 
         public HiLoGeneratorFactory(IConfiguration configuration)
         {
-            if (configuration == null)
-            {
-                var builder = new ConfigurationBuilder()
-                    .Add(new NetConfigConfigurationProvider())
-                    .AddEnvironmentVariables();
-                configuration = builder.Build();
-            }
             _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
             _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$", RegexOptions.None, TimeSpan.FromMilliseconds(_config.EntityNameValidationTimeout.GetValueOrDefault(10)));
-            _repositoryFactory = new HiLoRepositoryFactory();
+            _repositoryFactory = new HiLoRepositoryFactory(_config);
         }
 
         /// <summary>
