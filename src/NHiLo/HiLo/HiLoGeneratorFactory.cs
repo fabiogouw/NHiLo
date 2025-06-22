@@ -20,13 +20,6 @@ namespace NHiLo // this should be available at the root namespace
         private readonly IHiLoConfiguration _config;
         private readonly Regex _entityNameValidator;
 
-        [Obsolete("For legacy compatibility only (.NET Framework). Newer versions like .NET Core and .NET 5 should use the constructor that receives an IConfiguration parameter.")]
-        public HiLoGeneratorFactory() :
-            this(null)
-        {
-
-        }
-
         public HiLoGeneratorFactory(IConfiguration configuration)
         {
             _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();

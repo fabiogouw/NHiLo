@@ -23,11 +23,6 @@ namespace NHiLo.HiLo.Repository
         private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
             new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
-                /*["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
-                ["MySqlConnector"] = (config) => new MySqlHiLoRepository(config),
-                ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),   //compatibility
-                ["System.Data.OracleClient"] = (config) => new OracleHiLoRepository(config),
-                ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),*/
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
 
@@ -37,8 +32,8 @@ namespace NHiLo.HiLo.Repository
             {
                 if (!_isInitialized)
                 {
-                    var providers = config.Providers.Select(p => new { p.Name, Type = Type.GetType(p.Type) })
-                        .Where(p => typeof(IHiLoRepositoryProvider).IsAssignableFrom(p.Type));
+                    var providers = config.Providers.Select(p => new { p.Name, TypeName = p.Type, Type = Type.GetType(p.Type) })
+                        .Where(p => IsValidProvider(p.TypeName, p.Type));
                     foreach (var provider in providers)
                     {
                         bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
@@ -49,6 +44,19 @@ namespace NHiLo.HiLo.Repository
                     _isInitialized = true;
                 }
             }
+        }
+
+        private static bool IsValidProvider(string typeName, Type providerType) 
+        {
+            if(providerType == null) 
+            {
+                throw new InvalidOperationException($"Cloud not load '{typeName}' as a valid provider.");
+            }
+            if (!typeof(IHiLoRepositoryProvider).IsAssignableFrom(providerType))
+            {
+                throw new InvalidOperationException($"Type '{typeName}' does not implements IHiLoRepositoryProvider.");
+            }
+            return true;
         }
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)

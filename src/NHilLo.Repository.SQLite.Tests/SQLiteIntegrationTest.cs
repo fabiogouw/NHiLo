@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using NHiLo.HiLo.Repository;
 using SQLitePCL;
 using System.IO;
 using System.Text;
@@ -32,6 +33,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.SQLite
             string connectionString = "Data Source=./mydb.db;";
             var appSettings = $@"{{
                     ""NHiLo"":{{
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.Sqlite"", ""Type"": ""NHiLo.HiLo.Repository.SQLiteHiLoRepositoryProvider, NHilLo.Repository.SQLite"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{
