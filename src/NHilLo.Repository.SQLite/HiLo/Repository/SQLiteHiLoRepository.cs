@@ -1,6 +1,5 @@
 ﻿using NHiLo.HiLo.Config;
 using System.Data;
-using Microsoft.Data.Sqlite;
 
 namespace NHiLo.HiLo.Repository
 {
