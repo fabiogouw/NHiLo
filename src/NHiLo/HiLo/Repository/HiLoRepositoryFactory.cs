@@ -14,13 +14,12 @@ namespace NHiLo.HiLo.Repository
     {
         private delegate IHiLoRepository CreateIHiLoRepositoryFunction(IHiLoConfiguration config);
 
-        private static readonly object _lock = new object();
-        private static bool _isInitialized = false;
+        private bool _isInitialized = false;
 
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
-        private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
+        private readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
             new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
@@ -28,21 +27,19 @@ namespace NHiLo.HiLo.Repository
 
         public HiLoRepositoryFactory(IHiLoConfiguration config)
         {
-            lock (_lock)
+            if (!_isInitialized)
             {
-                if (!_isInitialized)
+                var providers = config.Providers.Select(p => new { TypeName = p.Type, Type = Type.GetType(p.Type) })
+                    .Where(p => IsValidProvider(p.TypeName, p.Type));
+                foreach (var provider in providers)
                 {
-                    var providers = config.Providers.Select(p => new { p.Name, TypeName = p.Type, Type = Type.GetType(p.Type) })
-                        .Where(p => IsValidProvider(p.TypeName, p.Type));
-                    foreach (var provider in providers)
-                    {
-                        bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
-                        if (hasParameterlessCtor)
-                            throw new InvalidOperationException($"Type {provider.Type.FullName} must have a parameterless constructor.");
-                        RegisterRepository(provider.Name, (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type));
-                    }
-                    _isInitialized = true;
+                    bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
+                    if (hasParameterlessCtor)
+                        throw new InvalidOperationException($"Type {provider.Type.FullName} must have a parameterless constructor.");
+                    var providerInstance = (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type);
+                    RegisterRepository(providerInstance.Name, providerInstance);
                 }
+                _isInitialized = true;
             }
         }
 
@@ -76,10 +73,10 @@ namespace NHiLo.HiLo.Repository
         /// </summary>
         /// <param name="providerName">The name of the custom respository provider.</param>
         /// <param name="funcCreateRepository">A function that creates new instances of the repository.</param>
-        private static void RegisterRepository(string providerName, IHiLoRepositoryProvider provider)
+        private void RegisterRepository(string providerName, IHiLoRepositoryProvider provider)
         {
             if (string.IsNullOrWhiteSpace(providerName))
-                throw new ArgumentException($"Provider name cannot be registered with an empty value.");
+                throw new ArgumentException($"Provider {providerName} cannot be registered with an empty value.");
             lock (_factoryFunctions)
             {
                 if (!_factoryFunctions.ContainsKey(providerName))

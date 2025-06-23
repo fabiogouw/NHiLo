@@ -5,11 +5,6 @@
     /// </summary>
     public class RepositoryProviderElement : IRepositoryProviderElement
     {
-        public virtual string Name
-        {
-            get; internal set;
-        }
-
         public virtual string Type
         {
             get; internal set;

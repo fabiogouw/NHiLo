@@ -69,7 +69,6 @@ namespace NHiLo.HiLo.Config
                 Providers = _configuration.GetSection("NHiLo:Providers").GetChildren().Select(v =>
                     (IRepositoryProviderElement)new RepositoryProviderElement()
                     {
-                        Name = v.GetValue<string>("Name"),
                         Type = v.GetValue<string>("Type")
                     }).ToList()
             };

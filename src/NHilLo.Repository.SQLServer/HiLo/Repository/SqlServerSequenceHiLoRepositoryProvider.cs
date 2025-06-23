@@ -7,7 +7,7 @@ namespace NHiLo.HiLo.Repository
     /// </summary>
     public class SqlServerSequenceHiLoRepositoryProvider : IHiLoRepositoryProvider
     {
-        public string Name => "Microsoft.Data.SqlClient";
+        public string Name => "Microsoft.Data.SqlClient.Sequence";
 
         public IHiLoRepository Build(IHiLoConfiguration config)
         {
