@@ -8,7 +8,7 @@ namespace NHiLo.HiLo.Config
     /// <summary>
     /// Converts the underlying config model from the .NET framework to the nHilo's config model.
     /// </summary>
-    public class ConfigurationManagerWrapper : IConfigurationManager
+    public class ConfigurationManagerWrapper : IConfigurationManagerWrapper
     {
         /*
          * {

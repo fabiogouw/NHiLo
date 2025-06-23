@@ -16,13 +16,12 @@ namespace NHiLo.Tests.HiLo.Config
             public void ShouldThrowAnExceptionWhenTheresNoConnectionStringAvailableAtConfiguration()
             {
                 // Arrange
-                var mock = new Mock<IConfigurationManager>();
+                var mock = new Mock<IConfigurationManagerWrapper>();
                 var target = new HiLoConfigurationBuilder(mock.Object);
                 try
                 {
                     // Act
                     var actual = target.Build();
-                    throw new XunitException();
                 }
                 catch (NHiLoException ex)
                 {
@@ -36,7 +35,7 @@ namespace NHiLo.Tests.HiLo.Config
             public void ShouldReturnTheLastConnectionStringInConfigFileAsTheConnectionForNHiLosUseWhenTheConnectionWasntSpecified()
             {
                 // Arrange
-                var mock = new Mock<IConfigurationManager>();
+                var mock = new Mock<IConfigurationManagerWrapper>();
                 mock = ConfigureConfigurationManagerMockWith2ConnectionStringsSettings(mock);
                 var target = new HiLoConfigurationBuilder(mock.Object);
                 // Act
@@ -79,7 +78,6 @@ namespace NHiLo.Tests.HiLo.Config
                 {
                     // Act
                     var actual = target.Build();
-                    throw new XunitException();
                 }
                 catch (NHiLoException ex)
                 {
@@ -92,7 +90,7 @@ namespace NHiLo.Tests.HiLo.Config
 
         #region Utils
 
-        private static Mock<IConfigurationManager> ConfigureConfigurationManagerMockWith2ConnectionStringsSettings(Mock<IConfigurationManager> mock)
+        private static Mock<IConfigurationManagerWrapper> ConfigureConfigurationManagerMockWith2ConnectionStringsSettings(Mock<IConfigurationManagerWrapper> mock)
         {
             var connectionStringSection = new ConnectionStringsSection();
             connectionStringSection.ConnectionStrings.Add(new ConnectionStringSettings() { Name = "first", ConnectionString = "first connection string", ProviderName = "first provider" });

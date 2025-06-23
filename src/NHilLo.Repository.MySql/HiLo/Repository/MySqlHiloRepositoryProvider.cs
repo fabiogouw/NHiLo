@@ -1,5 +1,4 @@
-﻿using NHiLo.HiLo;
-using NHiLo.HiLo.Config;
+﻿using NHiLo.HiLo.Config;
 
 namespace NHiLo.HiLo.Repository
 {

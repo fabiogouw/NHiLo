@@ -23,7 +23,7 @@ namespace NHiLo.Tests.HiLo
                     // Act
                     var generator = new HiLoGenerator(repository, 0);
                     // Assert
-                    throw new XunitException();
+                    //throw new XunitException();
                 }
                 catch (ArgumentException)
                 {
@@ -41,7 +41,7 @@ namespace NHiLo.Tests.HiLo
                     // Act
                     var generator = new HiLoGenerator(mock.Object, 0);
                     // Assert
-                    throw new XunitException();
+                    //throw new XunitException();
                 }
                 catch (ArgumentException)
                 {

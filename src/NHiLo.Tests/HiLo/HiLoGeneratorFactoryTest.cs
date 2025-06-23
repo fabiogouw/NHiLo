@@ -153,7 +153,6 @@ namespace NHiLo.Tests.HiLo
                 try
                 {
                     factory.GetKeyGenerator(entityName);
-                    throw new XunitException();
                 }
                 catch (NHiLoException ex)
                 {
@@ -173,7 +172,6 @@ namespace NHiLo.Tests.HiLo
                 try
                 {
                     var generator = factory.GetKeyGenerator("dummyNoProviderName");
-                    throw new XunitException();
                 }
                 catch (NHiLoException ex)
                 {

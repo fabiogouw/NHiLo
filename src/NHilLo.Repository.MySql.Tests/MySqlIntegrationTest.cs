@@ -37,13 +37,13 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MySql
                 await testcontainer.StartAsync();
                 var appSettings = $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""MySqlConnector"", ""Type"": ""NHiLo.HiLo.Repository.MySqlHiloRepositoryProvider, NHilLo.Repository.MySql"" }}],
+                        ""Providers"": [{{ ""Name"": ""MySql.Data.MySqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MySqlHiloRepositoryProvider, NHilLo.Repository.MySql"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{
                         ""NHiLo"":{{
                             ""ConnectionString"":""{testcontainer.GetConnectionString()}"",
-                            ""ProviderName"":""MySqlConnector""
+                            ""ProviderName"":""MySql.Data.MySqlClient""
                         }}
                     }}
                 }}";

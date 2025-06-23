@@ -5,10 +5,10 @@ namespace NHiLo.HiLo.Config
 {
     public class HiLoConfigurationBuilder
     {
-        private readonly IConfigurationManager _configuration;
+        private readonly IConfigurationManagerWrapper _configuration;
         private ConnectionStringsSection _connectionStringsConfig;
 
-        public HiLoConfigurationBuilder(IConfigurationManager configuration)
+        public HiLoConfigurationBuilder(IConfigurationManagerWrapper configuration)
         {
             _configuration = configuration;
         }
