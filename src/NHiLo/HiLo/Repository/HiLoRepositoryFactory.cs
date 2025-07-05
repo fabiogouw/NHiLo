@@ -14,8 +14,6 @@ namespace NHiLo.HiLo.Repository
     {
         private delegate IHiLoRepository CreateIHiLoRepositoryFunction(IHiLoConfiguration config);
 
-        private bool _isInitialized = false;
-
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
@@ -27,19 +25,15 @@ namespace NHiLo.HiLo.Repository
 
         public HiLoRepositoryFactory(IHiLoConfiguration config)
         {
-            if (!_isInitialized)
+            var providers = config.Providers.Select(p => new { TypeName = p.Type, Type = Type.GetType(p.Type) })
+                .Where(p => IsValidProvider(p.TypeName, p.Type));
+            foreach (var provider in providers)
             {
-                var providers = config.Providers.Select(p => new { TypeName = p.Type, Type = Type.GetType(p.Type) })
-                    .Where(p => IsValidProvider(p.TypeName, p.Type));
-                foreach (var provider in providers)
-                {
-                    bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
-                    if (hasParameterlessCtor)
-                        throw new InvalidOperationException($"Type {provider.Type.FullName} must have a parameterless constructor.");
-                    var providerInstance = (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type);
-                    RegisterRepository(providerInstance.Name, providerInstance);
-                }
-                _isInitialized = true;
+                bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
+                if (hasParameterlessCtor)
+                    throw new InvalidOperationException($"Type {provider.Type.FullName} must have a parameterless constructor.");
+                var providerInstance = (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type);
+                RegisterRepository(providerInstance.Name, providerInstance);
             }
         }
 
