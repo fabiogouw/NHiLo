@@ -21,8 +21,13 @@ namespace NHiLo // this should be available at the root namespace
         {
             ErrorCode = errorCode;
         }
+        public NHiLoException(ErrorCodes errorCode, string additionalInfo)
+            : base($"{GetMessageForErrorCode(errorCode)}: {additionalInfo}")
+        {
+            ErrorCode = errorCode;
+        }
 
-        protected NHiLoException(SerializationInfo info, StreamingContext context) 
+        protected NHiLoException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

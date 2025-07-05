@@ -10,6 +10,7 @@ namespace NHiLo.HiLo.Repository
     public class ExceptionWrapperRepository : IHiLoRepository
     {
         private readonly IHiLoRepository _repository;
+        public Type RepositoryType => _repository.GetType();
         public ExceptionWrapperRepository(Func<IHiLoRepository> funcCreateRepository)
         {
             try

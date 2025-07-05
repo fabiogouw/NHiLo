@@ -41,6 +41,11 @@ namespace NHiLo
         [Description("The provider has not been found in the current available providers.")]
         ProviderNotImplemented = 2001,
         /// <summary>
+        /// NHiLo could not instantiate the given provider.
+        /// </summary>
+        [Description("The provider failed to be instantiated.")]
+        ProviderInstantiationFailed = 2002,
+        /// <summary>
         /// NHiLo could not prepare the repository for the given provider.
         /// </summary>
         [Description("An error occured while creating the repository.")]

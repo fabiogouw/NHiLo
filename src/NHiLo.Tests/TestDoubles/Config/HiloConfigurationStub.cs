@@ -37,4 +37,9 @@ namespace NHiLo.Tests.TestDoubles.Config
         public int? EntityNameValidationTimeout { get; set; }
         public List<IRepositoryProviderElement> Providers { get; set; }
     }
+
+    public class RepositoryProviderElementStub : IRepositoryProviderElement
+    {
+        public string Type { get; set; }
+    }
 }

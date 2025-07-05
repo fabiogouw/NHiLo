@@ -31,7 +31,10 @@ namespace NHiLo.HiLo.Repository
             {
                 bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
                 if (hasParameterlessCtor)
-                    throw new InvalidOperationException($"Type {provider.Type.FullName} must have a parameterless constructor.");
+                {
+                    throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Type {provider.Type.FullName} must have a parameterless constructor.")
+                        .WithInfo("Type", provider.Type.FullName);
+                }
                 var providerInstance = (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type);
                 RegisterRepository(providerInstance.Name, providerInstance);
             }
@@ -41,11 +44,13 @@ namespace NHiLo.HiLo.Repository
         {
             if(providerType == null) 
             {
-                throw new InvalidOperationException($"Cloud not load '{typeName}' as a valid provider.");
+                throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Cloud not load '{typeName}' as a valid provider.")
+                    .WithInfo("Type", typeName);
             }
             if (!typeof(IHiLoRepositoryProvider).IsAssignableFrom(providerType))
             {
-                throw new InvalidOperationException($"Type '{typeName}' does not implements IHiLoRepositoryProvider.");
+                throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Type '{typeName}' does not implements IHiLoRepositoryProvider.")
+                    .WithInfo("Type", typeName);
             }
             return true;
         }
@@ -70,7 +75,10 @@ namespace NHiLo.HiLo.Repository
         private void RegisterRepository(string providerName, IHiLoRepositoryProvider provider)
         {
             if (string.IsNullOrWhiteSpace(providerName))
-                throw new ArgumentException($"Provider {providerName} cannot be registered with an empty value.");
+            {
+                throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Provider {providerName} cannot be registered with an empty value.")
+                    .WithInfo("Type", providerName);
+            }
             lock (_factoryFunctions)
             {
                 if (!_factoryFunctions.ContainsKey(providerName))
