@@ -40,6 +40,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHilLo.Repository.Oracle.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NHilLo.Repository.MySql.Tests", "NHilLo.Repository.MySql.Tests\NHilLo.Repository.MySql.Tests.csproj", "{82735AAE-7912-44AC-808C-3B1783FAFA59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{C2EB5843-4F0D-479E-8586-4C6E0F2D4A3A}"
+	ProjectSection(SolutionItems) = preProject
+		..\docs\adr-drop-dotnet-framework-configuration.md = ..\docs\adr-drop-dotnet-framework-configuration.md
+		..\docs\adr-split-into-repository-libraries.md = ..\docs\adr-split-into-repository-libraries.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -188,6 +194,7 @@ Global
 		{8B551033-BF69-4219-898D-2FE966DAC911} = {F59E3885-1F05-4430-9238-41021B84908C}
 		{9DEC6B51-15E2-4065-BE8C-0248A0E60ABF} = {C7DF0C62-C04A-4084-8F64-AE307597834E}
 		{82735AAE-7912-44AC-808C-3B1783FAFA59} = {4D214AC3-486A-40F3-AD11-8BAFFC6F0616}
+		{C2EB5843-4F0D-479E-8586-4C6E0F2D4A3A} = {48FB3410-FA68-4B60-B266-60CFC1048AE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F58ECF33-B291-4860-B339-BA894B58A03A}
