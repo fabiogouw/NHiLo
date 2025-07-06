@@ -2,6 +2,8 @@
 using NHiLo.HiLo.Config;
 using System;
 using System.Collections.Concurrent;
+using System.Reflection;
+using System.Linq;
 
 namespace NHiLo.HiLo.Repository
 {
@@ -15,16 +17,43 @@ namespace NHiLo.HiLo.Repository
         /// <summary>
         /// Relates each kind of provider to a function that actually creates the correct repository. If a new provider is add, this constant should change.
         /// </summary>
-        private static readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
+        private readonly ConcurrentDictionary<string, CreateIHiLoRepositoryFunction> _factoryFunctions = 
             new ConcurrentDictionary<string, CreateIHiLoRepositoryFunction>()
             {
-                ["Microsoft.Data.SqlClient"] = (config) => GetSqlServerRepository(config),
-                ["MySqlConnector"] = (config) => new MySqlHiLoRepository(config),
-                ["MySql.Data.MySqlClient"] = (config) => new MySqlHiLoRepository(config),   //compatibility
-                ["System.Data.OracleClient"] = (config) => new OracleHiLoRepository(config),
-                ["Microsoft.Data.Sqlite"] = (config) => new SqliteHiLoRepository(config),
                 ["NHiLo.InMemory"] = (config) => new InMemoryHiloRepository()
             };
+
+        public HiLoRepositoryFactory(IHiLoConfiguration config)
+        {
+            var providers = config.Providers.Select(p => new { TypeName = p.Type, Type = Type.GetType(p.Type) })
+                .Where(p => IsValidProvider(p.TypeName, p.Type));
+            foreach (var provider in providers)
+            {
+                bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
+                if (hasParameterlessCtor)
+                {
+                    throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Type {provider.Type.FullName} must have a parameterless constructor.")
+                        .WithInfo("Type", provider.Type.FullName);
+                }
+                var providerInstance = (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type);
+                RegisterRepository(providerInstance.Name, providerInstance);
+            }
+        }
+
+        private static bool IsValidProvider(string typeName, Type providerType) 
+        {
+            if(providerType == null) 
+            {
+                throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Cloud not load '{typeName}' as a valid provider.")
+                    .WithInfo("Type", typeName);
+            }
+            if (!typeof(IHiLoRepositoryProvider).IsAssignableFrom(providerType))
+            {
+                throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Type '{typeName}' does not implements IHiLoRepositoryProvider.")
+                    .WithInfo("Type", typeName);
+            }
+            return true;
+        }
 
         public IHiLoRepository GetRepository(string entityName, IHiLoConfiguration config)
         {
@@ -38,28 +67,22 @@ namespace NHiLo.HiLo.Repository
             return repository;
         }
 
-        private static IHiLoRepository GetSqlServerRepository(IHiLoConfiguration config)
-        {
-            if (config.StorageType == Common.Config.HiLoStorageType.Sequence)
-            {
-                return new SqlServerSequenceHiLoRepository(config);
-            }
-            return new SqlServerHiLoRepository(config);
-        }
-
         /// <summary>
         /// Register a new repository to be used to store hi values.
         /// </summary>
         /// <param name="providerName">The name of the custom respository provider.</param>
         /// <param name="funcCreateRepository">A function that creates new instances of the repository.</param>
-        public static void RegisterRepository(string providerName, Func<IHiLoRepository> funcCreateRepository)
+        private void RegisterRepository(string providerName, IHiLoRepositoryProvider provider)
         {
             if (string.IsNullOrWhiteSpace(providerName))
-                throw new ArgumentException($"Provider name cannot be registered with an empty value.");
+            {
+                throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Provider {providerName} cannot be registered with an empty value.")
+                    .WithInfo("Type", providerName);
+            }
             lock (_factoryFunctions)
             {
                 if (!_factoryFunctions.ContainsKey(providerName))
-                    _factoryFunctions.TryAdd(providerName, (config) => funcCreateRepository());
+                    _factoryFunctions.TryAdd(providerName, (config) => provider.Build(config));
             }
         }
     }

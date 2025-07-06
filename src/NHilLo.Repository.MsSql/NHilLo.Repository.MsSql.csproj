@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Version>1.0.0</Version>
+		<Description>SQL Server provider for NHiLo, an implementation of the HiLo algorithm for .NET.</Description>
+		<Copyright>Copyright © Fabio Gouw 2025</Copyright>
+		<Authors>Fabio Gouw</Authors>
+		<Company />
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageProjectUrl>https://github.com/fabiogouw/NHiLo/</PackageProjectUrl>
+		<PackageId>NHilLo.Repository.MsSql</PackageId>
+		<Product>NHilLo.Repository.MsSql</Product>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/fabiogouw/NHiLo</RepositoryUrl>
+		<Title>The MsSql provider for NHiLo.</Title>
+		<PackageIcon>icon.png</PackageIcon>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\LICENSE" Link="LICENSE">
+			<PackagePath></PackagePath>
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="..\NHiLo\docs\icon.png" Pack="true" PackagePath="\" />
+		<None Include="..\NHiLo\docs\readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\NHiLo\NHiLo.csproj" />
+	</ItemGroup>
+
+</Project>

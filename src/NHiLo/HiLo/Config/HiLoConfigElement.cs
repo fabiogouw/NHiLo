@@ -12,6 +12,8 @@ namespace NHiLo.HiLo.Config
             Entities = new EntityConfigElement[] { }.ToList<IEntityConfiguration>();
         }
 
+        public List<IRepositoryProviderElement> Providers { get; set; }
+
         public string ConnectionStringId
         {
             get; internal set;

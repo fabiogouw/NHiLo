@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using NHiLo.Common;
-using NHiLo.Common.Config.Legacy;
 using NHiLo.HiLo;
 using NHiLo.HiLo.Config;
 using NHiLo.HiLo.Repository;
@@ -21,25 +20,11 @@ namespace NHiLo // this should be available at the root namespace
         private readonly IHiLoConfiguration _config;
         private readonly Regex _entityNameValidator;
 
-        [Obsolete("For legacy compatibility only (.NET Framework). Newer versions like .NET Core and .NET 5 should use the constructor that receives an IConfiguration parameter.")]
-        public HiLoGeneratorFactory() :
-            this(null)
-        {
-
-        }
-
         public HiLoGeneratorFactory(IConfiguration configuration)
         {
-            if (configuration == null)
-            {
-                var builder = new ConfigurationBuilder()
-                    .Add(new NetConfigConfigurationProvider())
-                    .AddEnvironmentVariables();
-                configuration = builder.Build();
-            }
             _config = new HiLoConfigurationBuilder(new ConfigurationManagerWrapper(configuration)).Build();
             _entityNameValidator = new Regex(@"^[a-zA-Z]+[a-zA-Z0-9]*$", RegexOptions.None, TimeSpan.FromMilliseconds(_config.EntityNameValidationTimeout.GetValueOrDefault(10)));
-            _repositoryFactory = new HiLoRepositoryFactory();
+            _repositoryFactory = new HiLoRepositoryFactory(_config);
         }
 
         /// <summary>
@@ -71,7 +56,6 @@ namespace NHiLo // this should be available at the root namespace
             {
                 throw new NHiLoException(ErrorCodes.EntityNameValidationTimedOut, ex);
             }
-
         }
 
         private IKeyGenerator<long> CreateKeyGenerator(string entityName)

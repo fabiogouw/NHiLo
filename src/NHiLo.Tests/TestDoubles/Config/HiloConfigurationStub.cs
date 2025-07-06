@@ -1,6 +1,7 @@
 ﻿using NHiLo.Common.Config;
 using NHiLo.HiLo.Config;
 using System;
+using System.Collections.Generic;
 
 namespace NHiLo.Tests.TestDoubles.Config
 {
@@ -34,5 +35,11 @@ namespace NHiLo.Tests.TestDoubles.Config
         public string ObjectPrefix { get; set; }
 
         public int? EntityNameValidationTimeout { get; set; }
+        public List<IRepositoryProviderElement> Providers { get; set; }
+    }
+
+    public class RepositoryProviderElementStub : IRepositoryProviderElement
+    {
+        public string Type { get; set; }
     }
 }

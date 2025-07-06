@@ -1,4 +1,6 @@
-﻿namespace NHiLo.HiLo
+﻿using NHiLo.HiLo.Config;
+
+namespace NHiLo.HiLo
 {
     public interface IHiLoRepository
     {
