@@ -1,5 +1,7 @@
-﻿using Moq;
+﻿using FluentAssertions;
+using Moq;
 using NHiLo.HiLo;
+using NHiLo.HiLo.Repository;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -14,20 +16,14 @@ namespace NHiLo.Tests.HiLo
         {
             [Fact]
             [Trait("Category", "Unit")]
-            public void ShouldFailCreatingInstanceWithNullAsRepository()
+            public void Should_Fail__When__Creating_Instance_With_Null_As_Repository()
             {
                 // Arrange
                 IHiLoRepository repository = null;
-                try
-                {
-                    // Act
-                    var generator = new HiLoGenerator(repository, 0);
-                    // Assert
-                    //throw new XunitException();
-                }
-                catch (ArgumentException)
-                {
-                }
+                // Act
+                Action act = () => new HiLoGenerator(repository, 0);
+                // Assert
+                act.Should().Throw<ArgumentException>();
             }
 
             [Fact]
@@ -36,16 +32,10 @@ namespace NHiLo.Tests.HiLo
             {
                 // Arrange
                 var mock = new Mock<IHiLoRepository>();
-                try
-                {
-                    // Act
-                    var generator = new HiLoGenerator(mock.Object, 0);
-                    // Assert
-                    //throw new XunitException();
-                }
-                catch (ArgumentException)
-                {
-                }
+                // Act
+                Action act = () => new HiLoGenerator(mock.Object, 0);
+                // Assert
+                act.Should().Throw<ArgumentException>();
             }
         }
 

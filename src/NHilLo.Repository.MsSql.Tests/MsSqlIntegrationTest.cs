@@ -143,7 +143,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             }
         }
 
-        private MsSqlBuilder CreateImagemBuilder()
+        private static MsSqlBuilder CreateImagemBuilder()
         {
             var testcontainersBuilder = new MsSqlBuilder()
                 .WithPortBinding(1433, true)

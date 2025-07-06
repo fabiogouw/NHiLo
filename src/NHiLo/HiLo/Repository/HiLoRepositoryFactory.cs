@@ -32,7 +32,7 @@ namespace NHiLo.HiLo.Repository
                 bool hasParameterlessCtor = provider.Type.GetConstructor(Type.EmptyTypes) == null;
                 if (hasParameterlessCtor)
                 {
-                    throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Type {provider?.Type?.FullName} must have a parameterless constructor.")
+                    throw new NHiLoException(ErrorCodes.ProviderInstantiationFailed, $"Type {provider.Type.FullName} must have a parameterless constructor.")
                         .WithInfo("Type", provider.Type.FullName);
                 }
                 var providerInstance = (IHiLoRepositoryProvider)Activator.CreateInstance(provider.Type);

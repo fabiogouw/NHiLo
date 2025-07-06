@@ -22,7 +22,7 @@ namespace NHiLo.Tests.HiLo
                 // Act
                 var generator = factory.GetKeyGenerator("dummy");
                 // Assert
-                Assert.IsAssignableFrom<HiLoGenerator>(generator);
+                Assert.IsType<HiLoGenerator>(generator);
             }
 
             [Fact]
