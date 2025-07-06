@@ -6,7 +6,7 @@ using System.Linq;
 namespace NHiLo.HiLo.Config
 {
     /// <summary>
-    /// Converts the underlying config model from the .NET framework to the nHilo's config model.
+    /// Converts the underlying config model from the .NET framework to the NHilo's config model.
     /// </summary>
     public class ConfigurationManagerWrapper : IConfigurationManagerWrapper
     {
@@ -20,8 +20,7 @@ namespace NHiLo.HiLo.Config
          *   },
          *   "NHiLo": {
          *      "Providers": [
-         *          "",
-         *          ""
+         *          {"Name": "Microsoft.Data.Sqlite", "Type": "NHiLo.HiLo.Repository.SQLiteHiLoRepositoryProvider, NHilLo.Repository.SQLite"}
          *      ]
          *      "ConnectionStringId": "",
          *      "ProviderName": "",

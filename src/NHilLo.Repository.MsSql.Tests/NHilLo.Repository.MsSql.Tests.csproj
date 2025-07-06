@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NHilLo.Repository.SQLServer\NHilLo.Repository.SQLServer.csproj" />
+	  <ProjectReference Include="..\NHilLo.Repository.MsSql\NHilLo.Repository.MsSql.csproj" />
 	</ItemGroup>
 
   <ItemGroup>

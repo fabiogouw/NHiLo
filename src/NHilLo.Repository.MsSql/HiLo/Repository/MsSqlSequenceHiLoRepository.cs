@@ -9,12 +9,12 @@ namespace NHiLo.HiLo.Repository
     /// <summary>
     /// NHiLo's repository implementation for Microsoft SQL Server.
     /// </summary>
-    public class SqlServerSequenceHiLoRepository : AgnosticHiLoRepository
+    public class MsSqlSequenceHiLoRepository : AgnosticHiLoRepository
     {
         private readonly string _objectPrefix;
         private readonly Regex _entityNameValidator;
 
-        public SqlServerSequenceHiLoRepository(IHiLoConfiguration config)
+        public MsSqlSequenceHiLoRepository(IHiLoConfiguration config)
             : base(config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             _objectPrefix = !string.IsNullOrWhiteSpace(config.ObjectPrefix) ? config.ObjectPrefix : "SQ_HiLo_";

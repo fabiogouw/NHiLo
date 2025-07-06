@@ -7,7 +7,7 @@ namespace NHiLo.HiLo.Repository
     /// <summary>
     /// NHiLo's repository implementation for Microsoft SQL Server.
     /// </summary>
-    public class SqlServerHiLoRepository : AgnosticHiLoRepository
+    public class MsSqlHiLoRepository : AgnosticHiLoRepository
     {
         private const int ERROR_NUMBER_CREATE_TABLE_PERMISSION = 262;
         private const int ERROR_NUMBER_SELECT_PERMISSION = 229;
@@ -39,7 +39,7 @@ namespace NHiLo.HiLo.Repository
         private string _sqlStatementToInitializeEntity;
         private string _sqlStatementToCheckSelectPermission;
 
-        public SqlServerHiLoRepository(IHiLoConfiguration config)
+        public MsSqlHiLoRepository(IHiLoConfiguration config)
             : base(config, Microsoft.Data.SqlClient.SqlClientFactory.Instance)
         {
             InitializeSqlStatements(config);

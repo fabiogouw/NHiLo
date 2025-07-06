@@ -9,12 +9,12 @@
 		<Company />
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/fabiogouw/NHiLo/</PackageProjectUrl>
-		<PackageId>NHilLo.Repository.SQLServer</PackageId>
-		<Product>NHilLo.Repository.SQLServer</Product>
+		<PackageId>NHilLo.Repository.MsSql</PackageId>
+		<Product>NHilLo.Repository.MsSql</Product>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryUrl>https://github.com/fabiogouw/NHiLo</RepositoryUrl>
-		<Title>The SQL Server provider for NHiLo.</Title>
+		<Title>The MsSql provider for NHiLo.</Title>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>

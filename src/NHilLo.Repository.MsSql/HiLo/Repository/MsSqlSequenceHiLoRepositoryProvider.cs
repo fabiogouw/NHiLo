@@ -5,13 +5,13 @@ namespace NHiLo.HiLo.Repository
     /// <summary>
     /// Repository provider for Microsoft SQL Server.
     /// </summary>
-    public class SqlServerSequenceHiLoRepositoryProvider : IHiLoRepositoryProvider
+    public class MsSqlSequenceHiLoRepositoryProvider : IHiLoRepositoryProvider
     {
         public string Name => "Microsoft.Data.SqlClient.Sequence";
 
         public IHiLoRepository Build(IHiLoConfiguration config)
         {
-            return new SqlServerSequenceHiLoRepository(config);
+            return new MsSqlSequenceHiLoRepository(config);
         }
     }
 }
