@@ -25,7 +25,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             string entityName = "myMSSqlTableEntity";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlHiLoRepositoryProvider, NHilLo.Repository.MsSql"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlHiLoRepositoryProvider, NHiLo.Repository.MsSql"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{
@@ -54,7 +54,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             string entityName = "myMSSqlSequenceEntity";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient.Sequence"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlSequenceHiLoRepositoryProvider, NHilLo.Repository.MsSql"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient.Sequence"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlSequenceHiLoRepositoryProvider, NHiLo.Repository.MsSql"" }}],
                         ""DefaultMaxLo"" : ""100"",
                         ""StorageType"" : ""Sequence""
                     }},
@@ -84,7 +84,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             string entityName = "myMSSqlSequenceEntity2";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient.Sequence"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlSequenceHiLoRepositoryProvider, NHilLo.Repository.MsSql"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient.Sequence"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlSequenceHiLoRepositoryProvider, NHiLo.Repository.MsSql"" }}],
                         ""DefaultMaxLo"" : ""100"",
                         ""StorageType"" : ""Sequence"",
                         ""ObjectPrefix"": ""'""
@@ -117,7 +117,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             string complexPrefix = new string('a', 99999) + "!";
             string funcAppSettings(string connectionString) => $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient.Sequence"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlSequenceHiLoRepositoryProvider, NHilLo.Repository.MsSql"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient.Sequence"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlSequenceHiLoRepositoryProvider, NHiLo.Repository.MsSql"" }}],
                         ""DefaultMaxLo"" : ""100"",
                         ""StorageType"" : ""Sequence"",
                         ""ObjectPrefix"": ""{complexPrefix}"",
@@ -230,7 +230,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(
                 $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlHiLoRepositoryProvider, NHilLo.Repository.MsSql"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlHiLoRepositoryProvider, NHiLo.Repository.MsSql"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{
@@ -287,7 +287,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.MSSql
             builder.AddJsonStream(new MemoryStream(Encoding.UTF8.GetBytes(
                 $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlHiLoRepositoryProvider, NHilLo.Repository.MsSql"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.SqlClient"", ""Type"": ""NHiLo.HiLo.Repository.MsSqlHiLoRepositoryProvider, NHiLo.Repository.MsSql"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

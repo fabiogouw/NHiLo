@@ -3,18 +3,18 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Version>1.0.0</Version>
-		<Description>MySQL provider for NHiLo, an implementation of the HiLo algorithm for .NET.</Description>
+		<Description>SQLite provider for NHiLo, an implementation of the HiLo algorithm for .NET.</Description>
 		<Copyright>Copyright © Fabio Gouw 2025</Copyright>
 		<Authors>Fabio Gouw</Authors>
 		<Company />
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/fabiogouw/NHiLo/</PackageProjectUrl>
-		<PackageId>NHilLo.Repository.MySql</PackageId>
-		<Product>NHilLo.Repository.MySql</Product>
+		<PackageId>NHiLo.Repository.SQLite</PackageId>
+		<Product>NHiLo.Repository.SQLite</Product>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryUrl>https://github.com/fabiogouw/NHiLo</RepositoryUrl>
-		<Title>The MySQL provider for NHiLo.</Title>
+		<Title>The SQLite provider for NHiLo.</Title>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -29,11 +29,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\NHiLo\docs\icon.png" Pack="true" PackagePath="\" />
-		<None Include="..\NHiLo\docs\readme.md" Pack="true" PackagePath="\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<None Include="..\..\LICENSE" Link="LICENSE">
 			<PackagePath></PackagePath>
 			<Pack>True</Pack>
@@ -41,7 +36,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MySqlConnector" Version="2.4.0" />
+		<None Include="..\NHiLo\docs\icon.png" Pack="true" PackagePath="\" />
+		<None Include="..\NHiLo\docs\readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.6" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -20,7 +20,7 @@ namespace NHiLo.HiLo.Config
          *   },
          *   "NHiLo": {
          *      "Providers": [
-         *          {"Name": "Microsoft.Data.Sqlite", "Type": "NHiLo.HiLo.Repository.SQLiteHiLoRepositoryProvider, NHilLo.Repository.SQLite"}
+         *          {"Name": "Microsoft.Data.Sqlite", "Type": "NHiLo.HiLo.Repository.SQLiteHiLoRepositoryProvider, NHiLo.Repository.SQLite"}
          *      ]
          *      "ConnectionStringId": "",
          *      "ProviderName": "",

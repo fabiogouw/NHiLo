@@ -14,10 +14,10 @@ The NHiLo project originally provided a single library implementing the HiLo alg
 The project has been refactored to split the original NHiLo library into multiple repository-specific libraries. Each supported database provider now has its own dedicated NuGet package and project:
 
 - `NHiLo` (core logic, provider-agnostic)
-- `NHilLo.Repository.MsSql`
-- `NHilLo.Repository.MySql`
-- `NHilLo.Repository.Oracle`
-- `NHilLo.Repository.SQLite`
+- `NHiLo.Repository.MsSql`
+- `NHiLo.Repository.MySql`
+- `NHiLo.Repository.Oracle`
+- `NHiLo.Repository.SQLite`
 
 Each repository package contains only the code and dependencies required for its respective database provider. The core NHiLo package remains lightweight and free of direct database dependencies.
 

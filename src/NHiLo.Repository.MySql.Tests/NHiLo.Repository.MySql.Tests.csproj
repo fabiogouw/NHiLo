@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NHilLo.Repository.MySql\NHilLo.Repository.MySql.csproj" />
+	  <ProjectReference Include="..\NHiLo.Repository.MySql\NHiLo.Repository.MySql.csproj" />
 	</ItemGroup>
 
   <ItemGroup>

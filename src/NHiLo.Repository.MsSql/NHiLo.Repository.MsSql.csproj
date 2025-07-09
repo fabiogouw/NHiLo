@@ -3,18 +3,18 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Version>1.0.0</Version>
-		<Description>SQLite provider for NHiLo, an implementation of the HiLo algorithm for .NET.</Description>
+		<Description>SQL Server provider for NHiLo, an implementation of the HiLo algorithm for .NET.</Description>
 		<Copyright>Copyright © Fabio Gouw 2025</Copyright>
 		<Authors>Fabio Gouw</Authors>
 		<Company />
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/fabiogouw/NHiLo/</PackageProjectUrl>
-		<PackageId>NHilLo.Repository.SQLite</PackageId>
-		<Product>NHilLo.Repository.SQLite</Product>
+		<PackageId>NHiLo.Repository.MsSql</PackageId>
+		<Product>NHiLo.Repository.MsSql</Product>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryUrl>https://github.com/fabiogouw/NHiLo</RepositoryUrl>
-		<Title>The SQLite provider for NHiLo.</Title>
+		<Title>The MsSql provider for NHiLo.</Title>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -41,7 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.6" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.5" />
 	</ItemGroup>
 
 	<ItemGroup>

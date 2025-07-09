@@ -10,8 +10,8 @@
 		<Company />
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://github.com/fabiogouw/NHiLo/</PackageProjectUrl>
-		<PackageId>NHilLo.Repository.Oracle</PackageId>
-		<Product>NHilLo.Repository.Oracle</Product>
+		<PackageId>NHiLo.Repository.Oracle</PackageId>
+		<Product>NHiLo.Repository.Oracle</Product>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryUrl>https://github.com/fabiogouw/NHiLo</RepositoryUrl>

@@ -33,7 +33,7 @@ namespace NHiLo.Tests.Integration.HiLo.Repository.SQLite
             string connectionString = "Data Source=./mydb.db;";
             var appSettings = $@"{{
                     ""NHiLo"":{{
-                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.Sqlite"", ""Type"": ""NHiLo.HiLo.Repository.SQLiteHiLoRepositoryProvider, NHilLo.Repository.SQLite"" }}],
+                        ""Providers"": [{{ ""Name"": ""Microsoft.Data.Sqlite"", ""Type"": ""NHiLo.HiLo.Repository.SQLiteHiLoRepositoryProvider, NHiLo.Repository.SQLite"" }}],
                         ""DefaultMaxLo"" : ""100""
                     }},
                     ""ConnectionStrings"":{{

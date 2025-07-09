@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\NHilLo.Repository.Oracle\NHilLo.Repository.Oracle.csproj" />
+	  <ProjectReference Include="..\NHiLo.Repository.Oracle\NHiLo.Repository.Oracle.csproj" />
 	</ItemGroup>
 
   <ItemGroup>
